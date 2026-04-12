@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Car, UserCheck, Map, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { cars, drivers, packages } from '../data/mockData';
 import api from '../api/axios';
@@ -18,6 +18,7 @@ const inputClass = 'w-full px-4 py-3 bg-brand-accent border border-neutral-200 r
 const labelClass = 'text-[10px] font-bold uppercase tracking-widest text-neutral-400 block mb-1.5';
 
 export default function Booking() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const urlType = searchParams.get('type');
   const urlCarId = searchParams.get('carId');
@@ -88,8 +89,14 @@ export default function Booking() {
         payload.customNotes = formData.specialRequests;
       }
 
-      await api.post(endpoint, payload);
-      setStep(3);
+      navigate('/payment/advance', {
+        state: {
+          bookingData: payload,
+          endpoint: endpoint,
+          successMessage: 'Request Received! Our team will verify and confirm shortly.',
+          serviceType: serviceType
+        }
+      });
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Failed to submit booking. Please login to book.');

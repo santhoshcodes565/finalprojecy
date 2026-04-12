@@ -69,16 +69,14 @@ export default function CarBooking() {
   };
 
   const onSubmit = async (data) => {
-    setSubmitting(true);
-    try {
-      await api.post('/bookings/car', { ...data, carId: id });
-      toast.success('🎉 Car booking confirmed! Our team will call within 30 minutes.');
-      navigate('/my-bookings');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Booking failed. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    navigate('/payment/advance', {
+      state: {
+        bookingData: { ...data, carId: id },
+        endpoint: '/bookings/car',
+        successMessage: '🎉 Car booking confirmed! Our team will call within 30 minutes.',
+        serviceType: 'car'
+      }
+    });
   };
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, Users, Eye } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
@@ -43,14 +43,10 @@ export default function MyBookings() {
     return true;
   });
 
-  const cancelBooking = async (type, id) => {
-    try {
-      await api.patch(`/bookings/${type}/${id}/cancel`);
-      setBookings((prev) => prev.map((b) => (b._id === id ? { ...b, status: 'cancelled' } : b)));
-      toast.success('Booking cancelled');
-    } catch (err) {
-      toast.error('Failed to cancel booking');
-    }
+  const navigate = useNavigate();
+
+  const cancelBooking = (type, id) => {
+    navigate(`/booking/cancel/${id}`);
   };
 
   return (

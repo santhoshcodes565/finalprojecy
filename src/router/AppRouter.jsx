@@ -33,6 +33,8 @@ const TourDetails = lazy(() => import('../pages/TourDetails'));
 const PackageBooking = lazy(() => import('../pages/PackageBooking'));
 const Booking = lazy(() => import('../pages/Booking'));
 const Payment = lazy(() => import('../pages/Payment'));
+const AdvancePayment = lazy(() => import('../pages/AdvancePayment'));
+const CancelBooking = lazy(() => import('../pages/CancelBooking'));
 const MyBookings = lazy(() => import('../pages/MyBookings'));
 const MyProfile = lazy(() => import('../pages/MyProfile'));
 const Login = lazy(() => import('../pages/Login'));
@@ -108,6 +110,8 @@ const router = createBrowserRouter([
       { path: 'book/driver/:id', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><DriverBooking /></ProtectedRoute></Suspense> },
       { path: 'book/package/:id', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><PackageBooking /></ProtectedRoute></Suspense> },
       { path: 'payment', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><Payment /></ProtectedRoute></Suspense> },
+      { path: 'payment/advance', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><AdvancePayment /></ProtectedRoute></Suspense> },
+      { path: 'booking/cancel/:id', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><CancelBooking /></ProtectedRoute></Suspense> },
       { path: 'booking/success', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><BookingConfirmation /></ProtectedRoute></Suspense> },
       { path: 'my-bookings', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><MyBookings /></ProtectedRoute></Suspense> },
       { path: 'my-wishlist', element: <Suspense fallback={<PageLoader />}><ProtectedRoute><MyWishlist /></ProtectedRoute></Suspense> },

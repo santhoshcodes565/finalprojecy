@@ -260,6 +260,20 @@ export const cars = [
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Mercedes-Benz_W223_IMG_6663.jpg/960px-Mercedes-Benz_W223_IMG_6663.jpg',
     features: ['Leather Interiors', 'Champagne Chiller', 'WiFi', 'Premium Ride'],
     desc: 'Uncompromising luxury for VIP arrivals, weddings, and premium corporate travel.'
+  },
+  {
+    id: 'c14',
+    name: 'Mercedes-Benz Premium Omnibus',
+    category: 'Luxury Bus',
+    seats: 40,
+    fuel: 'Diesel',
+    transmission: 'Automatic',
+    pricePerKm: 65,
+    minKmPerDay: 300,
+    driverBata: 1000,
+    image: '/fleet_omnibus.png',
+    features: ['Emergency Exits', 'Air Suspension', 'Recliner Seats', 'Modern Safety Tools', 'Wi-Fi'],
+    desc: 'Top-of-the-line Mercedes-Benz multi-axle sleeper bus ensuring maximum safety with dedicated emergency exits, premium air suspension comfort, and a smooth journey.'
   }
 ];
 

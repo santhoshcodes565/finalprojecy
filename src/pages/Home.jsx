@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { cars } from '../data/mockData';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -202,6 +203,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Section: 3D Professional Video Experience Spotlight */}
+      <section className="relative h-[600px] overflow-hidden bg-black flex items-center justify-center">
+        {/* Dynamic Video Loop - Free HD Stock showing drifting/driving on a road */}
+        <video 
+          className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          poster="https://upload.wikimedia.org/wikipedia/commons/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg"
+        >
+          <source src="https://cdn.pixabay.com/video/2016/11/14/6369-191393630_small.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Abstract 3D Gradients blending with the video */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-dark via-transparent to-brand-primary/80 mix-blend-multiply"></div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-brand-dark/90 via-transparent to-brand-dark/90"></div>
+        
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
+           <span className="inline-block text-brand-secondary font-bold tracking-widest uppercase mb-4 px-5 py-2 rounded-full border border-brand-secondary/30 bg-black/40 backdrop-blur-md shadow-xl shadow-brand-secondary/20 hover:scale-105 transition-transform">
+            Premium Travel
+          </span>
+          <h2 className="font-display text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+            Experience <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-[#fef08a] italic pr-2">The Drive</span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto font-medium drop-shadow-lg mb-10 leading-relaxed">
+            Feel the thrill of the open road with our ultra-luxury, thoroughly maintained top-brand vehicles. 
+          </p>
+          <Link to="/cars" className="bg-brand-secondary text-brand-dark px-10 py-4 rounded-xl font-extrabold hover:bg-white hover:text-brand-dark transition-all duration-300 shadow-[0_0_20px_rgba(212,160,23,0.4)] text-lg uppercase tracking-wider inline-block hover:-translate-y-2">
+            Explore All Vehicles
+          </Link>
+        </div>
+      </section>
+
       {/* Section: Our Fleet */}
       <section className="py-24 bg-brand-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -212,34 +247,54 @@ export default function Home() {
             </h2>
             <p className="text-gray-600 mt-6 text-lg">Every journey deserves the right vehicle</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { id: 'c10', name: "Swift Dzire", type: "Sedan", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Suzuki_Dzire_II_1.2_GLX_Hybrid_Arctic_White_Pearl.jpg/960px-Suzuki_Dzire_II_1.2_GLX_Hybrid_Arctic_White_Pearl.jpg", badge: "Most Popular", badgeColor: "bg-brand-secondary", features: "4 Seats · AC · Luggage · Music System", price: "Starting ₹12/km" },
-              { id: 'c11', name: "Toyota Innova", type: "Premium SUV", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/2022_Toyota_Kijang_Innova_2.4_G_GUN142R_%2820220302%29.jpg/960px-2022_Toyota_Kijang_Innova_2.4_G_GUN142R_%2820220302%29.jpg", badge: "Family Favourite", badgeColor: "bg-[#166534]", features: "7 Seats · AC · Spacious · GPS", price: "Starting ₹18/km" },
-              { id: 'c12', name: "Tempo Traveller", type: "Mini Van", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Jumper_Distribus_%28cropped%29.jpg/960px-Jumper_Distribus_%28cropped%29.jpg", badge: "Group Travel", badgeColor: "bg-brand-secondary", features: "12–17 Seats · AC · Pushback Seats", price: "Starting ₹25/km" },
-              { id: 'c13', name: "Luxury Cars", type: "Business Class", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Mercedes-Benz_W223_IMG_6663.jpg/960px-Mercedes-Benz_W223_IMG_6663.jpg", badge: "Premium", badgeColor: "bg-[#926c04]", features: "4 Seats · Leather · Champagne · WiFi", price: "Starting ₹45/km" }
-            ].map((car, idx) => (
-              <div key={car.id} className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer animate-on-scroll" style={{ animationDelay: `${idx * 100}ms` }}>
-                <div className="relative h-48 overflow-hidden rounded-t-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <img src={car.img} alt={car.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <span className={`absolute top-4 left-4 ${car.badgeColor} text-white px-3 py-1 text-xs font-bold uppercase rounded-full shadow-lg z-20`}>{car.badge}</span>
-                </div>
-                <div className="p-6 relative z-20 bg-white">
-                  <div className="mb-2">
-                    <h3 className="font-display text-xl font-bold text-brand-primary">{car.name}</h3>
-                    <p className="text-brand-secondary text-sm font-semibold">{car.type}</p>
-                  </div>
-                  <p className="text-gray-500 text-sm mb-4 pb-4 border-b border-gray-100">{car.features}</p>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-bold text-lg text-brand-primary">{car.price}</p>
+          
+          <div className="animate-on-scroll relative px-2 md:px-8">
+            <Swiper
+              modules={[Autoplay, Navigation, Pagination]}
+              spaceBetween={30}
+              slidesPerView={1}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1280: { slidesPerView: 4 }
+              }}
+              loop={true}
+              autoplay={{ delay: 2500, disableOnInteraction: false }}
+              className="pb-16 pt-4"
+            >
+              {cars.map((car, idx) => (
+                <SwiperSlide key={car.id}>
+                  <div className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:-translate-y-3 transition-all duration-500 cursor-pointer h-full flex flex-col border border-gray-100/50">
+                    <div className="relative h-56 overflow-hidden rounded-t-2xl">
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <img src={car.image} alt={car.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                      <span className="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur text-brand-secondary border border-brand-secondary/30 px-3 py-1.5 text-[10px] font-extrabold uppercase rounded-lg shadow-lg z-20">
+                        {car.category}
+                      </span>
                     </div>
-                    <Link to={`/booking?type=car&carId=${car.id}`} className="bg-brand-secondary text-white px-4 py-2 rounded-lg font-medium hover:bg-[#F59E0B] transition-colors shadow-md text-sm">Book Now</Link>
+                    <div className="p-6 relative z-20 bg-white flex flex-col flex-1">
+                      <div className="mb-3">
+                        <h3 className="font-display text-2xl font-bold text-brand-primary leading-tight group-hover:text-brand-secondary transition-colors">{car.name}</h3>
+                      </div>
+                      <p className="text-gray-500 text-sm mb-5 pb-5 border-b border-gray-100 flex-1 line-clamp-3 leading-relaxed">
+                        {car.desc}
+                      </p>
+                      <div className="flex justify-between items-center mt-auto">
+                        <div>
+                          <p className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">Starting At</p>
+                          <p className="font-extrabold text-xl text-brand-primary flex items-baseline gap-1">
+                            ₹{car.pricePerKm} <span className="text-xs text-gray-500 font-medium tracking-normal">/km</span>
+                          </p>
+                        </div>
+                        <Link to={`/booking?type=car&carId=${car.id}`} className="bg-brand-primary text-white px-5 py-2.5 rounded-xl font-bold hover:bg-brand-secondary hover:text-brand-dark transition-all duration-300 shadow-md text-sm hover:-translate-y-1">
+                          Book Now
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       </section>

@@ -66,16 +66,14 @@ export default function DriverBooking() {
   };
 
   const onSubmit = async (data) => {
-    setSubmitting(true);
-    try {
-      await api.post('/bookings/driver', { ...data, languages: selectedLangs, numberOfDays });
-      toast.success('✅ Driver booked! We\'ll confirm driver details within 2 hours.');
-      navigate('/my-bookings');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Booking failed.');
-    } finally {
-      setSubmitting(false);
-    }
+    navigate('/payment/advance', {
+      state: {
+        bookingData: { ...data, languages: selectedLangs, numberOfDays },
+        endpoint: '/bookings/driver',
+        successMessage: '✅ Driver booked! We\'ll confirm driver details within 2 hours.',
+        serviceType: 'driver'
+      }
+    });
   };
 
   const Toggle = ({ label, name, note }) => (

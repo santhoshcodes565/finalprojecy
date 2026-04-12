@@ -107,16 +107,14 @@ export default function PackageBooking() {
   };
 
   const onSubmit = async (data) => {
-    setSubmitting(true);
-    try {
-      await api.post('/bookings/package', { ...data, packageId: id, ...travellers, childrenAges, dietaryPreference: dietSelections });
-      toast.success('🎉 Package booked! Our travel expert will call you within 1 hour.');
-      navigate('/my-bookings');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Booking failed.');
-    } finally {
-      setSubmitting(false);
-    }
+    navigate('/payment/advance', {
+      state: {
+        bookingData: { ...data, packageId: id, ...travellers, childrenAges, dietaryPreference: dietSelections },
+        endpoint: '/bookings/package',
+        successMessage: '🎉 Package booked! Our travel expert will call you within 1 hour.',
+        serviceType: 'package'
+      }
+    });
   };
 
   const steps = ['Travellers & Dates', 'Package Preferences', 'Special Needs & Confirm'];
