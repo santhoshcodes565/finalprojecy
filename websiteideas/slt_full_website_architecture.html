@@ -1,0 +1,252 @@
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { padding: 1rem 0; font-family: var(--font-sans); }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 13px; cursor: pointer; transition: all .2s; }
+  .tab.active { background: #1A3C5E; color: #fff; border-color: #1A3C5E; }
+  .section-title { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-secondary); margin: 1rem 0 .5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .page-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all .2s; }
+  .page-card:hover { border-color: var(--color-border-primary); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .page-card.new { border-left: 3px solid #D4A017; }
+  .page-card.upgrade { border-left: 3px solid #0284C7; }
+  .page-card.admin { border-left: 3px solid #7C3AED; }
+  .page-card.existing { border-left: 3px solid #16A34A; }
+  .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+  .badge-new { background: #FEF3C7; color: #92400E; }
+  .badge-upgrade { background: #E0F2FE; color: #0C4A6E; }
+  .badge-admin { background: #EDE9FE; color: #4C1D95; }
+  .badge-existing { background: #DCFCE7; color: #14532D; }
+  .card-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .card-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-text-secondary); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .flow-box { background: var(--color-background-secondary); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; }
+  .flow-header { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: .5rem; display: flex; align-items: center; gap: 6px; }
+  .flow-step { display: flex; align-items: flex-start; gap: 8px; margin: 5px 0; font-size: 12px; color: var(--color-text-secondary); }
+  .step-num { min-width: 18px; height: 18px; border-radius: 50%; background: #1A3C5E; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; margin-top: 1px; }
+  .arrow-down { text-align: center; font-size: 16px; color: var(--color-text-secondary); margin: 2px 0; }
+  .trigger-badge { display: inline-block; background: #FEF3C7; color: #92400E; border-radius: 20px; font-size: 10px; padding: 2px 8px; margin-left: 6px; font-weight: 500; }
+  .auto-badge { display: inline-block; background: #EDE9FE; color: #4C1D95; border-radius: 20px; font-size: 10px; padding: 2px 8px; margin-left: 6px; font-weight: 500; }
+  .db-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .db-table th { background: #1A3C5E; color: #fff; padding: 6px 10px; text-align: left; }
+  .db-table td { padding: 6px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+  .db-table tr:last-child td { border-bottom: none; }
+  .highlight { color: var(--color-text-primary); font-weight: 500; }
+</style>
+<div class="wrap">
+  <h2 style="sr-only">Sri Lakshmi Travels — Complete Website Architecture Plan</h2>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-size:18px;font-weight:500;color:var(--color-text-primary)">Sri Lakshmi Travels — Full Website Blueprint</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">22 existing + 12 new pages → 34-page complete platform</div>
+    </div>
+    <div style="font-size:12px;background:#1A3C5E;color:#fff;padding:5px 12px;border-radius:20px">Est. 1995 · Tamil Nadu</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('pages')">All Pages</button>
+    <button class="tab" onclick="show('userflow')">User Flow</button>
+    <button class="tab" onclick="show('adminflow')">Admin Flow</button>
+    <button class="tab" onclick="show('autolink')">Auto-Sync Logic</button>
+    <button class="tab" onclick="show('db')">Data Model</button>
+  </div>
+
+  <!-- PAGES TAB -->
+  <div id="tab-pages">
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#16A34A"></div>Existing (keep)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#0284C7"></div>Existing (upgrade)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#D4A017"></div>New user page</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#7C3AED"></div>New admin page</div>
+    </div>
+
+    <div class="section-title">Public / Landing Pages</div>
+    <div class="grid">
+      <div class="page-card existing"><div class="card-top"><span class="badge badge-existing">Existing</span></div><div class="card-name">Home</div><div class="card-desc">3D banner, quick search, featured tours, testimonials</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">Features</div><div class="card-desc">Add live stats counter, video explainer, trust badges</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">About</div><div class="card-desc">Timeline of 30 years, team section, certifications</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">Contact</div><div class="card-desc">Add Google Maps embed, WhatsApp CTA, live chat</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">Testimonials</div><div class="card-desc">Reviews from real customers with photos & ratings</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">Gallery</div><div class="card-desc">Photo & video gallery from completed tours</div></div>
+    </div>
+
+    <div class="section-title">Authentication</div>
+    <div class="grid">
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">SignIn / Login</div><div class="card-desc">Merge into one — add Google OAuth, remember me</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">SignUp / Register</div><div class="card-desc">Merge into one — step 1: info, step 2: OTP verify</div></div>
+      <div class="page-card existing"><div class="card-top"><span class="badge badge-existing">Existing</span></div><div class="card-name">OTPVerify</div><div class="card-desc">Phone/email OTP verification after signup</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">ForgotPassword</div><div class="card-desc">Email/SMS reset flow with secure token link</div></div>
+    </div>
+
+    <div class="section-title">Services & Listings</div>
+    <div class="grid">
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">Packages</div><div class="card-desc">Add filters (price, days, pilgrimage/leisure), search</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">TourDetails</div><div class="card-desc">Add itinerary accordion, photo gallery, seat availability</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">CarRental</div><div class="card-desc">Add car grid with filters, live availability toggle</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">CarDetails</div><div class="card-desc">Specs, features, availability calendar, book CTA</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">HireDriver</div><div class="card-desc">Driver profiles, ratings, add book with shift type</div></div>
+    </div>
+
+    <div class="section-title">Booking & Payment</div>
+    <div class="grid">
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">Booking</div><div class="card-desc">Multi-step form: type → details → passengers → summary</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">PackageBooking</div><div class="card-desc">Tour-specific form, seat picker, add-on selection</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">CarBooking</div><div class="card-desc">Date range picker, pickup/drop location, extras</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">DriverBooking</div><div class="card-desc">Shift selector, route input, recurring booking option</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">Payment</div><div class="card-desc">Razorpay/UPI/Card + partial advance pay option</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">BookingConfirmation</div><div class="card-desc">Success page with booking ID, PDF ticket download</div></div>
+    </div>
+
+    <div class="section-title">User Dashboard</div>
+    <div class="grid">
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">MyProfile</div><div class="card-desc">Edit info, upload photo, linked phone/email</div></div>
+      <div class="page-card upgrade"><div class="card-top"><span class="badge badge-upgrade">Upgrade</span></div><div class="card-name">MyBookings</div><div class="card-desc">Active/past tabs, cancel request, download ticket</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">MyReviews</div><div class="card-desc">Submit star rating + review after completed trip</div></div>
+      <div class="page-card new"><div class="card-top"><span class="badge badge-new">New</span></div><div class="card-name">Notifications</div><div class="card-desc">Booking updates, payment receipts, travel alerts</div></div>
+    </div>
+
+    <div class="section-title">Admin Panel (Protected /admin routes)</div>
+    <div class="grid">
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Admin Dashboard</div><div class="card-desc">Today's bookings, revenue chart, pending actions</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Bookings Manager</div><div class="card-desc">Live table, filter by type/status, confirm/cancel/assign</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">User Manager</div><div class="card-desc">User list, search, view history, block/unblock</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Tours Manager</div><div class="card-desc">Add/edit/delete tours, pricing, seat count, photos</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Cars & Drivers</div><div class="card-desc">Fleet management, driver profiles, availability toggle</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Payments Tracker</div><div class="card-desc">All transactions, partial/full pay status, export CSV</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Reviews Moderator</div><div class="card-desc">Approve/reject reviews before publishing publicly</div></div>
+      <div class="page-card admin"><div class="card-top"><span class="badge badge-admin">Admin</span></div><div class="card-name">Reports & Analytics</div><div class="card-desc">Monthly charts, top tours, revenue by service type</div></div>
+      <div class="page-card existing"><div class="card-top"><span class="badge badge-existing">Existing</span></div><div class="card-name">NotFound (404)</div><div class="card-desc">Custom branded error page, links back home</div></div>
+    </div>
+  </div>
+
+  <!-- USER FLOW TAB -->
+  <div id="tab-userflow" style="display:none">
+    <div class="section-title">Complete User Journey — From Discovery to Trip Completion</div>
+
+    <div class="flow-box">
+      <div class="flow-header">1. Discovery & Registration</div>
+      <div class="flow-step"><div class="step-num">1</div><div>User lands on <span class="highlight">Home</span> → browses features, sees hero banners & featured tours</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div>Clicks "Explore Packages" → <span class="highlight">Packages</span> page with filters (price, duration, type)</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div>Clicks a tour card → <span class="highlight">TourDetails</span> with itinerary, gallery, seat count, reviews</div></div>
+      <div class="flow-step"><div class="step-num">4</div><div>Clicks "Book Now" → redirected to <span class="highlight">SignIn</span> if not logged in</div></div>
+      <div class="flow-step"><div class="step-num">5</div><div>New user? → <span class="highlight">SignUp</span> → <span class="highlight">OTPVerify</span> → account created</div></div>
+    </div>
+
+    <div class="flow-box">
+      <div class="flow-header">2. Booking Flow</div>
+      <div class="flow-step"><div class="step-num">1</div><div>Lands on <span class="highlight">PackageBooking</span> / <span class="highlight">CarBooking</span> / <span class="highlight">DriverBooking</span> depending on service</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div>Fills multi-step form: travel date → passengers → pickup details → special requests</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div>Reviews booking summary → proceeds to <span class="highlight">Payment</span></div></div>
+      <div class="flow-step"><div class="step-num">4</div><div>Pays via Razorpay / UPI / Card (advance or full)</div></div>
+      <div class="flow-step"><div class="step-num">5</div><div>Arrives at <span class="highlight">BookingConfirmation</span> → receives email/SMS with booking ID + PDF ticket</div></div>
+    </div>
+
+    <div class="flow-box">
+      <div class="flow-header">3. User Dashboard & Post-Booking</div>
+      <div class="flow-step"><div class="step-num">1</div><div><span class="highlight">MyBookings</span> — view active/past trips, download ticket, request cancellation</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div><span class="highlight">Notifications</span> — get real-time alerts (departure reminder, driver assigned, payment receipt)</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div>After trip completion: prompted to <span class="highlight">MyReviews</span> — leave rating + feedback</div></div>
+      <div class="flow-step"><div class="step-num">4</div><div><span class="highlight">MyProfile</span> — manage personal info, saved addresses, linked accounts</div></div>
+    </div>
+  </div>
+
+  <!-- ADMIN FLOW TAB -->
+  <div id="tab-adminflow" style="display:none">
+    <div class="section-title">Admin Operations — Day-to-Day Management Flow</div>
+
+    <div class="flow-box">
+      <div class="flow-header">1. Login & Dashboard Overview</div>
+      <div class="flow-step"><div class="step-num">1</div><div>Admin logs in via <span class="highlight">SignIn</span> with admin credentials → role-based redirect to <span class="highlight">/admin</span></div></div>
+      <div class="flow-step"><div class="step-num">2</div><div><span class="highlight">Admin Dashboard</span> shows: today's new bookings count, pending confirmations, revenue snapshot, low-seat alerts</div></div>
+    </div>
+
+    <div class="flow-box">
+      <div class="flow-header">2. Booking Management (Auto-Triggered)</div>
+      <div class="flow-step"><div class="step-num">1</div><div>User completes a booking → <span class="trigger-badge">AUTO</span> entry appears in <span class="highlight">Bookings Manager</span> with status "Pending"</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div>Admin reviews booking details → changes status to "Confirmed" / "Cancelled" / "Assigned"</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div>On status change → <span class="auto-badge">AUTO</span> user gets SMS/email notification via backend webhook</div></div>
+      <div class="flow-step"><div class="step-num">4</div><div>For car/driver bookings → assign specific driver or vehicle from the fleet in <span class="highlight">Cars & Drivers</span></div></div>
+    </div>
+
+    <div class="flow-box">
+      <div class="flow-header">3. Content & Fleet Management</div>
+      <div class="flow-step"><div class="step-num">1</div><div><span class="highlight">Tours Manager</span> — add new tour package, set seats, pricing tiers, upload photos, set active/inactive</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div><span class="highlight">Cars & Drivers</span> — add new vehicle, update driver info, toggle availability on/off for any date</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div><span class="highlight">Reviews Moderator</span> — customer reviews queue up after trips, admin approves before they go live on site</div></div>
+    </div>
+
+    <div class="flow-box">
+      <div class="flow-header">4. Payments & Reporting</div>
+      <div class="flow-step"><div class="step-num">1</div><div><span class="highlight">Payments Tracker</span> — see all transactions, partial pay vs full pay, flag pending balance collections</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div><span class="highlight">Reports & Analytics</span> — monthly revenue charts, most booked tours, peak season trends, export to CSV</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div><span class="highlight">User Manager</span> — search any user, view their full booking history, handle complaints, block if needed</div></div>
+    </div>
+  </div>
+
+  <!-- AUTO-SYNC LOGIC TAB -->
+  <div id="tab-autolink" style="display:none">
+    <div class="section-title">When User Does X → Admin Page Auto-Updates</div>
+    <table class="db-table" style="margin-bottom:1rem">
+      <thead><tr><th>User Action</th><th>Admin Page</th><th>Auto Update</th></tr></thead>
+      <tbody>
+        <tr><td>Completes booking + pays</td><td>Bookings Manager</td><td>New row with status "Pending Confirmation"</td></tr>
+        <tr><td>Submits a review after trip</td><td>Reviews Moderator</td><td>Review queued for approval</td></tr>
+        <tr><td>Cancellation request</td><td>Bookings Manager</td><td>Row flagged as "Cancel Requested"</td></tr>
+        <tr><td>Makes partial payment</td><td>Payments Tracker</td><td>Balance due shown, follow-up triggered</td></tr>
+        <tr><td>New user registration</td><td>User Manager</td><td>User profile added to user list</td></tr>
+        <tr><td>Picks a date (booking form)</td><td>Cars & Drivers / Tours</td><td>Seat/vehicle count decremented live</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">When Admin Does X → User Page Auto-Updates</div>
+    <table class="db-table">
+      <thead><tr><th>Admin Action</th><th>User Page</th><th>Auto Update</th></tr></thead>
+      <tbody>
+        <tr><td>Confirms booking</td><td>MyBookings + Notifications</td><td>Status changes to "Confirmed", SMS/email sent</td></tr>
+        <tr><td>Assigns driver to trip</td><td>MyBookings</td><td>Driver name, phone, vehicle shown</td></tr>
+        <tr><td>Cancels a booking</td><td>MyBookings + Notifications</td><td>Status "Cancelled", refund info displayed</td></tr>
+        <tr><td>Approves review</td><td>TourDetails / CarDetails</td><td>Review appears live on public page</td></tr>
+        <tr><td>Marks trip as completed</td><td>MyBookings</td><td>Moved to Past Trips, review prompt unlocked</td></tr>
+        <tr><td>Updates tour price/seats</td><td>Packages / TourDetails</td><td>Live price and seat count updated instantly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DATA MODEL TAB -->
+  <div id="tab-db" style="display:none">
+    <div class="section-title">MongoDB Collections — Core Data Structure</div>
+    <table class="db-table" style="margin-bottom:.75rem">
+      <thead><tr><th>Collection</th><th>Key Fields</th><th>Links To</th></tr></thead>
+      <tbody>
+        <tr><td class="highlight">users</td><td>name, phone, email, role (user/admin), isVerified</td><td>bookings, reviews, notifications</td></tr>
+        <tr><td class="highlight">bookings</td><td>userId, serviceType, serviceId, status, travelDate, passengers, totalAmount, paidAmount</td><td>users, tours/cars/drivers, payments</td></tr>
+        <tr><td class="highlight">tours</td><td>title, destination, duration, price, seatsTotal, seatsBooked, isActive, photos</td><td>bookings, reviews</td></tr>
+        <tr><td class="highlight">cars</td><td>model, type, pricePerDay, isAvailable, photos, features</td><td>bookings</td></tr>
+        <tr><td class="highlight">drivers</td><td>name, phone, licenseNo, rating, isAvailable, assignedBookings</td><td>bookings</td></tr>
+        <tr><td class="highlight">payments</td><td>bookingId, userId, amount, method, status (partial/full/refunded), razorpayId</td><td>bookings, users</td></tr>
+        <tr><td class="highlight">reviews</td><td>userId, serviceId, serviceType, rating, comment, isApproved</td><td>users, tours/cars</td></tr>
+        <tr><td class="highlight">notifications</td><td>userId, type, message, isRead, createdAt</td><td>users, bookings</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:8px;padding:10px 12px">
+      <strong style="color:var(--color-text-primary)">Key design rule:</strong> Every booking has a <code>status</code> field that both user pages and admin pages read from the same MongoDB document. When admin changes status → user's MyBookings page reflects the update in real-time via polling or WebSocket.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(tab) {
+  ['pages','userflow','adminflow','autolink','db'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === tab ? '' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((b,i) => {
+    const names = ['pages','userflow','adminflow','autolink','db'];
+    b.classList.toggle('active', names[i] === tab);
+  });
+}
+</script>
