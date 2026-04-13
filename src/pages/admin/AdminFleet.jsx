@@ -25,6 +25,20 @@ export default function AdminFleet() {
 
   useEffect(() => { fetchData(); }, []);
 
+  const handleImageUpload = (e, formStateUpdater, fieldName) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image must be less than 2MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      formStateUpdater(prev => ({ ...prev, [fieldName]: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const resetForm = () => { setShowForm(false); setEditing(null); };
 
   const handleCarSubmit = async (e) => {
@@ -84,7 +98,11 @@ export default function AdminFleet() {
             <input required type="number" value={carForm.pricePerKm} onChange={(e) => setCarForm({ ...carForm, pricePerKm: e.target.value })} placeholder="Price/Km (₹) *" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input value={carForm.fuel} onChange={(e) => setCarForm({ ...carForm, fuel: e.target.value })} placeholder="Fuel Type" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input value={carForm.transmission} onChange={(e) => setCarForm({ ...carForm, transmission: e.target.value })} placeholder="Transmission" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
-            <input value={carForm.image} onChange={(e) => setCarForm({ ...carForm, image: e.target.value })} placeholder="Image URL" className="md:col-span-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm font-medium text-gray-700">Car Image</label>
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setCarForm, 'image')} className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-brand-secondary)] file:text-brand-dark hover:file:bg-yellow-400" />
+              {carForm.image && <img src={carForm.image.includes('placeholder') ? '' : carForm.image} alt="Preview" className="h-32 object-contain rounded-xl mt-2 border border-gray-100" />}
+            </div>
             <input value={carForm.features} onChange={(e) => setCarForm({ ...carForm, features: e.target.value })} placeholder="Features (comma separated)" className="md:col-span-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <div className="md:col-span-2 flex gap-3">
               <button type="submit" className="px-6 py-2.5 bg-[var(--color-brand-primary)] text-white rounded-xl text-sm font-medium">{editing ? 'Update' : 'Add Car'}</button>
@@ -107,7 +125,11 @@ export default function AdminFleet() {
             <input required type="number" value={driverForm.experience} onChange={(e) => setDriverForm({ ...driverForm, experience: e.target.value })} placeholder="Experience (years) *" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input value={driverForm.languages} onChange={(e) => setDriverForm({ ...driverForm, languages: e.target.value })} placeholder="Languages (comma separated)" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input value={driverForm.licenseNo} onChange={(e) => setDriverForm({ ...driverForm, licenseNo: e.target.value })} placeholder="License No" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
-            <input value={driverForm.image} onChange={(e) => setDriverForm({ ...driverForm, image: e.target.value })} placeholder="Photo URL" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Driver Photo</label>
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setDriverForm, 'image')} className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-brand-secondary)] file:text-brand-dark hover:file:bg-yellow-400" />
+              {driverForm.image && <img src={driverForm.image.includes('placeholder') ? '' : driverForm.image} alt="Preview" className="h-16 w-16 object-cover rounded-full mt-2 border border-gray-100" />}
+            </div>
             <textarea value={driverForm.bio} onChange={(e) => setDriverForm({ ...driverForm, bio: e.target.value })} placeholder="Bio" rows={2} className="md:col-span-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <div className="md:col-span-2 flex gap-3">
               <button type="submit" className="px-6 py-2.5 bg-[var(--color-brand-primary)] text-white rounded-xl text-sm font-medium">{editing ? 'Update' : 'Add Driver'}</button>

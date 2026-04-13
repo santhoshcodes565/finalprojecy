@@ -21,6 +21,20 @@ export default function AdminTours() {
 
   useEffect(() => { fetchTours(); }, []);
 
+  const handleImageUpload = (e, formStateUpdater, fieldName) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image must be less than 2MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      formStateUpdater(prev => ({ ...prev, [fieldName]: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const resetForm = () => {
     setForm({ title: '', duration: '', states: '', price: '', image: '', description: '', highlights: '', seatsTotal: 50 });
     setEditing(null);
@@ -82,7 +96,11 @@ export default function AdminTours() {
             <input required value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} placeholder="Duration (e.g. 7 Days / 6 Nights) *" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input required value={form.states} onChange={(e) => setForm({ ...form, states: e.target.value })} placeholder="States (e.g. Kerala) *" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input required type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Price per person (₹) *" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
-            <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="Image URL" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Tour Image</label>
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setForm, 'image')} className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-brand-secondary)] file:text-brand-dark hover:file:bg-yellow-400" />
+              {form.image && <img src={form.image.includes('placeholder') ? '' : form.image} alt="Preview" className="h-24 w-full object-cover rounded-xl mt-2 border border-gray-100" />}
+            </div>
             <input type="number" value={form.seatsTotal} onChange={(e) => setForm({ ...form, seatsTotal: e.target.value })} placeholder="Total Seats" className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description" rows={3} className="md:col-span-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />
             <input value={form.highlights} onChange={(e) => setForm({ ...form, highlights: e.target.value })} placeholder="Highlights (comma separated)" className="md:col-span-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[var(--color-brand-secondary)] focus:outline-none" />

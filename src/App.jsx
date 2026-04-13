@@ -159,7 +159,7 @@ export default function App() {
               <Route path="booking/package/:id" element={<PackageBooking />} />
               <Route path="booking/car/:id" element={<CarBooking />} />
               <Route path="booking/driver" element={<DriverBooking />} />
-              <Route path="payment" element={<Payment />} />
+              <Route path="payment/advance" element={<Payment />} />
               <Route path="my-bookings" element={<MyBookings />} />
               <Route path="my-profile" element={<MyProfile />} />
             </Route>

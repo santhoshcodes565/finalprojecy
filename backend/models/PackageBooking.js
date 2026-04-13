@@ -33,6 +33,7 @@ const packageBookingSchema = new mongoose.Schema({
   idNumber: { type: String },
   assignedDriver: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' },
   paymentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+  paymentScreenshot: { type: String },
   status: { type: String, enum: ['pending', 'confirmed', 'cancelled', 'completed'], default: 'pending' },
   totalAmount: { type: Number },
   advancePaid: { type: Number, default: 0 },

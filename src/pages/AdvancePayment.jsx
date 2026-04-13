@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, CheckCircle, ShieldCheck, ArrowLeft, Loader2, Sparkles } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
+import qrcodeImg from '../assets/qrcode.jpeg';
 
 // Simple confetti animation component with flowers
 const FlowerConfetti = () => {
@@ -51,9 +52,9 @@ export default function AdvancePayment() {
   const navigate = useNavigate();
   const { bookingData, endpoint, successMessage, serviceType } = location.state || {};
   
-  const [paymentMethod, setPaymentMethod] = useState('card');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [screenshotData, setScreenshotData] = useState(null);
 
   // If directly accessed without state, kick back
   useEffect(() => {
@@ -65,30 +66,43 @@ export default function AdvancePayment() {
 
   if (!bookingData) return null;
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size must be less than 5MB');
+        e.target.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => setScreenshotData(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
+    if (!screenshotData) {
+      toast.error('Please upload the payment screenshot to proceed.');
+      return;
+    }
     setIsProcessing(true);
 
-    // 1. Simulate payment network delay (Dummy Gateway)
-    setTimeout(async () => {
-      try {
-        // 2. Actually book the service via the backend
-        await api.post(endpoint, bookingData);
-        
-        // 3. Show Success Animation
-        setIsProcessing(false);
-        setIsSuccess(true);
-        toast.success(successMessage || 'Advance payment successful & booking confirmed!');
-        
-        // 4. Redirect after animation
-        setTimeout(() => {
-          navigate('/my-bookings');
-        }, 4000);
-      } catch (err) {
-        setIsProcessing(false);
-        toast.error(err.response?.data?.message || 'Payment or booking failed. Please try again.');
-      }
-    }, 2000);
+    try {
+      const payload = { ...bookingData, paymentScreenshot: screenshotData };
+      await api.post(endpoint, payload);
+      
+      setIsProcessing(false);
+      setIsSuccess(true);
+      toast.success(successMessage || 'Payment Screenshot Uploaded! Awaiting Admin Confirmation.');
+      
+      setTimeout(() => {
+        navigate('/my-bookings');
+      }, 4000);
+    } catch (err) {
+      setIsProcessing(false);
+      toast.error(err.response?.data?.message || 'Booking failed. Please try again.');
+    }
   };
 
   if (isSuccess) {
@@ -96,11 +110,11 @@ export default function AdvancePayment() {
       <div className="min-h-screen bg-brand-accent flex items-center justify-center relative">
         <FlowerConfetti />
         <div className="bg-white p-10 rounded-3xl shadow-xl text-center max-w-md w-full animate-slide-up z-10 mx-4">
-          <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-100 animate-pulse">
-            <CheckCircle size={50} />
+          <div className="w-24 h-24 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-blue-100 animate-pulse">
+            <ShieldCheck size={50} />
           </div>
-          <h2 className="text-3xl font-extrabold text-brand-primary mb-3">Booking Confirmed!</h2>
-          <p className="text-neutral-500 mb-6">Your advance payment was successful. We have received your request.</p>
+          <h2 className="text-3xl font-extrabold text-brand-primary mb-3">Upload Complete!</h2>
+          <p className="text-neutral-500 mb-6">Your payment screenshot has been sent securely. Awaiting admin confirmation.</p>
           <div className="inline-flex items-center gap-2 bg-brand-primary/10 text-brand-primary px-4 py-2 rounded-full text-sm font-bold">
             <Loader2 size={16} className="animate-spin" /> Redirecting to your bookings...
           </div>
@@ -109,7 +123,6 @@ export default function AdvancePayment() {
     );
   }
 
-  // Determine advance price (dummy static or calculated)
   const advanceAmount = serviceType === 'car' ? 500 : serviceType === 'driver' ? 300 : 2500;
 
   return (
@@ -130,7 +143,7 @@ export default function AdvancePayment() {
             Complete your <span className="text-brand-secondary italic">Advance Payment.</span>
           </h1>
           <p className="text-neutral-600 mb-8 max-w-sm">
-            Please pay the advance tracking fee to instantly secure your {serviceType || 'service'} reservation.
+            Please scan the QR code and pay the advance fee, then upload the screenshot to instantly secure your {serviceType || 'service'} reservation.
           </p>
 
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-neutral-100 text-left relative overflow-hidden">
@@ -168,60 +181,45 @@ export default function AdvancePayment() {
           </div>
         </div>
 
-        {/* Right Side: Dummy Gateway Form */}
+        {/* Right Side: UPI Payment & Upload Form */}
         <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-neutral-100">
-            <h2 className="text-xl font-bold text-brand-primary mb-6">Payment Options</h2>
-            
-            <div className="flex gap-4 mb-8">
-              <button
-                onClick={() => setPaymentMethod('card')}
-                className={`flex-1 p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${paymentMethod === 'card' ? 'border-brand-primary bg-brand-accent text-brand-primary shadow-sm' : 'border-neutral-100 text-neutral-400 hover:border-neutral-200'}`}
-              >
-                <CreditCard size={24} />
-                <span className="text-xs font-bold uppercase tracking-wide">Credit / Debit</span>
-              </button>
-              <button
-                onClick={() => setPaymentMethod('upi')}
-                className={`flex-1 p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${paymentMethod === 'upi' ? 'border-brand-primary bg-brand-accent text-brand-primary shadow-sm' : 'border-neutral-100 text-neutral-400 hover:border-neutral-200'}`}
-              >
-                {/* SVG for UPI */}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11.5 21l-8.5-8.5 8.5-8.5V21z"/><path d="M12.5 3l8.5 8.5-8.5 8.5V3z"/></svg>
-                <span className="text-xs font-bold uppercase tracking-wide">UPI APP</span>
-              </button>
-            </div>
+            <h2 className="text-xl font-bold text-brand-primary mb-6 flex items-center justify-between">
+              <span>UPI Payment</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600"><path d="M11.5 21l-8.5-8.5 8.5-8.5V21z"/><path d="M12.5 3l8.5 8.5-8.5 8.5V3z"/></svg>
+            </h2>
 
-            <form onSubmit={handlePayment} className="space-y-4">
-              {paymentMethod === 'card' ? (
-                <>
-                  <div>
-                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-1">Card Number</label>
-                    <input type="text" required placeholder="XXXX XXXX XXXX XXXX" className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-primary outline-none" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-1">Valid Thru</label>
-                      <input type="text" required placeholder="MM/YY" className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-primary outline-none" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-1">CVV</label>
-                      <input type="password" required placeholder="***" className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-primary outline-none" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-1">Name on Card</label>
-                    <input type="text" required placeholder="JOHN DOE" className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-primary outline-none" />
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-6">
-                  <div className="w-48 h-48 bg-neutral-100 rounded-2xl mx-auto mb-4 flex items-center justify-center border border-neutral-200">
-                    <span className="text-neutral-400 font-medium">Dummy QR Code</span>
-                  </div>
-                  <p className="text-sm text-neutral-500">Scan via Any UPI App or enter VPA</p>
-                  <input type="text" placeholder="yourupi@bank" className="mt-4 w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-primary outline-none text-center" />
+            <form onSubmit={handlePayment} className="space-y-6">
+              <div className="text-center bg-neutral-50 p-6 rounded-2xl border border-neutral-100">
+                <div className="w-40 h-40 mx-auto mb-4 flex items-center justify-center border-2 border-brand-primary/20 bg-white rounded-2xl overflow-hidden p-2 shadow-sm">
+                  <img src={qrcodeImg} alt="UPI QR Code" className="w-full h-full object-contain rounded-xl" />
                 </div>
-              )}
+                <p className="text-sm font-semibold text-brand-primary">Scan & Pay ₹{advanceAmount}</p>
+                <p className="text-xs text-neutral-500 mt-1">Using any UPI App (GPay, PhonePe, Paytm)</p>
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest">
+                  Upload Payment Screenshot <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    required 
+                    onChange={handleFileChange}
+                    className="block w-full text-sm text-neutral-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20 cursor-pointer outline-none border border-neutral-200 rounded-xl bg-neutral-50"
+                  />
+                </div>
+                {screenshotData && (
+                  <div className="mt-4 border border-brand-primary/20 rounded-xl overflow-hidden relative group">
+                    <img src={screenshotData} alt="Preview" className="w-full h-32 object-cover object-top" />
+                    <div className="absolute inset-0 bg-brand-primary/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-white text-xs font-bold flex items-center gap-2"><CheckCircle size={14}/> File Attached</span>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <button
                 type="submit"
@@ -229,15 +227,15 @@ export default function AdvancePayment() {
                 className="w-full mt-6 bg-brand-primary text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_8px_20px_-10px_rgba(0,100,0,0.4)]"
               >
                 {isProcessing ? (
-                  <><Loader2 className="animate-spin" size={20} /> Processing Payment...</>
+                  <><Loader2 className="animate-spin" size={20} /> Processing & Uploading...</>
                 ) : (
-                  <>Pay ₹{advanceAmount} via {paymentMethod === 'card' ? 'Card' : 'UPI'}</>
+                  <>Submit Payment Details</>
                 )}
               </button>
             </form>
 
             <p className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold text-center mt-6">
-              🔒 100% Encrypted Payment Simulation
+              🔒 100% Secure Manual Verification
             </p>
           </div>
         </div>

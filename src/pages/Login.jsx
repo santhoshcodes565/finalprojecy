@@ -27,9 +27,15 @@ export default function Login() {
   const onSubmit = async (data) => {
     setSubmitting(true);
     try {
-      await login(data.email, data.password);
-      toast.success('Welcome back! 🙏');
-      navigate(from, { replace: true });
+      const userData = await login(data.email, data.password);
+      
+      if (userData?.role === 'admin') {
+        toast.success('Admin Login Successful! Redirecting to Dashboard...');
+        setTimeout(() => navigate('/admin/dashboard', { replace: true }), 500);
+      } else {
+        toast.success('Welcome back! 🙏');
+        navigate(from, { replace: true });
+      }
     } catch (err) {
       toast.error(err.message || 'Login failed. Please try again.');
     } finally {

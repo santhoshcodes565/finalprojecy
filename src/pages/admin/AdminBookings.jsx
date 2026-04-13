@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Search, Filter, CheckCircle, XCircle, Truck } from 'lucide-react';
+import { Calendar, Search, Filter, CheckCircle, XCircle, Truck, Camera } from 'lucide-react';
 import api from '../../api/axios';
 import { toast } from 'react-hot-toast';
 
@@ -9,6 +9,7 @@ export default function AdminBookings() {
   const [filterStatus, setFilterStatus] = useState('');
   const [filterType, setFilterType] = useState('');
   const [search, setSearch] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchBookings = async () => {
     try {
@@ -51,7 +52,7 @@ export default function AdminBookings() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Bookings Manager</h1>
@@ -121,6 +122,11 @@ export default function AdminBookings() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
+                        {b.paymentScreenshot && (
+                          <button onClick={() => setSelectedImage(b.paymentScreenshot)} className="p-1.5 rounded-lg hover:bg-purple-50 text-purple-600" title="View Payment Screenshot">
+                            <Camera className="w-4 h-4" />
+                          </button>
+                        )}
                         {b.status === 'pending' && (
                           <>
                             <button onClick={() => updateStatus(b.type, b._id, 'confirmed')} className="p-1.5 rounded-lg hover:bg-green-50 text-green-600" title="Confirm"><CheckCircle className="w-4 h-4" /></button>
@@ -139,6 +145,18 @@ export default function AdminBookings() {
           </div>
         )}
       </div>
+
+      {selectedImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-lg w-full relative">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Payment Screenshot</h3>
+            <img src={selectedImage} alt="Payment Proof" className="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-100" />
+            <button onClick={() => setSelectedImage(null)} className="mt-6 w-full py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors">
+              Close Preview
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

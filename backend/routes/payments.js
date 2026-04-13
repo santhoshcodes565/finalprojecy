@@ -1,111 +1,178 @@
-/**
- * Payment Routes — Sri Lakshmi Travels
- * Razorpay payment gateway integration + payment history
- */
 const express = require('express');
 const Payment = require('../models/Payment');
+const PaymentLog = require('../models/PaymentLog');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const { createOrder, verifyPayment } = require('../services/paymentService');
+const { generateTransactionId } = require('../utils/transactionUtils');
+// Keep notification service for success logging if needed
 const { notify } = require('../services/notificationService');
+
+// Specific booking models to update their status
+const CarBooking = require('../models/CarBooking');
+const DriverBooking = require('../models/DriverBooking');
+const PackageBooking = require('../models/PackageBooking');
 
 const router = express.Router();
 
-// POST /api/payments/create-order — Create Razorpay order
-router.post('/create-order', auth, async (req, res) => {
+/**
+ * POST /api/payments/initiate - Strict Backend Architecture
+ * Step 1: Create an INITIATED payment record
+ */
+router.post('/initiate', auth, async (req, res) => {
   try {
-    const { amount, bookingId, bookingType, paymentType } = req.body;
+    const { amount, bookingId, bookingType } = req.body;
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: 'Invalid amount.' });
+    if (!amount || amount <= 0 || !bookingId) {
+      return res.status(400).json({ message: 'Invalid payment initiation parameters.' });
     }
 
-    const order = await createOrder(amount, bookingId || `SLT-${Date.now()}`, {
-      userId: req.userId.toString(),
-      bookingType: bookingType || 'general',
-      paymentType: paymentType || 'full',
-    });
-
-    // Save pending payment record
+    // Create payment in INITIATED state
     const payment = await Payment.create({
       userId: req.userId,
       bookingId,
       bookingType: bookingType || 'general',
-      razorpayOrderId: order.id,
       amount,
-      method: 'online',
-      status: 'created',
-      paymentType: paymentType || 'full',
+      method: 'card',
+      status: 'INITIATED',
+      isVerified: false
     });
 
-    res.json({
-      message: 'Order created.',
-      order,
-      payment,
-      key: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+    // Audit log
+    await PaymentLog.create({
+      paymentId: payment._id,
+      action: 'INITIATED',
+      metadata: { bookingId, amount }
+    });
+
+    res.status(201).json({
+      message: 'Payment initiated.',
+      paymentId: payment._id
     });
   } catch (error) {
-    console.error('Create order error:', error.message);
-    res.status(500).json({ message: 'Failed to create payment order.' });
+    console.error('Initiate payment error:', error.message);
+    res.status(500).json({ message: 'Failed to initiate payment.' });
   }
 });
 
-// POST /api/payments/verify — Verify Razorpay payment signature
+/**
+ * POST /api/payments/verify - Strict Backend Authority Rules
+ * Step 2: Validate card rules and update Payment & Booking statuses
+ */
 router.post('/verify', auth, async (req, res) => {
   try {
-    const { razorpayOrderId, razorpayPaymentId, razorpaySignature, bookingId, bookingType } = req.body;
+    const { paymentId, cardNumber, expiry, cvv } = req.body;
 
-    // Verify signature
-    const isValid = verifyPayment(razorpayOrderId, razorpayPaymentId, razorpaySignature);
-    if (!isValid) {
-      // Update payment as failed
-      await Payment.findOneAndUpdate(
-        { razorpayOrderId },
-        { status: 'failed' }
-      );
-      return res.status(400).json({ message: 'Payment verification failed. Invalid signature.' });
+    if (!paymentId || !cardNumber || !expiry || !cvv) {
+      return res.status(400).json({ message: 'Missing payment verification data.' });
     }
 
-    // Update payment record
-    const payment = await Payment.findOneAndUpdate(
-      { razorpayOrderId },
-      {
-        razorpayPaymentId,
-        razorpaySignature,
-        status: 'paid',
-      },
-      { new: true }
-    );
-
+    const payment = await Payment.findOne({ _id: paymentId, userId: req.userId });
     if (!payment) {
       return res.status(404).json({ message: 'Payment record not found.' });
     }
 
-    // Trigger PAYMENT_SUCCESS notification
-    const user = await User.findById(req.userId);
-    if (user) {
-      notify(user, {
-        _id: bookingId || payment.bookingId,
-        bookingId: bookingId || payment._id.toString().slice(-8).toUpperCase(),
-        serviceName: bookingType || 'Travel Service',
-        totalAmount: payment.amount,
-        paidAmount: payment.amount,
-      }, 'PAYMENT_SUCCESS', {
-        amount: payment.amount,
-        razorpayPaymentId,
-        method: payment.method,
-        paymentType: payment.paymentType,
-      }).catch(err => console.error('Payment notification error:', err.message));
+    // Idempotency: If already SUCCESS, return immediately
+    if (payment.status === 'SUCCESS') {
+      return res.json({ message: 'Payment already verified.', payment });
     }
 
-    res.json({
-      message: 'Payment verified successfully!',
-      payment,
-    });
+    // Mark as PROCESSING
+    payment.status = 'PROCESSING';
+    await payment.save();
+    await PaymentLog.create({ paymentId, action: 'PROCESSING', metadata: { last4: cardNumber.slice(-4) } });
+
+    // --- TEST LOGIC ---
+    let isSuccess = true;
+    let failureReason = null;
+    
+    const formattedCard = cardNumber.replace(/\s/g, '');
+
+    // Card Rule 1: 4000 0000 0000 0002 -> FAILED
+    if (formattedCard === '4000000000000002') {
+      isSuccess = false;
+      failureReason = 'Card declined by bank.';
+    }
+    // Card Rule 2: CVV 000 -> FAILED
+    else if (cvv === '000') {
+      isSuccess = false;
+      failureReason = 'Invalid CVV.';
+    }
+    // Card Rule 3: Expired Card -> FAILED
+    else {
+      const [month, year] = expiry.split('/');
+      const expDate = new Date(`20${year}`, month - 1);
+      const today = new Date();
+      if (expDate < today) {
+        isSuccess = false;
+        failureReason = 'Card is expired.';
+      }
+    }
+    
+    // Optional 10% random failure on non-test cards
+    if (isSuccess && formattedCard !== '4242424242424242') {
+      if (Math.random() < 0.1) {
+        isSuccess = false;
+        failureReason = 'Network error simulated. Try again.';
+      }
+    }
+
+    // --- END TEST LOGIC ---
+
+    if (isSuccess) {
+      payment.status = 'SUCCESS';
+      payment.isVerified = true;
+      payment.transactionId = generateTransactionId();
+      await payment.save();
+
+      await PaymentLog.create({ 
+        paymentId, 
+        action: 'SUCCESS', 
+        metadata: { transactionId: payment.transactionId } 
+      });
+
+      // Update actual booking
+      let bookingModel;
+      if (payment.bookingType === 'car') bookingModel = CarBooking;
+      else if (payment.bookingType === 'driver') bookingModel = DriverBooking;
+      else if (payment.bookingType === 'package') bookingModel = PackageBooking;
+      
+      if (bookingModel) {
+        await bookingModel.findByIdAndUpdate(payment.bookingId, { paymentStatus: 'Success' }).catch(e => console.log('Booking update soft-fail (ignore if ID missing):', e.message));
+      }
+
+      // Notify User
+      const user = await User.findById(req.userId);
+      if (user) {
+        notify(user, {
+          _id: payment.bookingId,
+          bookingId: payment.bookingId.toString().slice(-8).toUpperCase(),
+          serviceName: payment.bookingType,
+          totalAmount: payment.amount,
+          paidAmount: payment.amount,
+        }, 'PAYMENT_SUCCESS', {
+          amount: payment.amount,
+          transactionId: payment.transactionId,
+          method: 'card', 
+        }).catch(err => console.error('Notify err:', err.message));
+      }
+
+      return res.json({ status: 'SUCCESS', transactionId: payment.transactionId, message: 'Payment successful.' });
+
+    } else {
+      payment.status = 'FAILED';
+      await payment.save();
+
+      await PaymentLog.create({ paymentId, action: 'FAILED', metadata: { reason: failureReason } });
+      
+      // We do NOT update the booking to 'failed' because they can retry with the same bookingId
+
+      return res.status(400).json({ status: 'FAILED', message: failureReason });
+    }
+
   } catch (error) {
     console.error('Verify payment error:', error.message);
-    res.status(500).json({ message: 'Payment verification failed.' });
+    res.status(500).json({ status: 'FAILED', message: 'Internal validation error.' });
   }
 });
 
@@ -132,22 +199,12 @@ router.get('/', auth, admin, async (req, res) => {
       .sort({ createdAt: -1 });
 
     const totalRevenue = payments
-      .filter(p => p.status === 'paid')
+      .filter(p => p.status === 'SUCCESS')
       .reduce((sum, p) => sum + p.amount, 0);
 
     res.json({ payments, total: payments.length, totalRevenue });
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch payments.' });
-  }
-});
-
-// POST /api/payments — Record a manual payment (backward compat)
-router.post('/', auth, async (req, res) => {
-  try {
-    const payment = await Payment.create({ ...req.body, userId: req.userId });
-    res.status(201).json({ message: 'Payment recorded.', payment });
-  } catch (error) {
-    res.status(400).json({ message: error.message || 'Failed to record payment.' });
   }
 });
 

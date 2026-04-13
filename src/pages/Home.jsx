@@ -7,11 +7,29 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { cars, packages } from '../data/mockData';
+import api from '../api/axios';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [scrollParallax, setScrollParallax] = useState(0);
+  const [cars, setCars] = useState([]);
+  const [packages, setPackages] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [carsRes, toursRes] = await Promise.all([
+          api.get('/cars'),
+          api.get('/tours')
+        ]);
+        setCars(carsRes.data.cars || []);
+        setPackages(toursRes.data.tours || []);
+      } catch (err) {
+        console.error('Failed to fetch data:', err);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -260,7 +278,7 @@ export default function Home() {
               className="pb-16 pt-4"
             >
               {cars.map((car, idx) => (
-                <SwiperSlide key={car.id}>
+                <SwiperSlide key={car._id}>
                   <div className="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:-translate-y-3 transition-all duration-500 cursor-pointer h-full flex flex-col border border-gray-100/50">
                     <div className="relative h-56 overflow-hidden rounded-t-2xl">
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -292,7 +310,7 @@ export default function Home() {
                             ₹{car.pricePerKm} <span className="text-xs text-gray-500 font-medium tracking-normal">/km</span>
                           </p>
                         </div>
-                        <Link to={`/booking?type=car&carId=${car.id}`} className="bg-brand-primary text-white px-5 py-2.5 rounded-xl font-bold hover:bg-brand-secondary hover:text-brand-dark transition-all duration-300 shadow-md text-sm hover:-translate-y-1">
+                        <Link to={`/booking?type=car&carId=${car._id}`} className="bg-brand-primary text-white px-5 py-2.5 rounded-xl font-bold hover:bg-brand-secondary hover:text-brand-dark transition-all duration-300 shadow-md text-sm hover:-translate-y-1">
                           Book Now
                         </Link>
                       </div>
@@ -377,7 +395,7 @@ export default function Home() {
               className="pb-16 pt-4"
             >
               {packages.slice(0, 8).map((pkg, idx) => (
-                <SwiperSlide key={pkg.id}>
+                <SwiperSlide key={pkg._id}>
                   <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-500 flex flex-col h-full hover:-translate-y-2">
                     <div className="w-full h-56 overflow-hidden relative">
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -405,7 +423,7 @@ export default function Home() {
                           <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5 block">Package Price</span>
                           <span className="font-extrabold text-xl text-brand-primary">₹{pkg.price.toLocaleString('en-IN')}</span>
                         </div>
-                        <Link to={`/booking?type=package&packageId=${pkg.id}`} className="bg-brand-primary text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 text-sm hover:bg-brand-secondary hover:text-brand-dark shadow-md hover:-translate-y-1">Book Today</Link>
+                        <Link to={`/booking?type=package&packageId=${pkg._id}`} className="bg-brand-primary text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 text-sm hover:bg-brand-secondary hover:text-brand-dark shadow-md hover:-translate-y-1">Book Today</Link>
                       </div>
                     </div>
                   </div>
