@@ -263,7 +263,7 @@ export const cars = [
   },
   {
     id: 'c14',
-    name: 'Mercedes-Benz Premium Omnibus',
+    name: 'Sri Lakshmi Travels Premium Omnibus',
     category: 'Luxury Bus',
     seats: 40,
     fuel: 'Diesel',
@@ -271,9 +271,9 @@ export const cars = [
     pricePerKm: 65,
     minKmPerDay: 300,
     driverBata: 1000,
-    image: '/fleet_omnibus.png',
+    image: '/sri_lakshmi_bus.png',
     features: ['Emergency Exits', 'Air Suspension', 'Recliner Seats', 'Modern Safety Tools', 'Wi-Fi'],
-    desc: 'Top-of-the-line Mercedes-Benz multi-axle sleeper bus ensuring maximum safety with dedicated emergency exits, premium air suspension comfort, and a smooth journey.'
+    desc: 'Top-of-the-line Sri Lakshmi Travels multi-axle sleeper bus ensuring maximum safety with dedicated emergency exits, premium air suspension comfort, and a smooth journey.'
   }
 ];
 

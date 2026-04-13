@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { cars } from '../data/mockData';
+import { cars, packages } from '../data/mockData';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -204,34 +204,31 @@ export default function Home() {
       </section>
 
       {/* Section: 3D Professional Video Experience Spotlight */}
-      <section className="relative h-[600px] overflow-hidden bg-black flex items-center justify-center">
+      <section className="relative h-[600px] overflow-hidden bg-brand-dark flex items-center justify-center">
         {/* Dynamic Video Loop - Free HD Stock showing drifting/driving on a road */}
-        <video 
-          className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          poster="https://upload.wikimedia.org/wikipedia/commons/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg"
-        >
-          <source src="https://cdn.pixabay.com/video/2016/11/14/6369-191393630_small.mp4" type="video/mp4" />
-        </video>
+        <iframe 
+          className="absolute inset-0 w-[150vw] h-[150vh] -top-[25vh] -left-[25vw] pointer-events-none opacity-50 mix-blend-screen"
+          src="https://www.youtube-nocookie.com/embed/2XvYj1rUEXw?autoplay=1&mute=1&loop=1&playlist=2XvYj1rUEXw&controls=0&showinfo=0&rel=0&modestbranding=1" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+        ></iframe>
         
-        {/* Abstract 3D Gradients blending with the video */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-dark via-transparent to-brand-primary/80 mix-blend-multiply"></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-brand-dark/90 via-transparent to-brand-dark/90"></div>
+        {/* Simple elegant overlay so text is readable */}
+        <div className="absolute inset-0 z-10 bg-black/40"></div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-accent via-transparent to-transparent"></div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
-           <span className="inline-block text-brand-secondary font-bold tracking-widest uppercase mb-4 px-5 py-2 rounded-full border border-brand-secondary/30 bg-black/40 backdrop-blur-md shadow-xl shadow-brand-secondary/20 hover:scale-105 transition-transform">
+           <span className="inline-block text-brand-secondary font-bold tracking-widest uppercase mb-4 px-5 py-2 rounded-full border border-brand-secondary/50 bg-black/50 backdrop-blur-md shadow-2xl hover:scale-105 transition-transform">
             Premium Travel
           </span>
-          <h2 className="font-display text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+          <h2 className="font-display text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
             Experience <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-[#fef08a] italic pr-2">The Drive</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto font-medium drop-shadow-lg mb-10 leading-relaxed">
+          <p className="text-xl text-white max-w-2xl mx-auto font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] mb-10 leading-relaxed">
             Feel the thrill of the open road with our ultra-luxury, thoroughly maintained top-brand vehicles. 
           </p>
-          <Link to="/cars" className="bg-brand-secondary text-brand-dark px-10 py-4 rounded-xl font-extrabold hover:bg-white hover:text-brand-dark transition-all duration-300 shadow-[0_0_20px_rgba(212,160,23,0.4)] text-lg uppercase tracking-wider inline-block hover:-translate-y-2">
+          <Link to="/cars" className="bg-brand-secondary text-brand-dark px-10 py-4 rounded-xl font-extrabold hover:bg-white hover:text-brand-dark transition-all duration-300 shadow-xl text-lg uppercase tracking-wider inline-block hover:-translate-y-2">
             Explore All Vehicles
           </Link>
         </div>
@@ -276,6 +273,15 @@ export default function Home() {
                       <div className="mb-3">
                         <h3 className="font-display text-2xl font-bold text-brand-primary leading-tight group-hover:text-brand-secondary transition-colors">{car.name}</h3>
                       </div>
+                      
+                      <div className="flex flex-wrap gap-2 mb-4 relative z-30" style={{perspective: '1000px'}}>
+                        {car.features?.slice(0,4).map((feat, fidx) => (
+                          <span key={fidx} className="group/feat cursor-default bg-gray-50 border border-gray-100 text-brand-primary px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-lg hover:z-40 transition-transform duration-300 hover:rotate-x-12 hover:-rotate-y-12 hover:scale-110 shadow-sm hover:shadow-xl hover:border-brand-secondary hover:bg-brand-secondary hover:text-white">
+                            {feat}
+                          </span>
+                        ))}
+                      </div>
+
                       <p className="text-gray-500 text-sm mb-5 pb-5 border-b border-gray-100 flex-1 line-clamp-3 leading-relaxed">
                         {car.desc}
                       </p>
@@ -300,15 +306,24 @@ export default function Home() {
       </section>
 
       {/* Section: Why Choose Us */}
-      <section className="py-24 bg-brand-primary relative">
+      <section className="py-24 relative overflow-hidden bg-brand-dark">
+        {/* Deep luxury gradient and pattern background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-primary via-brand-dark to-brand-primary opacity-90 z-0"></div>
+        <div className="absolute inset-0 bg-luxury-pattern z-0 opacity-50 mix-blend-overlay"></div>
+        
+        {/* Floating animated gold orbs for a premium glass feel */}
+        <div className="absolute top-20 -left-20 w-72 h-72 bg-brand-secondary/20 rounded-full blur-[100px] animate-pulse-slow z-0"></div>
+        <div className="absolute bottom-20 -right-20 w-96 h-96 bg-brand-light/30 rounded-full blur-[120px] animate-pulse-slow z-0" style={{ animationDelay: '2s' }}></div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="font-display text-4xl md:text-5xl text-white font-bold mb-4 inline-block relative">
+            <span className="inline-block text-brand-secondary font-bold tracking-[0.2em] uppercase mb-4 text-sm">Our Excellence</span>
+            <h2 className="font-display text-4xl md:text-5xl text-white font-extrabold mb-4 relative z-10 drop-shadow-lg">
               Why Sri Lakshmi Travels?
-              <div className="absolute -bottom-2 left-1/4 right-1/4 h-1 bg-brand-secondary"></div>
+              <div className="mx-auto mt-6 w-24 h-1 bg-gradient-to-r from-transparent via-brand-secondary to-transparent rounded-full"></div>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { icon: '🛡️', title: 'Verified Drivers', desc: 'Background-checked, licensed professionals' },
               { icon: '⚡', title: 'Instant Booking', desc: 'Confirm in under 2 minutes' },
@@ -317,12 +332,23 @@ export default function Home() {
               { icon: '🗺️', title: 'GPS Tracked', desc: 'Real-time vehicle tracking for safety' },
               { icon: '✨', title: 'Clean Vehicles', desc: 'Sanitized before every trip' }
             ].map((feature, idx) => (
-              <div key={idx} className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 hover:border-brand-secondary/40 hover:shadow-[0_0_20px_rgba(212,160,23,0.15)] transition-all group animate-on-scroll" style={{ animationDelay: `${idx * 100}ms` }}>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-brand-secondary/20 flex items-center justify-center text-2xl group-hover:bg-brand-secondary transition-colors"><span className="relative z-10 text-brand-secondary">{feature.icon}</span></div>
-                  <div>
-                    <h3 className="font-display text-xl text-white font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-brand-accent/80">{feature.desc}</p>
+              <div key={idx} className="relative group animate-on-scroll" style={{ animationDelay: `${idx * 100}ms` }}>
+                {/* Glow behind the card on hover */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary/0 via-brand-secondary/30 to-brand-secondary/0 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-700 pointer-events-none"></div>
+                
+                {/* Actual glass card */}
+                <div className="relative h-full bg-brand-dark/60 backdrop-blur-md border border-brand-secondary/20 rounded-2xl p-8 hover:border-brand-secondary/60 hover:-translate-y-2 transition-all duration-500 shadow-2xl overflow-hidden">
+                  {/* Subtle corner light effect */}
+                  <div className="absolute -top-12 -right-12 w-24 h-24 bg-brand-secondary/10 rounded-full blur-xl group-hover:bg-brand-secondary/20 transition-colors"></div>
+                  
+                  <div className="flex items-start gap-5 relative z-10">
+                    <div className="w-14 h-14 rounded-full bg-brand-primary ring-1 ring-brand-secondary/30 shadow-[0_0_15px_rgba(212,160,23,0.15)] flex items-center justify-center text-2xl group-hover:bg-gradient-to-br group-hover:from-brand-primary group-hover:to-brand-secondary/20 group-hover:ring-brand-secondary/80 group-hover:scale-110 transition-all duration-500 cursor-default">
+                      <span className="relative z-10 drop-shadow-md">{feature.icon}</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-display text-xl text-white font-bold mb-2 group-hover:text-brand-secondary transition-colors duration-300">{feature.title}</h3>
+                      <p className="text-brand-accent/70 font-medium leading-relaxed group-hover:text-brand-accent/90 transition-colors">{feature.desc}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -337,29 +363,55 @@ export default function Home() {
           <div className="text-center mb-16 animate-on-scroll">
             <h2 className="font-display text-4xl md:text-5xl text-brand-primary font-bold mb-4">Popular Packages</h2>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {[
-              { id: 'p13', title: 'Chennai → Tirupati Darshan', duration: '2 Days', cab: 'Innova', price: '₹4,999/person', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg', highlights: 'Temple visit, Hotel stay, Breakfast included' },
-              { id: 'p14', title: 'Ooty Hill Station Tour', duration: '3 Days', cab: 'Tempo Traveller', price: '₹6,999/person', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Ooty_lake.jpg/960px-Ooty_lake.jpg', highlights: 'Botanical Garden, Boat House, Tea Estates' },
-              { id: 'p15', title: 'Rameswaram Pilgrimage', duration: '2 Days', cab: 'Swift Dzire', price: '₹3,499/person', img: 'https://upload.wikimedia.org/wikipedia/commons/5/54/Rameswaram_montage_image.jpg', highlights: 'Agni Teertham, Ramanathaswamy Temple' }
-            ].map((pkg, idx) => (
-              <div key={pkg.id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-xl transition-shadow flex flex-col sm:flex-row lg:flex-col animate-on-scroll" style={{ animationDelay: `${idx * 150}ms` }}>
-                <div className="sm:w-2/5 lg:w-full h-48 overflow-hidden relative">
-                  <img src={pkg.img} alt={pkg.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-6 sm:w-3/5 lg:w-full flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-display text-xl font-bold text-brand-primary mb-3">{pkg.title}</h3>
-                    <div className="flex gap-4 text-sm text-gray-600 mb-3 font-medium"><span>⏱️ {pkg.duration}</span><span>🚗 {pkg.cab}</span></div>
-                    <p className="text-gray-500 text-sm mb-4">✅ {pkg.highlights}</p>
+          <div className="animate-on-scroll relative px-2 md:px-8">
+            <Swiper
+              modules={[Autoplay, Navigation, Pagination]}
+              spaceBetween={30}
+              slidesPerView={1}
+              breakpoints={{
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+              }}
+              loop={true}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              className="pb-16 pt-4"
+            >
+              {packages.slice(0, 8).map((pkg, idx) => (
+                <SwiperSlide key={pkg.id}>
+                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-500 flex flex-col h-full hover:-translate-y-2">
+                    <div className="w-full h-56 overflow-hidden relative">
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                      <span className="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur text-brand-secondary border border-brand-secondary/30 px-3 py-1.5 text-[10px] font-extrabold uppercase rounded-lg shadow-lg z-20">
+                        {pkg.duration}
+                      </span>
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col justify-between bg-white relative z-20">
+                      <div>
+                        <h3 className="font-display text-xl font-bold text-brand-primary mb-3 group-hover:text-brand-secondary transition-colors line-clamp-1">{pkg.title}</h3>
+                        
+                        <div className="flex flex-wrap gap-2 mb-4" style={{perspective: '1000px'}}>
+                          {pkg.highlights.map((feat, fidx) => (
+                            <span key={fidx} className="group/feat cursor-default bg-gray-50 border border-gray-100 text-brand-primary px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-lg hover:z-30 transition-transform duration-300 hover:rotate-x-12 hover:-rotate-y-12 hover:scale-110 shadow-sm hover:shadow-xl hover:border-brand-secondary hover:bg-brand-secondary hover:text-white">
+                              {feat}
+                            </span>
+                          ))}
+                        </div>
+                        
+                        <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">{pkg.description}</p>
+                      </div>
+                      <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
+                        <div>
+                          <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5 block">Package Price</span>
+                          <span className="font-extrabold text-xl text-brand-primary">₹{pkg.price.toLocaleString('en-IN')}</span>
+                        </div>
+                        <Link to={`/booking?type=package&packageId=${pkg.id}`} className="bg-brand-primary text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 text-sm hover:bg-brand-secondary hover:text-brand-dark shadow-md hover:-translate-y-1">Book Today</Link>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center mt-3">
-                    <span className="font-bold text-xl text-brand-primary">{pkg.price}</span>
-                    <Link to={`/booking?type=package&packageId=${pkg.id}`} className="bg-brand-secondary text-white font-semibold px-4 py-2 rounded-lg transition-colors text-sm">Book Package</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       </section>

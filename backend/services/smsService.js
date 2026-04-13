@@ -36,6 +36,16 @@ const SMS_TEMPLATES = {
     `Your OTP for Sri Lakshmi Travels is: ${data.otp}. Valid for 10 minutes. Do not share. - Sri Lakshmi Travels`,
 };
 
+const DLT_TEMPLATE_IDS = {
+  BOOKING_RECEIVED: null,
+  BOOKING_CONFIRMED: '69dd367d5f7a72a9c9051052', // Your approved order confirmed template
+  DRIVER_ASSIGNED: null,
+  TRIP_REMINDER: null,
+  BOOKING_CANCELLED: null,
+  PAYMENT_SUCCESS: null,
+  OTP: null,
+};
+
 /**
  * Send SMS via MSG91
  * @param {string} phone - 10-digit Indian mobile number
@@ -51,11 +61,19 @@ const sendSMS = async (phone, templateKey, data) => {
       return { success: true, dev: true };
     }
 
+    // Skip actual sending if no DLT template ID is approved for this event yet
+    if (!DLT_TEMPLATE_IDS[templateKey]) {
+      console.log(`📱 [SMS-SKIP] No DLT Template ID for ${templateKey}. Skipping API call to prevent failure.`);
+      console.log(`   Message: ${SMS_TEMPLATES[templateKey](data)}`);
+      return { success: true, skipped: true, reason: 'No approved DLT Template ID' };
+    }
+
     const message = SMS_TEMPLATES[templateKey](data);
     const response = await axios.post('https://api.msg91.com/api/v2/sendsms', {
       sender: SENDER_ID,
       route: '4', // transactional route
       country: '91',
+      DLT_TE_ID: DLT_TEMPLATE_IDS[templateKey],
       sms: [{ message, to: [`91${phone}`] }],
     }, {
       headers: { authkey: MSG91_AUTH_KEY, 'Content-Type': 'application/json' },
