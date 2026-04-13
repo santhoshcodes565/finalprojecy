@@ -16,7 +16,8 @@ export default function AdminFleet() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [carsRes, driversRes] = await Promise.all([api.get('/cars'), api.get('/drivers')]);
+      // Use ?all=true so admin sees ALL cars/drivers including removed ones
+      const [carsRes, driversRes] = await Promise.all([api.get('/cars?all=true'), api.get('/drivers')]);
       setCars(carsRes.data.cars);
       setDrivers(driversRes.data.drivers);
     } catch { toast.error('Failed to fetch fleet data'); }
@@ -63,7 +64,8 @@ export default function AdminFleet() {
     } catch (err) { toast.error(err.response?.data?.message || 'Failed'); }
   };
 
-  const deleteCar = async (id) => { if (!confirm('Remove this car?')) return; try { await api.delete(`/cars/${id}`); toast.success('Car removed'); fetchData(); } catch { toast.error('Failed'); } };
+  const deleteCar = async (id) => { if (!confirm('Remove this car? It will be hidden from the public site.')) return; try { await api.delete(`/cars/${id}`); toast.success('Car removed from listings'); fetchData(); } catch { toast.error('Failed'); } };
+  const restoreCar = async (id) => { try { await api.put(`/cars/${id}`, { isAvailable: true }); toast.success('Car restored!'); fetchData(); } catch { toast.error('Failed to restore'); } };
   const deleteDriver = async (id) => { if (!confirm('Remove this driver?')) return; try { await api.delete(`/drivers/${id}`); toast.success('Driver removed'); fetchData(); } catch { toast.error('Failed'); } };
 
   return (
@@ -145,14 +147,23 @@ export default function AdminFleet() {
       ) : tab === 'cars' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cars.map((car) => (
-            <div key={car._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <img src={car.image || 'https://placehold.co/400x200'} alt={car.name} className="w-full h-36 object-cover" />
+            <div key={car._id} className={`bg-white rounded-2xl shadow-sm border overflow-hidden ${car.isAvailable ? 'border-gray-100' : 'border-red-200 opacity-75'}`}>
+              <div className="relative">
+                <img src={car.image || 'https://placehold.co/400x200'} alt={car.name} className="w-full h-36 object-cover" />
+                {!car.isAvailable && (
+                  <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold uppercase px-2 py-1 rounded-lg">Removed</span>
+                )}
+              </div>
               <div className="p-4">
                 <h3 className="font-bold text-gray-900">{car.name}</h3>
                 <p className="text-sm text-gray-500">{car.category} • {car.seats} seats • ₹{car.pricePerKm}/km</p>
                 <div className="flex gap-2 mt-3">
                   <button onClick={() => { setCarForm({ ...car, features: car.features?.join(', ') || '' }); setEditing(car._id); setShowForm(true); }} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-medium"><Edit className="w-3.5 h-3.5" /> Edit</button>
-                  <button onClick={() => deleteCar(car._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-50 text-red-700 rounded-xl text-xs font-medium"><Trash2 className="w-3.5 h-3.5" /> Remove</button>
+                  {car.isAvailable ? (
+                    <button onClick={() => deleteCar(car._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-50 text-red-700 rounded-xl text-xs font-medium"><Trash2 className="w-3.5 h-3.5" /> Remove</button>
+                  ) : (
+                    <button onClick={() => restoreCar(car._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-700 rounded-xl text-xs font-medium"><Plus className="w-3.5 h-3.5" /> Restore</button>
+                  )}
                 </div>
               </div>
             </div>

@@ -8,8 +8,9 @@ const router = express.Router();
 // GET /api/cars — List all available cars (Public)
 router.get('/', async (req, res) => {
   try {
-    const { category, minSeats, search } = req.query;
-    const filter = { isAvailable: true };
+    const { category, minSeats, search, all } = req.query;
+    // If all=true passed (admin panel use), show ALL cars regardless of availability
+    const filter = all === 'true' ? {} : { isAvailable: true };
 
     if (category) filter.category = { $regex: category, $options: 'i' };
     if (minSeats) filter.seats = { $gte: Number(minSeats) };

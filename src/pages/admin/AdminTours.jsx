@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, X } from 'lucide-react';
+import { Plus, Edit, Trash2, X, RefreshCw } from 'lucide-react';
 import api from '../../api/axios';
 import { toast } from 'react-hot-toast';
 
@@ -13,7 +13,8 @@ export default function AdminTours() {
   const fetchTours = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/tours');
+      // Use ?all=true so admin sees ALL tours including deactivated ones
+      const res = await api.get('/tours?all=true');
       setTours(res.data.tours);
     } catch { toast.error('Failed to fetch tours'); }
     finally { setLoading(false); }
@@ -64,12 +65,20 @@ export default function AdminTours() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Deactivate this tour?')) return;
+    if (!confirm('Deactivate this tour? It will be hidden from the public site.')) return;
     try {
       await api.delete(`/tours/${id}`);
       toast.success('Tour deactivated');
       fetchTours();
     } catch { toast.error('Failed to deactivate tour'); }
+  };
+
+  const handleRestore = async (id) => {
+    try {
+      await api.put(`/tours/${id}`, { isActive: true });
+      toast.success('Tour restored!');
+      fetchTours();
+    } catch { toast.error('Failed to restore tour'); }
   };
 
   return (
@@ -118,8 +127,13 @@ export default function AdminTours() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tours.map((tour) => (
-            <div key={tour._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <img src={tour.image || 'https://placehold.co/400x200/1A3C5E/fff?text=Tour'} alt={tour.title} className="w-full h-40 object-cover" />
+            <div key={tour._id} className={`bg-white rounded-2xl shadow-sm border overflow-hidden ${tour.isActive ? 'border-gray-100' : 'border-red-200 opacity-75'}`}>
+              <div className="relative">
+                <img src={tour.image || 'https://placehold.co/400x200/1A3C5E/fff?text=Tour'} alt={tour.title} className="w-full h-40 object-cover" />
+                {!tour.isActive && (
+                  <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold uppercase px-2 py-1 rounded-lg">Removed</span>
+                )}
+              </div>
               <div className="p-4">
                 <h3 className="font-bold text-gray-900">{tour.title}</h3>
                 <p className="text-sm text-gray-500 mt-1">{tour.duration} • {tour.states}</p>
@@ -129,7 +143,11 @@ export default function AdminTours() {
                 </div>
                 <div className="flex gap-2 mt-4">
                   <button onClick={() => handleEdit(tour)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-medium hover:bg-blue-100"><Edit className="w-3.5 h-3.5" /> Edit</button>
-                  <button onClick={() => handleDelete(tour._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-50 text-red-700 rounded-xl text-xs font-medium hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Remove</button>
+                  {tour.isActive ? (
+                    <button onClick={() => handleDelete(tour._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-50 text-red-700 rounded-xl text-xs font-medium hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Remove</button>
+                  ) : (
+                    <button onClick={() => handleRestore(tour._id)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-700 rounded-xl text-xs font-medium hover:bg-green-100"><Plus className="w-3.5 h-3.5" /> Restore</button>
+                  )}
                 </div>
               </div>
             </div>

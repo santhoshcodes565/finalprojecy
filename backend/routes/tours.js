@@ -8,8 +8,9 @@ const router = express.Router();
 // GET /api/tours — List all active tours (Public)
 router.get('/', async (req, res) => {
   try {
-    const { states, minPrice, maxPrice, duration, search } = req.query;
-    const filter = { isActive: true };
+    const { states, minPrice, maxPrice, duration, search, all } = req.query;
+    // If all=true passed (admin panel), show ALL tours regardless of isActive
+    const filter = all === 'true' ? {} : { isActive: true };
 
     if (states) filter.states = { $regex: states, $options: 'i' };
     if (minPrice) filter.price = { ...filter.price, $gte: Number(minPrice) };
