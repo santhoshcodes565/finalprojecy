@@ -8,6 +8,7 @@ import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import api from '../api/axios';
+import { getTourImage } from '../constants/tourImages';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -103,53 +104,33 @@ export default function Home() {
           }}
           className="w-full h-full"
         >
-          {/* Slide 1 */}
+          {/* Slide: Video Background 1 (Landscape Train) */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
-              <div className="absolute inset-0 bg-black/10 z-10"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mysore_Palace_Morning.jpg/960px-Mysore_Palace_Morning.jpg" alt="Royal Heritage Palace" className="w-full h-full object-cover object-center" />
+            <div className="relative w-full h-full overflow-hidden bg-black">
+              <video 
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover z-0"
+                src="/videos/hero1.mp4"
+              ></video>
+              <div className="absolute inset-0 bg-black/30 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10"></div>
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
                   <div className="max-w-xl text-left">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">ROYAL HERITAGE</span>
+                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">PREMIUM TRAVEL EXPERIENCE</span>
                     </div>
-                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Majestic</h1>
-                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">History.</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Discover</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Heritage.</h1>
                     <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
-                      Explore the opulent palaces and rich royal history of the south.
+                      Embark on scenic journeys across India's most breathtaking landscapes with Sri Lakshmi Travels.
                     </p>
                     <div className="flex gap-4">
-                      <Link to="/packages" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block">Mysore Tours</Link>
-                      <Link to="/contact" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">Contact Us</Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-          
-          {/* Slide 2 */}
-          <SwiperSlide>
-            <div className="relative w-full h-full">
-              <div className="absolute inset-0 bg-black/10 z-10"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg" alt="Divine Journey Temple" className="w-full h-full object-cover object-center" />
-              <div className="absolute inset-0 z-20 flex items-center">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
-                  <div className="max-w-xl text-left">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">DIVINE JOURNEY</span>
-                    </div>
-                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Sacred</h1>
-                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Temples.</h1>
-                    <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
-                      Visit the ancient temples and spiritual destinations of Tamil Nadu.
-                    </p>
-                    <div className="flex gap-4">
-                      <Link to="/packages" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block">Temple Tours</Link>
-                      <Link to="/packages" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">View Packages</Link>
+                      <Link to="/packages" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Our Packages</Link>
+                      <Link to="/about" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">Learn More</Link>
                     </div>
                   </div>
                 </div>
@@ -157,12 +138,98 @@ export default function Home() {
             </div>
           </SwiperSlide>
 
-          {/* Slide 3 */}
+          {/* Slide: Video Background 2 (Rotated Mountains) */}
+          <SwiperSlide>
+            <div className="relative w-full h-full overflow-hidden bg-black">
+              <video 
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                className="absolute top-1/2 left-1/2 w-[100vh] h-[100vw] -translate-x-1/2 -translate-y-1/2 -rotate-90 object-cover pointer-events-none z-0"
+                src="/videos/hero2.mp4"
+              ></video>
+              <div className="absolute inset-0 bg-black/40 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60 z-10"></div>
+              <div className="absolute inset-0 z-20 flex items-center justify-center text-center">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-20">
+                  <span className="text-brand-secondary text-[13px] uppercase tracking-[0.4em] font-bold mb-6 block drop-shadow-lg">
+                    ESTABLISHED 1995
+                  </span>
+                  <h1 className="text-[56px] lg:text-[84px] font-extrabold text-white leading-[1] tracking-tight mb-6 drop-shadow-2xl">
+                    Majestic Mountain <br/> <span className="text-brand-secondary italic">Escapes.</span>
+                  </h1>
+                  <p className="text-[19px] text-white/95 font-medium leading-relaxed max-w-2xl mx-auto mb-10 drop-shadow-xl">
+                    Experience the ultimate luxury in mountain travel. Professional drivers, premium fleet, and unforgettable memories.
+                  </p>
+                  <div className="flex gap-5 justify-center">
+                    <Link to="/contact" className="bg-brand-secondary text-white font-bold rounded-xl px-10 py-4 shadow-2xl border border-[#a17520] hover:bg-[#a67a21] hover:-translate-y-1 transition-all duration-300">Start Planning</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+          {/* Slide 1 - Taj Mahal */}
+          <SwiperSlide>
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 bg-black/20 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10"></div>
+              <img src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=2560&auto=format&fit=crop" alt="Taj Mahal Golden Triangle" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
+                  <div className="max-w-xl text-left">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">UNESCO WORLD HERITAGE</span>
+                    </div>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Eternal</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Love.</h1>
+                    <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
+                      Witness the breathtaking beauty of the Taj Mahal and India's finest golden triangle heritage.
+                    </p>
+                    <div className="flex gap-4">
+                      <Link to="/booking?type=package&packageId=69e067d146a9c2224844aeb2" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Agra Tours</Link>
+                      <Link to="/packages" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">View Packages</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+          
+          {/* Slide 2 - Kashmir */}
+          <SwiperSlide>
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 bg-black/20 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10"></div>
+              <img src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?q=80&w=2560&auto=format&fit=crop" alt="Paradise Kashmir Valleys" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
+                  <div className="max-w-xl text-left">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">PARADISE ON EARTH</span>
+                    </div>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Majestic</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Valleys.</h1>
+                    <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
+                      Experience the breathtaking snow-capped mountains and serene alpine lakes of Kashmir.
+                    </p>
+                    <div className="flex gap-4">
+                      <Link to="/booking?type=package&packageId=69e067d146a9c2224844aec2" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Kashmir Tours</Link>
+                      <Link to="/contact" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">Contact Us</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+          {/* Slide 3 - Goa */}
           <SwiperSlide>
             <div className="relative w-full h-full">
               <div className="absolute inset-0 bg-black/10 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Varkala_beach_from_above.jpg/960px-Varkala_beach_from_above.jpg" alt="Coastal Escape Beach" className="w-full h-full object-cover object-center" />
+              <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=2560&auto=format&fit=crop" alt="Goa Beaches" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
                   <div className="max-w-xl text-left">
@@ -172,17 +239,70 @@ export default function Home() {
                     <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Pristine</h1>
                     <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Beaches.</h1>
                     <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
-                      Experience the serene beaches and coastal beauty of South India.
+                      Relax on golden sands and explore the historical, vibrant colonial charm of Goa.
                     </p>
                     <div className="flex gap-4">
-                      <Link to="/packages" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block">Beach Tours</Link>
-                      <Link to="/contact" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">Contact Us</Link>
+                      <Link to="/booking?type=package&packageId=69e067d146a9c2224844aefa" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Goa Tours</Link>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </SwiperSlide>
+
+          {/* Slide 4 - Gujarat */}
+          <SwiperSlide>
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 bg-black/10 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
+              <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=2560&auto=format&fit=crop" alt="Cultural Gujarat Heritage" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
+                  <div className="max-w-xl text-left">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">CULTURAL SAFARI</span>
+                    </div>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Vibrant</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Heritage.</h1>
+                    <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
+                      Discover the legendary temples, vast salt deserts, and rich traditions of majestic Gujarat.
+                    </p>
+                    <div className="flex gap-4">
+                      <Link to="/booking?type=package&packageId=69e067d146a9c2224844aeea" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Gujarat Tours</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           {/* Slide 5 - Kerala */}
+           <SwiperSlide>
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 bg-black/10 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Munnar_Overview.jpg/1920px-Munnar_Overview.jpg" alt="Kerala Hill Stations" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
+                  <div className="max-w-xl text-left">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">GOD'S OWN COUNTRY</span>
+                    </div>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-white leading-[1] tracking-tight mb-0">Emerald</h1>
+                    <h1 className="text-[56px] lg:text-[72px] font-extrabold text-brand-secondary leading-[1] tracking-tight italic pr-1 mb-5">Hills.</h1>
+                    <p className="text-[17px] text-white/90 font-medium leading-relaxed max-w-sm mb-8 drop-shadow-md">
+                      Journey through lush tea plantations and the misty, untouched hill stations of Kerala.
+                    </p>
+                    <div className="flex gap-4">
+                      <Link to="/booking?type=package&packageId=69e067d146a9c2224844ae58" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">Kerala Tours</Link>
+                      <Link to="/packages" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">Explore Packages</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
 
           {/* Custom Navigation & Pagination */}
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex justify-center items-center gap-4">
@@ -222,32 +342,31 @@ export default function Home() {
       </section>
 
       {/* Section: 3D Professional Video Experience Spotlight */}
-      <section className="relative h-[600px] overflow-hidden bg-brand-dark flex items-center justify-center">
-        {/* Dynamic Video Loop - Free HD Stock showing drifting/driving on a road */}
-        <iframe 
-          className="absolute inset-0 w-[150vw] h-[150vh] -top-[25vh] -left-[25vw] pointer-events-none opacity-50 mix-blend-screen"
-          src="https://www.youtube-nocookie.com/embed/2XvYj1rUEXw?autoplay=1&mute=1&loop=1&playlist=2XvYj1rUEXw&controls=0&showinfo=0&rel=0&modestbranding=1" 
-          frameBorder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-        ></iframe>
-        
-        {/* Simple elegant overlay so text is readable */}
-        <div className="absolute inset-0 z-10 bg-black/40"></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-accent via-transparent to-transparent"></div>
-        
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
-           <span className="inline-block text-brand-secondary font-bold tracking-widest uppercase mb-4 px-5 py-2 rounded-full border border-brand-secondary/50 bg-black/50 backdrop-blur-md shadow-2xl hover:scale-105 transition-transform">
-            Premium Travel
+      <section className="relative h-[600px] lg:h-[80vh] overflow-hidden bg-black flex items-center justify-center">
+        {/* Dynamic Video Loop  */}
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="absolute top-1/2 left-1/2 w-[100vh] h-[100vw] -translate-x-1/2 -translate-y-1/2 -rotate-90 object-cover pointer-events-none z-0"
+          src="/videos/hero3.mp4" 
+        ></video>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        {/* Centered Heading */}
+        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
+          <span className="text-brand-secondary text-sm md:text-base uppercase tracking-[0.3em] font-bold mb-4 block">
+            Premium Transportation
           </span>
-          <h2 className="font-display text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
-            Experience <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-[#fef08a] italic pr-2">The Drive</span>
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-xl">
+            Journey in Ultimate Luxury
           </h2>
-          <p className="text-xl text-white max-w-2xl mx-auto font-medium drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] mb-10 leading-relaxed">
-            Feel the thrill of the open road with our ultra-luxury, thoroughly maintained top-brand vehicles. 
+          <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto drop-shadow-md">
+            Experience reliable, comfortable, and professional travel across South India.
           </p>
-          <Link to="/cars" className="bg-brand-secondary text-brand-dark px-10 py-4 rounded-xl font-extrabold hover:bg-white hover:text-brand-dark transition-all duration-300 shadow-xl text-lg uppercase tracking-wider inline-block hover:-translate-y-2">
-            Explore All Vehicles
+          <Link to="/contact" className="inline-block bg-brand-secondary text-white font-bold rounded-lg px-8 py-4 shadow-xl border border-[#a17520] hover:bg-[#a67a21] hover:-translate-y-1 transition-all duration-300">
+            Start Your Journey
           </Link>
         </div>
       </section>
@@ -399,7 +518,7 @@ export default function Home() {
                   <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-500 flex flex-col h-full hover:-translate-y-2">
                     <div className="w-full h-56 overflow-hidden relative">
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/80 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                      <img src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination)} alt={pkg.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                       <span className="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur text-brand-secondary border border-brand-secondary/30 px-3 py-1.5 text-[10px] font-extrabold uppercase rounded-lg shadow-lg z-20">
                         {pkg.duration}
                       </span>

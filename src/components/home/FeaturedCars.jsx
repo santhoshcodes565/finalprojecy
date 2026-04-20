@@ -24,7 +24,7 @@ export default function FeaturedCars() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cars.map((car) => (
             <div key={car.id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
-              <img src={car.img} alt={car.name} loading="lazy" className="h-56 w-full object-cover" />
+              <img src={car.img} alt={car.name} loading="lazy" className="h-56 w-full object-contain bg-gray-50" />
               <div className="p-6 flex-grow flex flex-col">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold text-gray-900">{car.name}</h3>

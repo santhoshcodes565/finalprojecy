@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import SafeImage from '../components/common/SafeImage';
+import { getTourImage } from '../constants/tourImages';
 
 export default function Packages() {
   const [packages, setPackages] = useState([]);
@@ -63,7 +64,7 @@ export default function Packages() {
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <SafeImage
-                      src={pkg.image}
+                      src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination)}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />

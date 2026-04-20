@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Car, UserCheck, Map, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { cars, drivers, packages } from '../data/mockData';
 import api from '../api/axios';
+import toast from 'react-hot-toast';
 
 const tamilNaduDistricts = [
   'Ariyalur','Chengalpattu','Chennai','Coimbatore','Cuddalore','Dharmapuri',
@@ -37,20 +38,47 @@ export default function Booking() {
     pickupAddress: '', dropAddress: '', startDate: '', endDate: '',
     passengers: 2, specialRequests: ''
   });
+  
+  const [apiPackages, setApiPackages] = useState([]);
+
+  useEffect(() => {
+    api.get('/tours').then(res => {
+      if (res.data && res.data.tours) setApiPackages(res.data.tours);
+    }).catch(err => console.error("Failed to load backend packages", err));
+  }, []);
 
   const handleChange = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
   const selectedCar = cars.find((c) => c.id === selectedCarId);
   const selectedDriver = drivers.find((d) => d.id === selectedDriverId);
-  const selectedPackage = packages.find((p) => p.id === selectedPackageId);
+  const allPackages = [...packages, ...apiPackages];
+  const selectedPackage = allPackages.find((p) => p.id === selectedPackageId || p._id === selectedPackageId);
 
   const handleBookingSubmit = async () => {
     try {
+      // Validate Form Data
+      if (!formData.fullName.trim() || !formData.phone.trim() || !formData.email.trim()) {
+        toast.error('Please enter your full name, phone number, and email.');
+        return;
+      }
+      if (!formData.pickupDistrict) {
+        toast.error('Please select a pickup district.');
+        return;
+      }
+      if (!formData.startDate) {
+        toast.error('Please select a start date.');
+        return;
+      }
+      if ((serviceType === 'car' || serviceType === 'driver') && !formData.endDate) {
+        toast.error('Please select an end date.');
+        return;
+      }
+
       setIsSubmitting(true);
       const payload = {
-        fullName: formData.fullName || 'Guest',
-        email: formData.email || 'guest@example.com',
-        phone: formData.phone || '0000000000',
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
       };
       
       let endpoint = '';
@@ -61,9 +89,9 @@ export default function Booking() {
         payload.tripType = 'round-trip';
         payload.pickupLocation = formData.pickupAddress || formData.pickupDistrict;
         payload.dropLocation = formData.dropAddress || 'TBD';
-        payload.pickupDate = formData.startDate || new Date();
+        payload.pickupDate = formData.startDate;
         payload.pickupTime = '09:00 AM';
-        payload.returnDate = formData.endDate || new Date();
+        payload.returnDate = formData.endDate;
         payload.carCategory = selectedCar?.category || 'Standard';
         payload.adults = formData.passengers;
         payload.specialRequests = formData.specialRequests;
@@ -71,15 +99,15 @@ export default function Booking() {
         endpoint = '/bookings/driver';
         payload.requestedDriverId = selectedDriverId;
         payload.driverType = 'outstation';
-        payload.startDate = formData.startDate || new Date();
-        payload.endDate = formData.endDate || new Date();
+        payload.startDate = formData.startDate;
+        payload.endDate = formData.endDate;
         payload.workingHours = '12';
         payload.startCity = formData.pickupDistrict;
         payload.specialInstructions = formData.specialRequests;
       } else if (serviceType === 'package') {
         endpoint = '/bookings/package';
         payload.packageId = selectedPackageId;
-        payload.travelDate = formData.startDate || new Date();
+        payload.travelDate = formData.startDate;
         payload.adults = formData.passengers;
         payload.hotelCategory = 'standard';
         payload.roomType = 'double';
@@ -206,7 +234,7 @@ export default function Booking() {
                   <div className="md:col-span-2">
                     <label className={labelClass}>Select Package</label>
                     <select value={selectedPackageId} onChange={(e) => setSelectedPackageId(e.target.value)} className={inputClass}>
-                      {packages.map((p) => <option key={p.id} value={p.id}>{p.title} — ₹{p.price.toLocaleString()}</option>)}
+                      {allPackages.map((p) => <option key={p._id || p.id} value={p._id || p.id}>{p.title} — ₹{p.price?.toLocaleString()}</option>)}
                     </select>
                   </div>
                 )}

@@ -1,16 +1,48 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
-import { packages } from '../data/mockData';
+import api from '../api/axios';
+import { packages as mockPackages } from '../data/mockData';
 import SafeImage from '../components/common/SafeImage';
+import { getTourImage } from '../constants/tourImages';
 
 export default function TourDetails() {
   const { id } = useParams();
-  const pkg = packages.find((p) => p.id === id);
+  const [pkg, setPkg] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchTour = async () => {
+      // First try local mock data (for ids like 'p1', 'p2')
+      const localPkg = mockPackages.find((p) => p.id === id);
+      if (localPkg) {
+        setPkg(localPkg);
+        setLoading(false);
+        return;
+      }
+
+      // If not, fetch from API (MongoDB ObjectIds)
+      try {
+        const res = await api.get(`/tours/${id}`);
+        if (res.data && res.data.tour) setPkg(res.data.tour);
+      } catch (err) {
+        console.error('Failed to load package details', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTour();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-accent">
+        <div className="text-brand-primary font-bold animate-pulse text-xl">Loading majestic journey...</div>
+      </div>
+    );
+  }
 
   if (!pkg) {
     return (
@@ -24,7 +56,7 @@ export default function TourDetails() {
     <div className="bg-brand-accent pb-24">
       {/* Hero Header */}
       <div className="relative h-[65vh] w-full flex items-end pb-16 justify-center">
-        <SafeImage src={pkg.image} alt={pkg.title} className="absolute inset-0 w-full h-full object-cover" />
+        <SafeImage src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination)} alt={pkg.title} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent" />
         <div className="relative z-10 max-w-7xl w-full px-6 sm:px-8 flex flex-col items-center text-center">
           <span className="bg-brand-secondary text-brand-dark px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-5">
@@ -53,10 +85,10 @@ export default function TourDetails() {
             </div>
             <div className="p-4 border-r border-white/20 last:border-0">
               <p className="text-xs font-medium text-white/50 uppercase tracking-widest mb-1">Starting Price</p>
-              <p className="text-lg font-bold">₹{pkg.price.toLocaleString()}/pp</p>
+              <p className="text-lg font-bold">₹{pkg.price?.toLocaleString()}/pp</p>
             </div>
             <div className="p-4 flex items-center justify-center">
-              <Link to={`/booking?type=package&packageId=${pkg.id}`} className="bg-brand-secondary text-brand-dark w-full py-3 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 transition-all text-center block">
+              <Link to={`/booking?type=package&packageId=${pkg._id || pkg.id}`} className="bg-brand-secondary text-brand-dark w-full py-3 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 transition-all text-center block">
                 Book Now
               </Link>
             </div>
