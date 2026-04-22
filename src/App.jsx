@@ -148,7 +148,7 @@ export default function App() {
             <Route path="login" element={<Navigate to="/signin" replace />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="packages" element={<Packages />} />
-            <Route path="packages/:id" element={<TourDetails />} />
+            <Route path="tour/:id" element={<TourDetails />} />
             <Route path="car-rental" element={<CarRental />} />
             <Route path="car-rental/:id" element={<CarDetails />} />
             <Route path="hire-driver" element={<HireDriver />} />

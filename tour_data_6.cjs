@@ -43,17 +43,17 @@ const p22_p25 = [
     "duration": "7 Days / 6 Nights",
     "states": "Madhya Pradesh",
     "price": 27000,
-    "image": "https://images.unsplash.com/photo-1644149098711-660451cfdb8d?q=80&w=1000&auto=format&fit=crop",
-    "description": "Deep dive into the Khajuraho temples' carvings, the stupas of Sanchi, and the impregnable Gwalior Fort.",
-    "highlights": ["Khajuraho Temples", "Gwalior Fort", "Sanchi Stupa"],
+    "image": "/images/tours/heart-of-india/banner.png",
+    "description": "A grand journey through the heart of Madhya Pradesh, covering majestic forts, ancient stupas, and scenic hill stations.",
+    "highlights": ["Gwalior Fort", "Sanchi Stupa", "Orchha Heritage", "Pachmarhi Hills"],
     "itinerary": [
-      { "day": 1, "dateString": "Day 1", "title": "Gwalior Architecture", "location": "Gwalior", "image": "https://images.unsplash.com/photo-1582522770514-93e1a067de3d?q=80&w=1000&auto=format&fit=crop", "desc": "Reach Gwalior. Explore the massive Gwalior Fort, featuring the stunning blue-tiled Man Singh Palace." },
-      { "day": 2, "dateString": "Day 2", "title": "Orchha Ruins", "location": "Orchha", "image": "https://images.unsplash.com/photo-1627448833912-7043329007cb?q=80&w=1000&auto=format&fit=crop", "desc": "Drive to Orchha. Wander through the medieval cenotaphs and palaces by the Betwa river." },
-      { "day": 3, "dateString": "Day 3", "title": "To Khajuraho", "location": "Khajuraho", "image": "https://images.unsplash.com/photo-1610427320078-4172f3e536c4?q=80&w=1000&auto=format&fit=crop", "desc": "Drive to Khajuraho. Evening Light and Sound show over the sandstone temples." },
-      { "day": 4, "dateString": "Day 4", "title": "Temple Carvings", "location": "Khajuraho", "image": "https://images.unsplash.com/photo-1590858547475-4dc2a9ab4ddb?q=80&w=1000&auto=format&fit=crop", "desc": "Extensively study the Western and Eastern groups of temples famous for intricate sculptures." },
-      { "day": 5, "dateString": "Day 5", "title": "Wildlife of Panna", "location": "Panna", "image": "https://images.unsplash.com/photo-1584281358892-0b7b3edb4aeb?q=80&w=1000&auto=format&fit=crop", "desc": "Excursion to Panna National Park. Boat ride at the Ken Gharial Sanctuary." },
-      { "day": 6, "dateString": "Day 6", "title": "Bhopal and Sanchi", "location": "Bhopal", "image": "https://images.unsplash.com/photo-1585089853926-d621589a80e4?q=80&w=1000&auto=format&fit=crop", "desc": "Transfer to Bhopal via flight/train. Visit the Great Stupa at Sanchi, built by Emperor Ashoka." },
-      { "day": 7, "dateString": "Day 7", "title": "Departure", "location": "Bhopal", "image": "https://images.unsplash.com/photo-1533682805518-48d1f5b8cb3a?q=80&w=1000&auto=format&fit=crop", "desc": "Explore the Bhimbetka Rock Shelters (prehistoric art). Transfer to Bhopal airport." }
+      { "day": 1, "dateString": "Day 1", "title": "Enroute Khajuraho (Arrival)", "location": "Khajuraho", "image": "/images/tours/heart-of-india/day1.png", "desc": "Arrive in Khajuraho. Transfer to your hotel and prepare for a journey through the artistic heart of India." },
+      { "day": 2, "dateString": "Day 2", "title": "Gwalior Fort", "location": "Gwalior", "image": "/images/tours/heart-of-india/day2.png", "desc": "Visit the majestic Gwalior Fort, often called 'the pearl amongst fortresses in India', known for its blue-tiled palace." },
+      { "day": 3, "dateString": "Day 3", "title": "Sanchi Stupa", "location": "Sanchi", "image": "/images/tours/heart-of-india/day3.png", "desc": "Explore the UNESCO World Heritage site of Sanchi Stupa, one of the oldest stone structures in India." },
+      { "day": 4, "dateString": "Day 4", "title": "Orchha Heritage", "location": "Orchha", "image": "/images/tours/heart-of-india/day4.png", "desc": "Wander through the historic palaces and cenotaphs of Orchha, a medieval town frozen in time." },
+      { "day": 5, "dateString": "Day 5", "title": "Bhopal Lake Walk", "location": "Bhopal", "image": "/images/tours/heart-of-india/day5.png", "desc": "Enjoy a peaceful evening walk by the Upper Lake (Bhojtal) in the City of Lakes, Bhopal." },
+      { "day": 6, "dateString": "Day 6", "title": "Pachmarhi Hills", "location": "Pachmarhi", "image": "/images/tours/heart-of-india/day6.png", "desc": "Discover the 'Queen of Satpura', Pachmarhi, with its stunning viewpoints, waterfalls, and ancient caves." },
+      { "day": 7, "dateString": "Day 7", "title": "Departure", "location": "Indore", "image": "/images/tours/heart-of-india/day7.png", "desc": "Morning drive to the airport for your onward journey, carrying memories of the Heart of India." }
     ]
   },
   {

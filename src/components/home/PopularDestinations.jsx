@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import { DESTINATION_IMAGES } from '../../constants/images';
 
 export default function PopularDestinations() {
   const destinations = [
-    { title: 'Chennai', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
-    { title: 'Madurai', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
-    { title: 'Ooty', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
-    { title: 'Kodaikanal', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
+    { title: 'Chennai', img: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800' }, // Chennai Central
+    { title: 'Madurai', img: DESTINATION_IMAGES.madurai },
+    { title: 'Ooty', img: DESTINATION_IMAGES.ooty },
+    { title: 'Kodaikanal', img: DESTINATION_IMAGES.kodaikanal },
   ];
 
   return (

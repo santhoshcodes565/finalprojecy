@@ -281,7 +281,7 @@ export default function Home() {
             <div className="relative w-full h-full">
               <div className="absolute inset-0 bg-black/10 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Munnar_Overview.jpg/1920px-Munnar_Overview.jpg" alt="Kerala Hill Stations" className="w-full h-full object-cover object-center" />
+              <img src="https://images.unsplash.com/photo-1590050752117-2ab5501865ff?auto=format&fit=crop&q=80&w=2000" alt="Kerala Hill Stations" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
                   <div className="max-w-xl text-left">

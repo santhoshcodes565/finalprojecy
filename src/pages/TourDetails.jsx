@@ -4,7 +4,7 @@ import { MapPin } from 'lucide-react';
 import api from '../api/axios';
 import { packages as mockPackages } from '../data/mockData';
 import SafeImage from '../components/common/SafeImage';
-import { getTourImage } from '../constants/tourImages';
+import { getTourImage, slugify } from '../constants/tourImages';
 
 export default function TourDetails() {
   const { id } = useParams();
@@ -56,7 +56,11 @@ export default function TourDetails() {
     <div className="bg-brand-accent pb-24">
       {/* Hero Header */}
       <div className="relative h-[65vh] w-full flex items-end pb-16 justify-center">
-        <SafeImage src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination)} alt={pkg.title} className="absolute inset-0 w-full h-full object-cover" />
+        <SafeImage 
+          src={pkg.imageUrl || pkg.image || getTourImage(slugify(pkg._id || pkg.id || pkg.title)) || getTourImage(pkg.destination)} 
+          alt={pkg.title} 
+          className="absolute inset-0 w-full h-full object-cover" 
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent" />
         <div className="relative z-10 max-w-7xl w-full px-6 sm:px-8 flex flex-col items-center text-center">
           <span className="bg-brand-secondary text-brand-dark px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-5">
@@ -104,14 +108,24 @@ export default function TourDetails() {
         </div>
 
         <div className="space-y-8">
-          {pkg.itinerary.map((day) => (
-            <div key={day.day} className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-2xl border border-neutral-100 shadow-md hover:shadow-lg transition-all">
-              <div className="md:w-1/3 flex-shrink-0 relative overflow-hidden rounded-xl aspect-video md:aspect-auto">
-                <SafeImage src={day.image} alt={day.title} className="w-full h-full object-cover" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold uppercase text-brand-primary tracking-widest">
-                  {day.dateString}
+          {pkg.itinerary.map((day) => {
+            // Robust image lookup: 1. Day image, 2. Slug-based lookup, 3. Pattern match
+            const imageSlug = `${slugify(pkg.id || pkg.title)}-day-${day.day}`;
+            const fallbackImage = getTourImage(imageSlug) || getTourImage(day.location);
+            const tourImage = day.image && !day.image.includes('placeholder') ? day.image : fallbackImage;
+
+            return (
+              <div key={day.day} className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-2xl border border-neutral-100 shadow-md hover:shadow-lg transition-all">
+                <div className="md:w-1/3 flex-shrink-0 relative overflow-hidden rounded-xl aspect-video md:aspect-auto">
+                  <SafeImage 
+                    src={tourImage} 
+                    alt={day.title} 
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold uppercase text-brand-primary tracking-widest">
+                    {day.dateString}
+                  </div>
                 </div>
-              </div>
               <div className="md:w-2/3 flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-2">
                   <MapPin size={14} className="text-brand-secondary" />
@@ -123,7 +137,8 @@ export default function TourDetails() {
                 <p className="text-neutral-500 leading-relaxed text-sm">{day.desc}</p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

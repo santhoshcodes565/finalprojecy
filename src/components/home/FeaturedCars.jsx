@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Users, Fuel, Gauge } from 'lucide-react';
+import { CAR_IMAGES } from '../../constants/images';
 
 export default function FeaturedCars() {
   const cars = [
-    { id: 1, name: 'Toyota Innova Crysta', type: 'SUV', seats: 7, fuel: 'Diesel', price: 2000, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
-    { id: 2, name: 'Suzuki Swift Dzire', type: 'Sedan', seats: 4, fuel: 'Diesel', price: 1200, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
-    { id: 3, name: 'Tempo Traveller', type: 'Van', seats: 12, fuel: 'Diesel', price: 3500, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/960px-An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg' },
+    { id: 1, name: 'Toyota Innova Crysta', type: 'SUV', seats: 7, fuel: 'Diesel', price: 2000, img: CAR_IMAGES.innova },
+    { id: 2, name: 'Suzuki Swift Dzire', type: 'Sedan', seats: 4, fuel: 'Diesel', price: 1200, img: CAR_IMAGES.swift },
+    { id: 3, name: 'Tempo Traveller', type: 'Van', seats: 12, fuel: 'Diesel', price: 3500, img: CAR_IMAGES.tempo },
   ];
 
   return (
