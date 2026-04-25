@@ -57,7 +57,7 @@ export default function TourDetails() {
       {/* Hero Header */}
       <div className="relative h-[65vh] w-full flex items-end pb-16 justify-center">
         <SafeImage 
-          src={pkg.imageUrl || pkg.image || getTourImage(slugify(pkg._id || pkg.id || pkg.title)) || getTourImage(pkg.destination)} 
+          src={pkg.imageUrl || pkg.image || getTourImage(slugify(pkg.title || '')) || getTourImage(slugify(pkg.states || ''))} 
           alt={pkg.title} 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -78,16 +78,16 @@ export default function TourDetails() {
       {/* Info Banner */}
       <div className="bg-brand-primary text-white py-6 relative z-20 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="p-4 border-r border-white/20 last:border-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x divide-white/20">
+            <div className="p-4">
               <p className="text-xs font-medium text-white/50 uppercase tracking-widest mb-1">Destinations</p>
-              <p className="text-lg font-bold">{pkg.itinerary.length} Places</p>
+              <p className="text-lg font-bold">{pkg.itinerary?.length ?? 0} Places</p>
             </div>
-            <div className="p-4 border-r border-white/20 last:border-0">
+            <div className="p-4">
               <p className="text-xs font-medium text-white/50 uppercase tracking-widest mb-1">Region</p>
-              <p className="text-lg font-bold">{pkg.states}</p>
+              <p className="text-lg font-bold">{pkg.states || 'India'}</p>
             </div>
-            <div className="p-4 border-r border-white/20 last:border-0">
+            <div className="p-4">
               <p className="text-xs font-medium text-white/50 uppercase tracking-widest mb-1">Starting Price</p>
               <p className="text-lg font-bold">₹{pkg.price?.toLocaleString()}/pp</p>
             </div>
@@ -107,39 +107,46 @@ export default function TourDetails() {
           <p className="text-neutral-500 mt-2 text-sm">A detailed account of your majestic journey</p>
         </div>
 
-        <div className="space-y-8">
-          {pkg.itinerary.map((day) => {
-            // Robust image lookup: 1. Day image, 2. Slug-based lookup, 3. Pattern match
-            const imageSlug = `${slugify(pkg.id || pkg.title)}-day-${day.day}`;
-            const fallbackImage = getTourImage(imageSlug) || getTourImage(day.location);
-            const tourImage = day.image && !day.image.includes('placeholder') ? day.image : fallbackImage;
+        {pkg.itinerary && pkg.itinerary.length > 0 ? (
+          <div className="space-y-8">
+            {pkg.itinerary.map((day) => {
+              // Robust image lookup: 1. Day image, 2. Slug-based lookup, 3. Location-based
+              const pkgSlug = slugify(pkg.title || pkg.id || '');
+              const imageSlug = `${pkgSlug}-day-${day.day}`;
+              const fallbackImage = getTourImage(imageSlug) || getTourImage(slugify(day.location || ''));
+              const tourImage = day.image && !day.image.includes('placeholder') ? day.image : fallbackImage;
 
-            return (
-              <div key={day.day} className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-2xl border border-neutral-100 shadow-md hover:shadow-lg transition-all">
-                <div className="md:w-1/3 flex-shrink-0 relative overflow-hidden rounded-xl aspect-video md:aspect-auto">
-                  <SafeImage 
-                    src={tourImage} 
-                    alt={day.title} 
-                    className="w-full h-full object-cover" 
-                  />
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold uppercase text-brand-primary tracking-widest">
-                    {day.dateString}
+              return (
+                <div key={day.day} className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-2xl border border-neutral-100 shadow-md hover:shadow-lg transition-all">
+                  <div className="md:w-1/3 flex-shrink-0 relative overflow-hidden rounded-xl h-48 md:min-h-[11rem]">
+                    <SafeImage 
+                      src={tourImage} 
+                      alt={day.title} 
+                      className="w-full h-full object-cover" 
+                    />
+                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold uppercase text-brand-primary tracking-widest">
+                      {day.dateString}
+                    </div>
+                  </div>
+                  <div className="md:w-2/3 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-2">
+                      <MapPin size={14} className="text-brand-secondary" />
+                      <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 bg-brand-accent px-3 py-1 rounded-full">
+                        {day.location}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-extrabold text-brand-primary mb-2">{day.title}</h3>
+                    <p className="text-neutral-500 leading-relaxed text-sm">{day.desc}</p>
                   </div>
                 </div>
-              <div className="md:w-2/3 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-2">
-                  <MapPin size={14} className="text-brand-secondary" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 bg-brand-accent px-3 py-1 rounded-full">
-                    {day.location}
-                  </span>
-                </div>
-                <h3 className="text-xl font-extrabold text-brand-primary mb-2">{day.title}</h3>
-                <p className="text-neutral-500 leading-relaxed text-sm">{day.desc}</p>
-              </div>
-            </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-12 text-neutral-400">
+            <p className="text-lg font-semibold">No detailed itinerary available for this package.</p>
+          </div>
+        )}
       </div>
     </div>
   );

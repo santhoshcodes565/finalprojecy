@@ -2021,7 +2021,7 @@ export const packages = [
         "dateString": "Day 1",
         "title": "Ahmedabad Heritage",
         "location": "Ahmedabad",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/3/32/Sabarmati_Ashram_-_Ahmedabad_-_Gujarat_-_DSC001.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Sabarmati_Riverfront-Ahmedabad.jpg/1280px-Sabarmati_Riverfront-Ahmedabad.jpg",
         "desc": "Arrive in Ahmedabad. Visit Sabarmati Ashram and the stunning Adalaj Stepwell."
       },
       {
@@ -2029,7 +2029,7 @@ export const packages = [
         "dateString": "Day 2",
         "title": "Statue of Unity",
         "location": "Kevadia",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/0/07/Statue_of_Unity.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Statue_of_Unity_view_from_Sardar_Sarovar_Dam.jpg/1280px-Statue_of_Unity_view_from_Sardar_Sarovar_Dam.jpg",
         "desc": "Full day trip to the Statue of Unity, the world's tallest statue, standing at 182 meters."
       },
       {
@@ -2037,7 +2037,7 @@ export const packages = [
         "dateString": "Day 3",
         "title": "Gir Forest Safari",
         "location": "Gir",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/9/90/Gir_lion-Gir_forest%2Cjunagadh%2Cgujarat%2Cindia.jpeg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Majestic_Asiatic_Lions_in_Gir_Forest_National_Park.jpg/1280px-Majestic_Asiatic_Lions_in_Gir_Forest_National_Park.jpg",
         "desc": "Journey to Sasan Gir. Afternoon jeep safari to spot the Asiatic Lion in its only natural habitat."
       },
       {
@@ -2045,7 +2045,7 @@ export const packages = [
         "dateString": "Day 4",
         "title": "Somnath Temple",
         "location": "Somnath",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Shree_Somnath_Temple.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Somnath_temple_Gujarat_India.jpg/1280px-Somnath_temple_Gujarat_India.jpg",
         "desc": "Visit the sacred Somnath Temple, one of the 12 Jyotirlinga shrines located on the coast."
       },
       {
@@ -2053,7 +2053,7 @@ export const packages = [
         "dateString": "Day 5",
         "title": "Lord Krishna's Dwarka",
         "location": "Dwarka",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Dwarkadheesh_temple.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Dwarkadhish_Temple_Dwarka_Gujarat_India.jpg/1280px-Dwarkadhish_Temple_Dwarka_Gujarat_India.jpg",
         "desc": "Drive to Dwarka. Visit the Dwarkadhish Temple (Jagat Mandir) and the sacred Gomti Ghat."
       },
       {
@@ -2061,7 +2061,7 @@ export const packages = [
         "dateString": "Day 6",
         "title": "White Rann of Kutch",
         "location": "Bhuj",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Rann_of_Kutch_-_White_Desert.jpg",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Rann_of_Kutch_Gujarat.jpg/1280px-The_Great_Rann_of_Kutch_Gujarat.jpg",
         "desc": "Drive to Bhuj and visit the surreal white salt desert of Rann of Kutch at sunset."
       },
       {
@@ -2080,7 +2080,7 @@ export const packages = [
     "duration": "7 Days / 6 Nights",
     "states": "Madhya Pradesh",
     "price": 27000,
-    "image": "/images/tours/heart-of-india/banner.png",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Khajuraho-landscape.jpg/1280px-Khajuraho-landscape.jpg",
     "description": "A grand journey through the heart of Madhya Pradesh, covering majestic forts, ancient stupas, and scenic hill stations.",
     "highlights": [
       "Gwalior Fort",
@@ -2094,7 +2094,7 @@ export const packages = [
         "dateString": "Day 1",
         "title": "Enroute Khajuraho (Arrival)",
         "location": "Khajuraho",
-        "image": "/images/tours/heart-of-india/day1.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Khajuraho-landscape.jpg/1280px-Khajuraho-landscape.jpg",
         "desc": "Arrive in Khajuraho. Transfer to your hotel and prepare for a journey through the artistic heart of India."
       },
       {
@@ -2102,7 +2102,7 @@ export const packages = [
         "dateString": "Day 2",
         "title": "Gwalior Fort",
         "location": "Gwalior",
-        "image": "/images/tours/heart-of-india/day2.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Gwalior_fort_front.jpg/1280px-Gwalior_fort_front.jpg",
         "desc": "Visit the majestic Gwalior Fort, often called 'the pearl amongst fortresses in India', known for its blue-tiled palace."
       },
       {
@@ -2110,7 +2110,7 @@ export const packages = [
         "dateString": "Day 3",
         "title": "Sanchi Stupa",
         "location": "Sanchi",
-        "image": "/images/tours/heart-of-india/day3.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Sanchi_stupa.jpg/1280px-Sanchi_stupa.jpg",
         "desc": "Explore the UNESCO World Heritage site of Sanchi Stupa, one of the oldest stone structures in India."
       },
       {
@@ -2118,7 +2118,7 @@ export const packages = [
         "dateString": "Day 4",
         "title": "Orchha Heritage",
         "location": "Orchha",
-        "image": "/images/tours/heart-of-india/day4.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Orchha_Ram_Raja_Temple.jpg/1280px-Orchha_Ram_Raja_Temple.jpg",
         "desc": "Wander through the historic palaces and cenotaphs of Orchha, a medieval town frozen in time."
       },
       {
@@ -2126,7 +2126,7 @@ export const packages = [
         "dateString": "Day 5",
         "title": "Bhopal Lake Walk",
         "location": "Bhopal",
-        "image": "/images/tours/heart-of-india/day5.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Bhopal_upper_lake.jpg/1280px-Bhopal_upper_lake.jpg",
         "desc": "Enjoy a peaceful evening walk by the Upper Lake (Bhojtal) in the City of Lakes, Bhopal."
       },
       {
@@ -2134,7 +2134,7 @@ export const packages = [
         "dateString": "Day 6",
         "title": "Pachmarhi Hills",
         "location": "Pachmarhi",
-        "image": "/images/tours/heart-of-india/day6.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Pachmarhi_Green_Valley_View.jpg/1280px-Pachmarhi_Green_Valley_View.jpg",
         "desc": "Discover the 'Queen of Satpura', Pachmarhi, with its stunning viewpoints, waterfalls, and ancient caves."
       },
       {
@@ -2142,7 +2142,7 @@ export const packages = [
         "dateString": "Day 7",
         "title": "Departure",
         "location": "Indore",
-        "image": "/images/tours/heart-of-india/day7.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Devi_Ahilyabai_Holkar_Airport_Indore.jpg/1280px-Devi_Ahilyabai_Holkar_Airport_Indore.jpg",
         "desc": "Morning drive to the airport for your onward journey, carrying memories of the Heart of India."
       }
     ]

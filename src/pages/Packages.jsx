@@ -64,7 +64,7 @@ export default function Packages() {
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <SafeImage
-                      src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination)}
+                      src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination) || getTourImage(pkg.states)}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
@@ -83,7 +83,7 @@ export default function Packages() {
 
                     {/* Highlights */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {pkg.highlights.map((hlt) => (
+                      {(pkg.highlights || []).map((hlt) => (
                         <span key={hlt} className="bg-brand-accent text-brand-primary text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg">
                           {hlt}
                         </span>
