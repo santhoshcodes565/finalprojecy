@@ -130,7 +130,7 @@ export default function AdvancePayment() {
       <div className="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Left Side: Summary */}
-        <div className="animate-slide-up text-center md:text-left">
+        <div className="animate-fade-up text-center md:text-left">
           <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-brand-primary mb-6 transition-colors">
             <ArrowLeft size={16} /> Edit Booking
           </button>

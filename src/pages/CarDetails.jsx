@@ -121,7 +121,7 @@ export default function CarDetails() {
               <div className="flex justify-between font-extrabold text-lg text-brand-primary"><span>Estimated Total</span><span>₹{(car.pricePerKm * car.minKmPerDay + car.driverBata).toLocaleString()}</span></div>
             </div>
 
-            <button onClick={() => navigate('/booking?type=car&carId=' + car.id)} className="w-full bg-brand-primary text-white font-bold py-3.5 rounded-xl hover:brightness-110 transition-all mb-3 text-sm">
+            <button onClick={() => navigate('/book/car/' + car.id)} className="w-full bg-brand-primary text-white font-bold py-3.5 rounded-xl hover:brightness-110 transition-all mb-3 text-sm">
               Proceed to Book
             </button>
             <a href="tel:+919876543210" className="block w-full text-center border-2 border-neutral-200 text-neutral-600 font-semibold py-3.5 rounded-xl hover:border-brand-primary hover:text-brand-primary transition-all text-sm">

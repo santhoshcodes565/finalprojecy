@@ -39,6 +39,10 @@ const selfDriveSchema = yup.object().shape({
     is: 'delivery',
     then: (s) => s.matches(/^\d{6}$/, 'Enter a valid 6-digit pincode').required('Pincode is required')
   }),
+  deliveryDistance: yup.number().typeError('Must be a number').when('deliveryMethod', {
+    is: 'delivery',
+    then: (s) => s.min(0, 'Distance cannot be negative').required('Distance is required for delivery calculation')
+  }),
   pickupDate: yup.string().required('Date is required'),
   pickupTime: yup.string().required('Time is required'),
   returnDate: yup.string().required('Return date is required'),
@@ -97,7 +101,8 @@ export default function CarBooking() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const car = useMemo(() => cars.find(c => c.id === id), [id]);
+  const [car, setCar] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [step, setStep] = useState(1);
   const [rentalType, setRentalType] = useState(null); // 'self' or 'driver'
@@ -112,11 +117,44 @@ export default function CarBooking() {
   };
 
   useEffect(() => {
-    if (!car) {
-      toast.error('Car not found');
-      navigate('/car-rental');
+    // 1. Try to find in mock data first (for IDs like 'c1', 'c2')
+    const localCar = cars.find(c => c.id === id);
+    if (localCar) {
+      setCar(localCar);
+      setLoading(false);
+      return;
     }
-  }, [car, navigate]);
+    
+    // 2. Fetch from API (for MongoDB ObjectIDs)
+    const fetchCar = async () => {
+      try {
+        const { default: api } = await import('../api/axios');
+        const res = await api.get(`/cars/${id}`);
+        if (res.data && res.data.car) {
+          setCar(res.data.car);
+        } else {
+          toast.error('Car not found in server');
+          navigate('/car-rental');
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to load car details');
+        navigate('/car-rental');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCar();
+  }, [id, navigate]);
+
+  if (loading) {
+    return (
+      <div className="bg-[#FDFDFD] min-h-screen pt-28 flex items-center justify-center">
+        <div className="text-brand-primary font-bold animate-pulse text-xl">Loading Booking Details...</div>
+      </div>
+    );
+  }
 
   if (!car) return null;
 
@@ -184,10 +222,35 @@ export default function CarBooking() {
 
   const handleFinalSubmit = async (data) => {
     setIsSubmitting(true);
-    // Simulate API call
+    // Simulate processing
     await new Promise(r => setTimeout(r, 2000));
     
-    const finalData = { ...formData, ...data, carId: id, totalAmount: 4500 }; // Simplified total for demo
+    const baseData = { ...formData, ...data };
+    let finalData = {};
+
+    if (rentalType === 'self') {
+      finalData = {
+        ...baseData,
+        carId: id,
+        carCategory: car.category || 'Standard',
+        tripType: 'round-trip',
+        adults: car.seats || 4, // Default capacity
+        pickupLocation: baseData.deliveryMethod === 'delivery' ? `${baseData.address}, ${baseData.city}` : HUBS.find(h => h.id === baseData.hub)?.name || 'Hub',
+        dropLocation: baseData.deliveryMethod === 'delivery' ? `${baseData.address}, ${baseData.city}` : HUBS.find(h => h.id === baseData.hub)?.name || 'Hub',
+        totalAmount: 4500, // Simplified total for demo
+      };
+    } else {
+      finalData = {
+        ...baseData,
+        carId: id,
+        carCategory: car.category || 'Standard',
+        tripType: baseData.tripType || 'one-way',
+        pickupDate: baseData.tripDate,
+        pickupTime: baseData.tripTime,
+        adults: baseData.passengers,
+        totalAmount: 4500,
+      };
+    }
     
     navigate('/payment/advance', {
       state: {
@@ -478,18 +541,25 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
               {errors.address && <p className="text-red-500 text-[10px] font-bold mt-1 uppercase">{errors.address.message}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="group">
                 <label className="block text-xs font-bold text-neutral-400 uppercase mb-2">City</label>
                 <input {...register('city')} className="w-full bg-neutral-50 border-2 border-neutral-100 rounded-xl px-4 py-3 text-sm focus:bg-white focus:border-brand-secondary outline-none tracking-tight" />
+                {errors.city && <p className="text-red-500 text-[10px] font-bold mt-1 uppercase">{errors.city.message}</p>}
               </div>
               <div className="group">
                 <label className="block text-xs font-bold text-neutral-400 uppercase mb-2">Pincode</label>
                 <input {...register('pincode')} className="w-full bg-neutral-50 border-2 border-neutral-100 rounded-xl px-4 py-3 text-sm focus:bg-white focus:border-brand-secondary outline-none tracking-widest" />
+                {errors.pincode && <p className="text-red-500 text-[10px] font-bold mt-1 uppercase">{errors.pincode.message}</p>}
               </div>
               <div className="group">
                 <label className="block text-xs font-bold text-neutral-400 uppercase mb-2">Landmark</label>
                 <input {...register('landmark')} className="w-full bg-neutral-50 border-2 border-neutral-100 rounded-xl px-4 py-3 text-sm focus:bg-white focus:border-brand-secondary outline-none" />
+              </div>
+              <div className="group">
+                <label className="block text-xs font-bold text-neutral-400 uppercase mb-2">Distance from Hub (KM)</label>
+                <input type="number" {...register('deliveryDistance')} className="w-full bg-neutral-50 border-2 border-neutral-100 rounded-xl px-4 py-3 text-sm focus:bg-white focus:border-brand-secondary outline-none tracking-tight" placeholder="e.g. 15" />
+                {errors.deliveryDistance && <p className="text-red-500 text-[10px] font-bold mt-1 uppercase">{errors.deliveryDistance.message}</p>}
               </div>
             </div>
           </div>
@@ -595,7 +665,8 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
   // Step 6: Charges Summary
   if (step === 6) {
     const isDelivery = deliveryMethod === 'delivery';
-    const deliveryCharge = isDelivery ? 450 : 0; // Simulated calculation
+    const distanceVal = Number(watch('deliveryDistance')) || 0;
+    const deliveryCharge = isDelivery && distanceVal > 10 ? (distanceVal - 10) * 30 : 0;
     
     return (
       <div className="max-w-2xl mx-auto">

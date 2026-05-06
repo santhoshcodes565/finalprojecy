@@ -113,7 +113,7 @@ export default function CarRental() {
                         </div>
                       </div>
                       <Link
-                        to={`/booking?type=car&carId=${car._id}`}
+                        to={`/book/car/${car._id}`}
                         className="bg-brand-primary text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:bg-brand-secondary hover:text-brand-dark transition-all"
                       >
                         Book Now

@@ -64,7 +64,7 @@ export default function Packages() {
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <SafeImage
-                      src={pkg.imageUrl || pkg.image || getTourImage(pkg.destination) || getTourImage(pkg.states)}
+                      src={pkg.imageUrl || pkg.image || getTourImage(pkg.title) || getTourImage(pkg.destination) || getTourImage(pkg.states)}
                       alt={pkg.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
@@ -108,7 +108,7 @@ export default function Packages() {
                           View Details
                         </Link>
                         <Link
-                          to={`/booking?type=package&packageId=${pkg._id}`}
+                          to={`/book/package/${pkg._id}`}
                           className="bg-brand-secondary text-brand-dark px-5 py-3.5 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 hover:-translate-y-0.5 transition-all"
                         >
                           Book Package

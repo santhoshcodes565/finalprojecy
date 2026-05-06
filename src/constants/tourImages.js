@@ -13,29 +13,42 @@ export const slugify = (text) => {
 };
 
 export const tourImages = {
-  'madhya-pradesh-khajuraho': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Khajuraho-landscape.jpg/800px-Khajuraho-landscape.jpg',
-  'rann-of-kutch-gujarat': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/White_Rann_of_Kutch.jpg/800px-White_Rann_of_Kutch.jpg',
-  'living-root-bridge-meghalaya': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Living_root_bridge%2C_Meghalaya.jpg/800px-Living_root_bridge%2C_Meghalaya.jpg',
-  'tiger-hill-kanchenjunga-sikkim': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Tiger_Hill.JPG/800px-Tiger_Hill.JPG',
-  'virupaksha-temple-hampi-karnataka': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Hampi_virupaksha_temple.jpg/800px-Hampi_virupaksha_temple.jpg',
-  'heart-of-india': '/images/tours/heart-of-india/banner.png',
-  'heart-of-india-day-1': '/images/tours/heart-of-india/day1.png',
-  'heart-of-india-day-2': '/images/tours/heart-of-india/day2.png',
-  'heart-of-india-day-3': '/images/tours/heart-of-india/day3.png',
-  'heart-of-india-day-4': '/images/tours/heart-of-india/day4.png',
-  'heart-of-india-day-5': '/images/tours/heart-of-india/day5.png',
-  'heart-of-india-day-6': '/images/tours/heart-of-india/day6.png',
-  'heart-of-india-day-7': '/images/tours/heart-of-india/day7.png',
-  
-  // Gujarat Cultural Safari
-  'gujarat-cultural-safari': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Asiatic_Lions_in_Gir_National_Park.jpg/1280px-Asiatic_Lions_in_Gir_National_Park.jpg',
-  'gujarat-cultural-safari-day-1': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Sabarmati_Riverfront-Ahmedabad.jpg/1280px-Sabarmati_Riverfront-Ahmedabad.jpg',
-  'gujarat-cultural-safari-day-2': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Statue_of_Unity_view_from_Sardar_Sarovar_Dam.jpg/1280px-Statue_of_Unity_view_from_Sardar_Sarovar_Dam.jpg',
-  'gujarat-cultural-safari-day-3': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Majestic_Asiatic_Lions_in_Gir_Forest_National_Park.jpg/1280px-Majestic_Asiatic_Lions_in_Gir_Forest_National_Park.jpg',
-  'gujarat-cultural-safari-day-4': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Somnath_temple_Gujarat_India.jpg/1280px-Somnath_temple_Gujarat_India.jpg',
-  'gujarat-cultural-safari-day-5': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Dwarkadhish_Temple_Dwarka_Gujarat_India.jpg/1280px-Dwarkadhish_Temple_Dwarka_Gujarat_India.jpg',
-  'gujarat-cultural-safari-day-6': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Rann_of_Kutch_Gujarat.jpg/1280px-The_Great_Rann_of_Kutch_Gujarat.jpg',
-  'gujarat-cultural-safari-day-7': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Sardar_Vallabhbhai_Patel_International_Airport%2C_Ahmedabad%2C_India.jpg/1280px-Sardar_Vallabhbhai_Patel_International_Airport%2C_Ahmedabad%2C_India.jpg'
+  // Main Packages (based on slugified titles)
+  'magical-kerala': 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1000&auto=format&fit=crop',
+  'grand-southern-heritage': 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=1000&auto=format&fit=crop',
+  'munnar-weekend-escape': 'https://images.unsplash.com/photo-1596484552993-9d4cb733eb0c?q=80&w=1000&auto=format&fit=crop',
+  'backwater-beach-bliss': 'https://images.unsplash.com/photo-1593693175869-79a83441589c?q=80&w=1000&auto=format&fit=crop',
+  'temple-city-tour': 'https://images.unsplash.com/photo-1588698511634-80cf2a4d9435?q=80&w=1000&auto=format&fit=crop',
+  'ooty-kodaikanal': 'https://images.unsplash.com/photo-1627448833912-7043329007cb?q=80&w=1000&auto=format&fit=crop',
+  'rameshwaram-pilgrimage': 'https://images.unsplash.com/photo-1624641982705-021021bc69ba?q=80&w=1000&auto=format&fit=crop',
+  'wayanad-wilderness': 'https://images.unsplash.com/photo-1589146914589-9fc6bbf200b3?q=80&w=1000&auto=format&fit=crop',
+  'pondicherry-retreat': 'https://images.unsplash.com/photo-1621516087532-6b9c97b25203?q=80&w=1000&auto=format&fit=crop',
+  'yercaud-kolli-hills': 'https://images.unsplash.com/photo-1592598375127-ec1642861a4c?q=80&w=1000&auto=format&fit=crop',
+  'chikmagalur-coffee-trails': 'https://images.unsplash.com/photo-1602490807664-8df6322ad44a?q=80&w=1000&auto=format&fit=crop',
+  'trivandrum-coastal-vibe': 'https://images.unsplash.com/photo-1589201584449-74e8a8e3d09e?q=80&w=1000&auto=format&fit=crop',
+  'historical-hampi': 'https://images.unsplash.com/photo-1600080645604-db80cb70e30d?q=80&w=1000&auto=format&fit=crop',
+  'andaman-escape': 'https://images.unsplash.com/photo-1605553950269-026048d08cb5?q=80&w=1000&auto=format&fit=crop',
+  'golden-amritsar': 'https://images.unsplash.com/photo-1601058269781-a9f9479b1df0?q=80&w=1000&auto=format&fit=crop',
+  'golden-triangle-heritage': 'https://images.unsplash.com/photo-1585145889600-410a5605f63d?q=80&w=1000&auto=format&fit=crop',
+  'royal-rajasthan-odyssey': 'https://images.unsplash.com/photo-1477584262148-1916ee094db7?q=80&w=1000&auto=format&fit=crop',
+  'kashmir-paradise': 'https://images.unsplash.com/photo-1566371486490-560ded239dae?q=80&w=1000&auto=format&fit=crop',
+  'himalayan-escapade': 'https://images.unsplash.com/photo-1584285418504-004110ca410b?q=80&w=1000&auto=format&fit=crop',
+  'uttarakhand-spiritual': 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=1000&auto=format&fit=crop',
+  'sikkim-darjeeling': 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000&auto=format&fit=crop',
+  'meghalaya-wonders': 'https://images.unsplash.com/photo-1610427845344-93825700778c?q=80&w=1000&auto=format&fit=crop',
+  'gujarat-cultural-safari': 'https://images.unsplash.com/photo-1596765799797-2a1f81d4a034?q=80&w=1000&auto=format&fit=crop',
+  'heart-of-india': 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1000&auto=format&fit=crop',
+  'goa-coastal-tour': 'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?q=80&w=1000&auto=format&fit=crop',
+
+  // Fallbacks for States
+  'kerala': 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1280&auto=format&fit=crop',
+  'tamil-nadu': 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=1280&auto=format&fit=crop',
+  'karnataka': 'https://images.unsplash.com/photo-1600080645604-db80cb70e30d?q=80&w=1280&auto=format&fit=crop',
+  'rajasthan': 'https://images.unsplash.com/photo-1477584262148-1916ee094db7?q=80&w=1280&auto=format&fit=crop',
+  'gujarat': 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1280&auto=format&fit=crop',
+  'goa': 'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?q=80&w=1280&auto=format&fit=crop',
+  'andaman-nicobar': 'https://images.unsplash.com/photo-1605553950269-026048d08cb5?q=80&w=1280&auto=format&fit=crop',
+  'madhya-pradesh': 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1280&auto=format&fit=crop'
 };
 
 export const getTourImage = (destination) => {

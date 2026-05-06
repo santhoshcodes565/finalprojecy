@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -38,6 +38,7 @@ const driverTypes = [
 const languages = ['Tamil', 'Telugu', 'Hindi', 'English', 'Kannada', 'Malayalam'];
 
 export default function DriverBooking() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [selectedLangs, setSelectedLangs] = useState([]);
@@ -68,7 +69,7 @@ export default function DriverBooking() {
   const onSubmit = async (data) => {
     navigate('/payment/advance', {
       state: {
-        bookingData: { ...data, languages: selectedLangs, numberOfDays },
+        bookingData: { ...data, languages: selectedLangs, numberOfDays, requestedDriverId: id || 'any' },
         endpoint: '/bookings/driver',
         successMessage: '✅ Driver booked! We\'ll confirm driver details within 2 hours.',
         serviceType: 'driver'

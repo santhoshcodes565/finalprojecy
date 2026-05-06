@@ -7,6 +7,7 @@ const tourSchema = new mongoose.Schema({
   states: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String, default: '' },
+  bannerImage: { type: String, default: '' },
   description: { type: String, default: '' },
   highlights: [{ type: String }],
   itinerary: [{

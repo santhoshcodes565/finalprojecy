@@ -107,9 +107,23 @@ export default function PackageBooking() {
   };
 
   const onSubmit = async (data) => {
+    // Map data to match Mongoose schema strictly
+    const mappedRoomType = data.roomType.replace(' suite', '');
+    const finalData = { 
+        ...data, 
+        packageId: id, 
+        adults: travellers.adults,
+        children: travellers.children,
+        infants: travellers.infants,
+        seniorCitizens: travellers.seniors,
+        childrenAges, 
+        dietaryPreference: dietSelections,
+        roomType: mappedRoomType
+    };
+
     navigate('/payment/advance', {
       state: {
-        bookingData: { ...data, packageId: id, ...travellers, childrenAges, dietaryPreference: dietSelections },
+        bookingData: finalData,
         endpoint: '/bookings/package',
         successMessage: '🎉 Package booked! Our travel expert will call you within 1 hour.',
         serviceType: 'package'
