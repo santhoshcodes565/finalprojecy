@@ -120,5 +120,5 @@ export const ITINERARY_IMAGES = {
   temple_corridor: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/An_aerial_view_of_Madurai_city_from_atop_of_Meenakshi_Amman_temple.jpg/1280px-Madurai.jpg',
 };
 
-export const DRIVER_BANNER = '/images/driver-banner.png';
+export const DRIVER_BANNER = 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=2000';
 export const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1548013146-72479768b8b2?auto=format&fit=crop&q=80&w=1200';

@@ -43,7 +43,7 @@ export default function Home() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-up');
+          entry.target.classList.add('animate-reveal-up');
           entry.target.style.opacity = '1';
         }
       });
@@ -172,13 +172,18 @@ export default function Home() {
 
           {/* Slide 1 - Taj Mahal */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black/20 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10"></div>
-              <img src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=2560&auto=format&fit=crop" alt="Taj Mahal Golden Triangle" className="w-full h-full object-cover object-center" />
+              <img 
+                src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=2560&auto=format&fit=crop" 
+                alt="Taj Mahal Golden Triangle" 
+                className="w-full h-full object-cover object-center animate-ken-burns" 
+                style={{ transformOrigin: 'center right' }}
+              />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
-                  <div className="max-w-xl text-left">
+                  <div className="max-w-xl text-left" style={{ transform: `translateY(${scrollParallax * -0.2}px)` }}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">UNESCO WORLD HERITAGE</span>
                     </div>
@@ -199,13 +204,18 @@ export default function Home() {
           
           {/* Slide 2 - Kashmir */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black/20 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent z-10"></div>
-              <img src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?q=80&w=2560&auto=format&fit=crop" alt="Paradise Kashmir Valleys" className="w-full h-full object-cover object-center" />
+              <img 
+                src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?q=80&w=2560&auto=format&fit=crop" 
+                alt="Paradise Kashmir Valleys" 
+                className="w-full h-full object-cover object-center animate-ken-burns" 
+                style={{ transformOrigin: 'top center' }}
+              />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
-                  <div className="max-w-xl text-left">
+                  <div className="max-w-xl text-left" style={{ transform: `translateY(${scrollParallax * -0.2}px)` }}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">PARADISE ON EARTH</span>
                     </div>
@@ -226,13 +236,18 @@ export default function Home() {
 
           {/* Slide 3 - Goa */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black/10 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=2560&auto=format&fit=crop" alt="Goa Beaches" className="w-full h-full object-cover object-center" />
+              <img 
+                src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=2560&auto=format&fit=crop" 
+                alt="Goa Beaches" 
+                className="w-full h-full object-cover object-center animate-ken-burns" 
+                style={{ transformOrigin: 'bottom center' }}
+              />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
-                  <div className="max-w-xl text-left">
+                  <div className="max-w-xl text-left" style={{ transform: `translateY(${scrollParallax * -0.2}px)` }}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">COASTAL ESCAPE</span>
                     </div>
@@ -252,13 +267,18 @@ export default function Home() {
 
           {/* Slide 4 - Gujarat */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black/10 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=2560&auto=format&fit=crop" alt="Cultural Gujarat Heritage" className="w-full h-full object-cover object-center" />
+              <img 
+                src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=2560&auto=format&fit=crop" 
+                alt="Cultural Gujarat Heritage" 
+                className="w-full h-full object-cover object-center animate-ken-burns" 
+                style={{ transformOrigin: 'center left' }}
+              />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
-                  <div className="max-w-xl text-left">
+                  <div className="max-w-xl text-left" style={{ transform: `translateY(${scrollParallax * -0.2}px)` }}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-brand-secondary text-[11px] uppercase tracking-[0.2em] font-bold">CULTURAL SAFARI</span>
                     </div>
@@ -281,7 +301,7 @@ export default function Home() {
             <div className="relative w-full h-full">
               <div className="absolute inset-0 bg-black/10 z-10"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10"></div>
-              <img src="https://images.unsplash.com/photo-1590050752117-2ab5501865ff?auto=format&fit=crop&q=80&w=2000" alt="Kerala Hill Stations" className="w-full h-full object-cover object-center" />
+              <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=80&w=2000" alt="Kerala Hill Stations" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 z-20 flex items-center">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-16">
                   <div className="max-w-xl text-left">

@@ -321,105 +321,108 @@ export default function HireDriver() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.4 }}
-                    className="group bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl hover:shadow-[0_40px_80px_-20px_rgba(10,46,26,0.12)] transition-all duration-500 border border-neutral-100 flex flex-col md:flex-row gap-10 relative overflow-hidden"
+                    className="group bg-white rounded-[2rem] shadow-xl hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 border border-neutral-100 flex flex-col md:flex-row overflow-hidden relative"
                   >
-                    {/* Background Grain Effect */}
-                    <div className="absolute inset-0 bg-luxury-pattern opacity-5 pointer-events-none"></div>
-                    
-                    {/* LEFT SIDE: Image + Badges */}
-                    <div className="md:w-1/3 flex flex-col items-center gap-6 relative z-10">
-                      <div className="relative">
+                    {/* LEFT SIDE: Image + Badges (Dark Theme Accent) */}
+                    <div className="md:w-2/5 relative bg-brand-primary p-8 flex flex-col items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 bg-luxury-pattern opacity-10 pointer-events-none"></div>
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-brand-secondary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                      
+                      <div className="relative z-10 w-full max-w-[200px] aspect-[4/5] mb-6">
                         <SafeImage
                           src={driver.image}
                           alt={driver.name}
-                          className="w-32 h-32 md:w-44 md:h-44 rounded-full object-cover ring-8 ring-brand-accent group-hover:ring-brand-secondary/20 transition-all duration-500 shadow-xl"
+                          className="w-full h-full object-cover rounded-2xl shadow-2xl ring-4 ring-brand-secondary/30 group-hover:ring-brand-secondary transition-all duration-500"
                         />
-                        <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg border border-neutral-100">
-                          <CheckCircle2 size={24} className="text-green-500 fill-green-50" />
+                        <div className="absolute -bottom-4 -right-4 bg-brand-secondary text-brand-primary px-3 py-1 rounded-full text-[10px] font-extrabold flex items-center gap-1 shadow-lg shadow-brand-secondary/30 border-2 border-brand-primary">
+                          <CheckCircle2 size={12} /> Verified
                         </div>
                       </div>
 
-                      <div className="text-center">
-                        <div className="flex items-center justify-center gap-1 mb-2">
+                      <div className="text-center z-10 w-full mt-2">
+                        <div className="flex items-center justify-center gap-1 mb-3 bg-white/10 w-max mx-auto px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/10">
                            {[...Array(5)].map((_, i) => (
                              <Star 
                                key={i} 
                                size={14} 
-                               className={`${i < Math.floor(driver.rating) ? 'text-brand-secondary fill-brand-secondary' : 'text-neutral-200'}`} 
+                               className={`${i < Math.floor(driver.rating) ? 'text-brand-secondary fill-brand-secondary' : 'text-neutral-500'}`} 
                              />
                            ))}
-                           <span className="ml-2 font-extrabold text-brand-primary text-sm">{driver.rating}</span>
+                           <span className="ml-1 font-extrabold text-white text-xs">{driver.rating}</span>
                         </div>
-                        <div className="flex flex-col items-center">
-                           <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest">Total Trips</span>
-                           <span className="font-display font-bold text-xl text-brand-primary">{driver.trips}+ Safe Trips</span>
+                        <div className="flex justify-between items-center bg-black/20 rounded-xl p-3 border border-white/5">
+                           <div className="text-center flex-1">
+                             <span className="text-[9px] font-extrabold text-brand-secondary uppercase tracking-widest block mb-0.5">Trips</span>
+                             <span className="font-display font-bold text-lg text-white">{driver.trips}+</span>
+                           </div>
+                           <div className="w-px h-8 bg-white/10 mx-2"></div>
+                           <div className="text-center flex-1">
+                             <span className="text-[9px] font-extrabold text-brand-secondary uppercase tracking-widest block mb-0.5">Exp</span>
+                             <span className="font-display font-bold text-lg text-white">{driver.experience}y</span>
+                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* RIGHT SIDE: Info */}
-                    <div className="flex-1 space-y-6 relative z-10">
-                      <div className="flex justify-between items-start">
+                    {/* RIGHT SIDE: Info (Light Theme) */}
+                    <div className="flex-1 p-8 md:p-10 space-y-6 relative bg-gradient-to-br from-white to-neutral-50">
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
-                          <h2 className="text-2xl md:text-3xl font-display font-extrabold text-brand-primary mb-1">{driver.name}</h2>
-                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent rounded-lg text-brand-primary font-bold text-[10px] uppercase tracking-widest border border-brand-primary/10">
-                            <MapPin size={10} className="text-brand-secondary" /> {driver.city}
+                          <h2 className="text-3xl font-display font-extrabold text-brand-primary mb-2">{driver.name}</h2>
+                          <div className="inline-flex items-center gap-1.5 text-neutral-500 font-semibold text-sm">
+                            <MapPin size={16} className="text-brand-secondary" /> {driver.city}
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-xl md:text-2xl font-extrabold text-brand-primary">₹{driver.pricePerDay}</div>
-                          <div className="text-[10px] font-extrabold text-brand-secondary uppercase tracking-[0.2em]">Per / Day</div>
+                        <div className="bg-brand-accent px-5 py-3 rounded-2xl border border-brand-primary/10 text-center shadow-inner">
+                          <div className="text-2xl font-extrabold text-brand-primary">₹{driver.pricePerDay}</div>
+                          <div className="text-[9px] font-extrabold text-brand-secondary uppercase tracking-[0.2em]">Per Day</div>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-neutral-50 px-4 py-3 rounded-2xl border border-neutral-100">
-                          <span className="text-[9px] font-extrabold text-neutral-400 uppercase tracking-widest block mb-1">Experience</span>
-                          <span className="font-bold text-brand-primary text-sm flex items-center gap-2"><Briefcase size={12} className="text-brand-secondary" /> {driver.experience} Years</span>
-                        </div>
-                        <div className="bg-neutral-50 px-4 py-3 rounded-2xl border border-neutral-100">
-                          <span className="text-[9px] font-extrabold text-neutral-400 uppercase tracking-widest block mb-1">Availability</span>
-                          <span className={`font-bold text-sm flex items-center gap-2 ${driver.isAvailable ? 'text-green-600' : 'text-neutral-400'}`}>
-                            <Clock size={12} /> {driver.isAvailable ? 'Instant' : 'Unavailable'}
+                      <div className="w-full h-px bg-gradient-to-r from-neutral-200 via-neutral-100 to-transparent"></div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block mb-2 flex items-center gap-2">
+                            <Languages size={12} className="text-brand-secondary" /> Languages Spoken
                           </span>
+                          <div className="flex flex-wrap gap-2">
+                            {driver.languages?.map((lang, idx) => (
+                              <span key={idx} className="bg-white px-4 py-1.5 rounded-xl border border-neutral-200 text-xs font-bold text-neutral-600 shadow-sm">
+                                {lang}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                           <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block mb-2 flex items-center gap-2">
+                            <BadgeCheck size={12} className="text-brand-secondary" /> Professional Bio
+                          </span>
+                          <p className="text-neutral-600 text-sm leading-relaxed line-clamp-3 bg-white p-4 rounded-xl border border-neutral-100 shadow-sm italic relative">
+                            <span className="absolute top-2 left-2 text-4xl text-neutral-100 font-serif leading-none">"</span>
+                            <span className="relative z-10">{driver.bio}</span>
+                          </p>
                         </div>
                       </div>
 
-                      <div>
-                        <span className="text-[9px] font-extrabold text-neutral-400 uppercase tracking-widest block mb-2">Languages Spoken</span>
-                        <div className="flex flex-wrap gap-2">
-                          {driver.languages?.map((lang, idx) => (
-                            <span key={idx} className="bg-white px-3 py-1.5 rounded-lg border border-neutral-200 text-[10px] font-bold text-neutral-600 hover:border-brand-secondary hover:text-brand-primary transition-colors cursor-default">
-                              {lang}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <p className="text-neutral-500 text-sm leading-relaxed line-clamp-3 italic">"{driver.bio}"</p>
-
-                      <div className="pt-4 grid grid-cols-3 gap-3 border-t border-neutral-100">
-                        <button className="flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-neutral-100 text-neutral-600 font-bold text-xs hover:border-brand-primary hover:text-brand-primary transition-all">
-                          <Users size={14} /> Profile
-                        </button>
+                      <div className="pt-2 grid grid-cols-2 lg:grid-cols-3 gap-3">
                         <Link 
                           to={`/book/driver/${driver._id}`}
-                          className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-primary text-white font-bold text-xs hover:brightness-110 shadow-lg hover:shadow-brand-primary/20 transition-all"
+                          className="lg:col-span-2 flex items-center justify-center gap-2 py-4 rounded-xl bg-brand-primary text-white font-bold text-sm hover:bg-brand-primary/90 shadow-lg shadow-brand-primary/20 transition-all group/btn"
                         >
-                          Hire Now
+                          Hire {driver.name.split(' ')[0]} Now
+                          <motion.span className="group-hover/btn:translate-x-1 transition-transform">→</motion.span>
                         </Link>
                         <a 
                           href="https://wa.me/919876543210" 
                           target="_blank" 
-                          className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 text-white font-bold text-xs hover:brightness-110 shadow-lg hover:shadow-green-500/20 transition-all"
+                          className="flex items-center justify-center gap-2 py-4 rounded-xl bg-[#25D366]/10 text-[#25D366] font-bold text-sm hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20"
                         >
-                          <MessageCircle size={14} fill="white" /> WhatsApp
+                          <MessageCircle size={16} /> Chat
                         </a>
                       </div>
                     </div>
-                    
-                    {/* Hover Lift Effect Accent */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-brand-secondary/0 group-hover:bg-brand-secondary/10 -rotate-45 translate-x-12 -translate-y-12 transition-all duration-700"></div>
                   </motion.div>
                 ))}
               </motion.div>

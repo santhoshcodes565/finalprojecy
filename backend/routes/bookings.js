@@ -208,6 +208,21 @@ router.patch('/:type/:id/status', auth, admin, async (req, res) => {
   }
 });
 
+// DELETE /api/bookings/:type/:id — Admin deletes booking
+router.delete('/:type/:id', auth, admin, async (req, res) => {
+  try {
+    const Model = getModel(req.params.type);
+    if (!Model) return res.status(400).json({ message: 'Invalid booking type.' });
+
+    const booking = await Model.findByIdAndDelete(req.params.id);
+    if (!booking) return res.status(404).json({ message: 'Booking not found.' });
+
+    res.json({ message: 'Booking deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete booking.' });
+  }
+});
+
 // PATCH /api/bookings/:type/:id/assign — Admin assigns driver
 router.patch('/:type/:id/assign', auth, admin, async (req, res) => {
   try {

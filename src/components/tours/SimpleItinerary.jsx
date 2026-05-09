@@ -1,5 +1,7 @@
 import React from 'react';
 import { MapPin, Compass, Calendar, Camera } from 'lucide-react';
+import { ITINERARY_IMAGES } from '../../constants/images';
+import { getPlaceImage } from '../../constants/placeImages';
 import SafeImage from '../common/SafeImage';
 
 export default function SimpleItinerary({ itinerary }) {
@@ -25,7 +27,7 @@ export default function SimpleItinerary({ itinerary }) {
             <div className={`w-full lg:w-1/2 ${isEven ? 'lg:order-2' : ''}`}>
               <div className="relative group overflow-hidden rounded-[2.5rem] shadow-2xl aspect-[16/10] bg-neutral-100">
                 <SafeImage 
-                  src={day.image || `https://source.unsplash.com/featured/800x600?${encodeURIComponent(day.location || '')},${encodeURIComponent(day.title || '')},travel`} 
+                  src={day.image || ITINERARY_IMAGES[index] || getPlaceImage(day.location) || `https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=800&auto=format&fit=crop`} 
                   alt={day.title} 
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                 />

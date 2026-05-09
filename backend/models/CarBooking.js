@@ -23,6 +23,8 @@ const carBookingSchema = new mongoose.Schema({
   assignedDriver: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' },
   paymentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
   paymentScreenshot: { type: String },
+  drivingLicense: { type: String },
+  idProof: { type: String },
   status: { type: String, enum: ['pending', 'confirmed', 'cancelled', 'completed'], default: 'pending' },
   totalAmount: { type: Number },
   advancePaid: { type: Number, default: 0 },

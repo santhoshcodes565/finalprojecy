@@ -225,12 +225,26 @@ export default function CarBooking() {
     // Simulate processing
     await new Promise(r => setTimeout(r, 2000));
     
+    const fileToBase64 = (file) => new Promise((resolve, reject) => {
+      if (!file) return resolve(null);
+      if (!(file instanceof File || file instanceof Blob)) return resolve(file); // If already base64 string
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
     const baseData = { ...formData, ...data };
     let finalData = {};
 
     if (rentalType === 'self') {
+      const drivingLicenseBase64 = await fileToBase64(baseData.license);
+      const idProofBase64 = await fileToBase64(baseData.idProof);
+
       finalData = {
         ...baseData,
+        drivingLicense: drivingLicenseBase64,
+        idProof: idProofBase64,
         carId: id,
         carCategory: car.category || 'Standard',
         tripType: 'round-trip',
@@ -290,43 +304,69 @@ export default function CarBooking() {
           {/* STEP 1: Rental Type */}
           {step === 1 && (
             <motion.div key="step1" variants={fadeIn} initial="hidden" animate="visible" exit="exit" className="space-y-8">
-              <div className="text-center">
-                <h3 className="text-2xl font-bold text-brand-primary mb-2">How would you like to drive?</h3>
-                <p className="text-neutral-500">Select your preferred rental style to continue</p>
+              <div className="text-center mb-10">
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-primary mb-3">How would you like to travel?</h3>
+                <p className="text-neutral-500 max-w-lg mx-auto">Choose to take the wheel yourself or sit back and relax with our professional chauffeurs.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-4">
+                {/* Self Drive Card */}
                 <button 
                   onClick={() => { setRentalType('self'); setStep(2); }}
-                  className="group relative bg-white border-2 border-neutral-100 hover:border-brand-secondary p-8 rounded-[2rem] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 text-left"
+                  className="group relative h-[420px] rounded-[2.5rem] overflow-hidden text-left transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2 border-2 border-transparent hover:border-brand-secondary/50"
                 >
-                  <div className="w-16 h-16 bg-brand-accent rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                    <Navigation className="text-brand-primary" size={32} />
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200&q=80" 
+                      alt="Self Drive" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   </div>
-                  <h4 className="text-xl font-bold text-brand-primary mb-2">Self Drive</h4>
-                  <p className="text-neutral-500 text-sm leading-relaxed mb-4">Total freedom to drive the car yourself. Take control of your journey.</p>
-                  <div className="flex items-center text-brand-secondary font-bold text-sm">
-                    Select Mode <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-3 h-3 bg-brand-secondary rounded-full animate-pulse" />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/95 via-brand-primary/40 to-transparent transition-opacity duration-500" />
+                  
+                  {/* Content */}
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:bg-brand-secondary group-hover:border-brand-secondary group-hover:-translate-y-2 transition-all duration-500 shadow-lg">
+                      <Navigation size={28} />
+                    </div>
+                    <h4 className="text-3xl font-display font-bold text-white mb-2">Self Drive</h4>
+                    <p className="text-white/80 text-sm leading-relaxed mb-6 max-w-sm">Total freedom to explore at your own pace. Take the wheel of our premium vehicles and create your own journey.</p>
+                    
+                    <div className="flex items-center text-brand-secondary font-bold text-sm tracking-wider uppercase">
+                      Select Mode <ChevronRight size={18} className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+                    </div>
                   </div>
                 </button>
 
+                {/* Car With Driver Card */}
                 <button 
                   onClick={() => { setRentalType('driver'); setStep(2); }}
-                  className="group relative bg-white border-2 border-neutral-100 hover:border-brand-secondary p-8 rounded-[2rem] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 text-left"
+                  className="group relative h-[420px] rounded-[2.5rem] overflow-hidden text-left transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-2 border-2 border-transparent hover:border-brand-secondary/50"
                 >
-                  <div className="w-16 h-16 bg-brand-accent rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                    <User className="text-brand-primary" size={32} />
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80" 
+                      alt="Car With Driver" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   </div>
-                  <h4 className="text-xl font-bold text-brand-primary mb-2">Car With Driver</h4>
-                  <p className="text-neutral-500 text-sm leading-relaxed mb-4">Sit back and relax while our professional, verified driver takes you safely.</p>
-                  <div className="flex items-center text-brand-secondary font-bold text-sm">
-                    Select Mode <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-3 h-3 bg-brand-secondary rounded-full animate-pulse" />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/95 via-brand-primary/40 to-transparent transition-opacity duration-500" />
+                  
+                  {/* Content */}
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:bg-brand-secondary group-hover:border-brand-secondary group-hover:-translate-y-2 transition-all duration-500 shadow-lg">
+                      <User size={28} />
+                    </div>
+                    <h4 className="text-3xl font-display font-bold text-white mb-2">Car With Driver</h4>
+                    <p className="text-white/80 text-sm leading-relaxed mb-6 max-w-sm">Sit back and relax in luxury. Our professional, verified chauffeurs will ensure a safe and comfortable ride.</p>
+                    
+                    <div className="flex items-center text-brand-secondary font-bold text-sm tracking-wider uppercase">
+                      Select Mode <ChevronRight size={18} className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+                    </div>
                   </div>
                 </button>
               </div>
@@ -388,9 +428,10 @@ export default function CarBooking() {
 // --- Self Drive Flow Components ---
 
 function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmit, isSubmitting, fadeIn, StepIndicator, formData }) {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, setValue, trigger, getValues, formState: { errors } } = useForm({
     resolver: yupResolver(selfDriveSchema),
-    defaultValues: { rentalType: 'self', deliveryMethod: 'delivery', ...formData }
+    defaultValues: { rentalType: 'self', deliveryMethod: 'delivery', ...formData },
+    mode: 'onTouched'
   });
 
   const deliveryMethod = watch('deliveryMethod');
@@ -455,10 +496,20 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
         )}
 
         <div className="flex gap-4">
-          <button onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
+          <button type="button" onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
             <ChevronLeft size={20} /> Back
           </button>
-          <button onClick={() => setStep(3)} className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
+          <button 
+            type="button" 
+            onClick={async () => {
+              const fields = deliveryMethod === 'pickup' ? ['deliveryMethod', 'hub'] : ['deliveryMethod'];
+              const isValid = await trigger(fields);
+              if (isValid) {
+                handleNext(getValues());
+              }
+            }} 
+            className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2"
+          >
             Continue <ChevronRight size={20} />
           </button>
         </div>
@@ -469,7 +520,7 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
   // Step 3: Customer Details
   if (step === 3) {
     return (
-      <form onSubmit={handleSubmit(handleNext)} className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <StepIndicator current={3} total={7} />
         <h3 className="text-2xl font-bold text-brand-primary mb-6 text-center">Customer Details</h3>
         
@@ -513,18 +564,25 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
           <button type="button" onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
             <ChevronLeft size={20} /> Back
           </button>
-          <button type="submit" className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
+          <button 
+            type="button" 
+            onClick={async () => {
+              const isValid = await trigger(['fullName', 'phone', 'email']);
+              if (isValid) handleNext(getValues());
+            }} 
+            className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2"
+          >
             Continue <ChevronRight size={20} />
           </button>
         </div>
-      </form>
+      </div>
     );
   }
 
   // Step 4: Address/Logistics
   if (step === 4) {
     return (
-      <form onSubmit={handleSubmit(handleNext)} className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <StepIndicator current={4} total={7} />
         <h3 className="text-2xl font-bold text-brand-primary mb-6 text-center">Logistics & Timing</h3>
         
@@ -601,18 +659,28 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
           <button type="button" onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
             <ChevronLeft size={20} /> Back
           </button>
-          <button type="submit" className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
+          <button 
+            type="button" 
+            onClick={async () => {
+              const fields = deliveryMethod === 'delivery' 
+                ? ['address', 'city', 'pincode', 'deliveryDistance', 'pickupDate', 'pickupTime', 'returnDate', 'returnTime']
+                : ['pickupDate', 'pickupTime', 'returnDate', 'returnTime'];
+              const isValid = await trigger(fields);
+              if (isValid) handleNext(getValues());
+            }} 
+            className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2"
+          >
             Continue <ChevronRight size={20} />
           </button>
         </div>
-      </form>
+      </div>
     );
   }
 
   // Step 5: Document Upload
   if (step === 5) {
     return (
-      <form onSubmit={handleSubmit(handleNext)} className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <StepIndicator current={5} total={7} />
         <h3 className="text-2xl font-bold text-brand-primary mb-6 text-center">Verify Identity</h3>
         
@@ -654,11 +722,18 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
           <button type="button" onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
             <ChevronLeft size={20} /> Back
           </button>
-          <button type="submit" className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
+          <button 
+            type="button" 
+            onClick={async () => {
+              const isValid = await trigger(['license', 'idProof']);
+              if (isValid) handleNext(getValues());
+            }} 
+            className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2"
+          >
             Continue <ChevronRight size={20} />
           </button>
         </div>
-      </form>
+      </div>
     );
   }
 
@@ -722,10 +797,10 @@ function SelfDriveFlow({ step, setStep, handleNext, handleBack, handleFinalSubmi
         </div>
 
         <div className="flex gap-4">
-          <button onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
+          <button type="button" onClick={handleBack} className="flex-1 py-4 px-6 border-2 border-neutral-100 text-neutral-500 font-bold rounded-2xl hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
             <ChevronLeft size={20} /> Back
           </button>
-          <button onClick={() => setStep(7)} className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
+          <button type="button" onClick={() => handleNext(getValues())} className="flex-[2] py-4 px-6 bg-brand-primary text-white font-bold rounded-2xl hover:brightness-110 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-2">
             Review & Confirm <ChevronRight size={20} />
           </button>
         </div>

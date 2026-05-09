@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Search, Filter, CheckCircle, XCircle, Truck, Camera } from 'lucide-react';
+import { Calendar, Search, Filter, CheckCircle, XCircle, Truck, Camera, Trash2, IdCard, FileText } from 'lucide-react';
 import api from '../../api/axios';
 import { toast } from 'react-hot-toast';
 
@@ -41,6 +41,17 @@ export default function AdminBookings() {
       fetchBookings();
     } catch (err) {
       toast.error('Failed to update status');
+    }
+  };
+
+  const deleteBooking = async (type, id) => {
+    if (!window.confirm('Are you sure you want to remove this booking from history?')) return;
+    try {
+      await api.delete(`/bookings/${type}/${id}`);
+      toast.success('Booking deleted!');
+      fetchBookings();
+    } catch (err) {
+      toast.error('Failed to delete booking');
     }
   };
 
@@ -116,7 +127,7 @@ export default function AdminBookings() {
                     </td>
                     <td className="p-4 text-gray-600">{b.serviceName || b.carCategory || b.driverType || '—'}</td>
                     <td className="p-4 text-gray-600">{new Date(b.createdAt).toLocaleDateString()}</td>
-                    <td className="p-4 font-medium text-gray-900">₹{b.totalAmount || '—'}</td>
+                    <td className="p-4 font-medium text-gray-900">₹{b.totalAmount || b.advancePaid || '—'}</td>
                     <td className="p-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[b.status] || 'bg-gray-100 text-gray-700'}`}>{b.status}</span>
                     </td>
@@ -125,6 +136,16 @@ export default function AdminBookings() {
                         {b.paymentScreenshot && (
                           <button onClick={() => setSelectedImage(b.paymentScreenshot)} className="p-1.5 rounded-lg hover:bg-purple-50 text-purple-600" title="View Payment Screenshot">
                             <Camera className="w-4 h-4" />
+                          </button>
+                        )}
+                        {b.type === 'car' && b.drivingLicense && (
+                          <button onClick={() => setSelectedImage(b.drivingLicense)} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-600" title="View Driving License">
+                            <IdCard className="w-4 h-4" />
+                          </button>
+                        )}
+                        {b.type === 'car' && b.idProof && (
+                          <button onClick={() => setSelectedImage(b.idProof)} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-600" title="View ID Proof">
+                            <FileText className="w-4 h-4" />
                           </button>
                         )}
                         {b.status === 'pending' && (
@@ -136,6 +157,7 @@ export default function AdminBookings() {
                         {b.status === 'confirmed' && (
                           <button onClick={() => updateStatus(b.type, b._id, 'completed')} className="p-1.5 rounded-lg hover:bg-blue-50 text-blue-600" title="Mark Complete"><Truck className="w-4 h-4" /></button>
                         )}
+                        <button onClick={() => deleteBooking(b.type, b._id)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-600" title="Remove Booking"><Trash2 className="w-4 h-4" /></button>
                       </div>
                     </td>
                   </tr>
@@ -149,8 +171,8 @@ export default function AdminBookings() {
       {selectedImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="bg-white rounded-3xl p-6 max-w-lg w-full relative">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Payment Screenshot</h3>
-            <img src={selectedImage} alt="Payment Proof" className="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-100" />
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Document Viewer</h3>
+            <img src={selectedImage} alt="Document Proof" className="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-100" />
             <button onClick={() => setSelectedImage(null)} className="mt-6 w-full py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors">
               Close Preview
             </button>

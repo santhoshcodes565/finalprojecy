@@ -61,6 +61,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// ─── Read Only Guard ─────────────────────────────────────
+const readOnlyGuard = require('./middleware/readOnlyGuard');
+app.use(readOnlyGuard);
+
 // ─── API Routes ──────────────────────────────────────────
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tours', require('./routes/tours'));

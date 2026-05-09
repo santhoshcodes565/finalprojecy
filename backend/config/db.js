@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const dns = require('dns');
 
-// Fix for networks that block DNS SRV lookups (common on restricted WiFi/corporate networks)
-dns.setDefaultResultOrder('ipv4first');
+// Use Google Public DNS to fix SRV resolution issues (common on restricted WiFi/corporate networks)
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const connectDB = async () => {
   try {
