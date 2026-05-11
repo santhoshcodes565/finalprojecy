@@ -208,4 +208,62 @@ router.get('/', auth, admin, async (req, res) => {
   }
 });
 
+/**
+ * POST /api/payments/advance-confirm
+ * Marks an INITIATED payment as SUCCESS without card validation.
+ * Used for advance/UPI payments confirmed by screenshot upload.
+ */
+router.post('/advance-confirm', auth, async (req, res) => {
+  try {
+    const { paymentId, method } = req.body;
+
+    if (!paymentId) {
+      return res.status(400).json({ message: 'Payment ID is required.' });
+    }
+
+    const payment = await Payment.findOne({ _id: paymentId, userId: req.userId });
+    if (!payment) {
+      return res.status(404).json({ message: 'Payment record not found.' });
+    }
+
+    // Idempotency: already confirmed
+    if (payment.status === 'SUCCESS') {
+      return res.json({ message: 'Payment already confirmed.', payment });
+    }
+
+    payment.status = 'SUCCESS';
+    payment.isVerified = true;
+    payment.method = method || 'upi';
+    payment.transactionId = generateTransactionId();
+    await payment.save();
+
+    await PaymentLog.create({
+      paymentId: payment._id,
+      action: 'SUCCESS',
+      metadata: { method: payment.method, source: 'advance_screenshot', transactionId: payment.transactionId }
+    });
+
+    // Update the booking's payment status
+    let bookingModel;
+    if (payment.bookingType === 'car') bookingModel = CarBooking;
+    else if (payment.bookingType === 'driver') bookingModel = DriverBooking;
+    else if (payment.bookingType === 'package') bookingModel = PackageBooking;
+
+    if (bookingModel) {
+      await bookingModel.findByIdAndUpdate(payment.bookingId, { paymentStatus: 'Success' })
+        .catch(e => console.log('Booking payment status update soft-fail:', e.message));
+    }
+
+    return res.json({
+      status: 'SUCCESS',
+      transactionId: payment.transactionId,
+      message: 'Advance payment confirmed.'
+    });
+
+  } catch (error) {
+    console.error('Advance confirm error:', error.message);
+    res.status(500).json({ message: 'Failed to confirm advance payment.' });
+  }
+});
+
 module.exports = router;

@@ -42,6 +42,7 @@ const Register = lazy(() => import('../pages/Register'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 // New pages
+const CustomPackage = lazy(() => import('../pages/CustomPackage'));
 const Gallery = lazy(() => import('../pages/Gallery'));
 const Blog = lazy(() => import('../pages/Blog'));
 const FAQ = lazy(() => import('../pages/FAQ'));
@@ -97,6 +98,7 @@ const router = createBrowserRouter([
       { path: 'car-rental/:id', element: <Suspense fallback={<PageLoader />}><CarDetails /></Suspense> },
       { path: 'hire-driver', element: <Suspense fallback={<PageLoader />}><HireDriver /></Suspense> },
       { path: 'packages', element: <Suspense fallback={<PageLoader />}><Packages /></Suspense> },
+      { path: 'custom-package', element: <Suspense fallback={<PageLoader />}><CustomPackage /></Suspense> },
       { path: 'tour/:id', element: <Suspense fallback={<PageLoader />}><TourDetails /></Suspense> },
       { path: 'gallery', element: <Suspense fallback={<PageLoader />}><Gallery /></Suspense> },
       { path: 'testimonials', element: <Suspense fallback={<PageLoader />}><TestimonialsPage /></Suspense> },

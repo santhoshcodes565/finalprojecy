@@ -20,9 +20,11 @@ const CarDetails = React.lazy(() => import('./pages/CarDetails.jsx'));
 const HireDriver = React.lazy(() => import('./pages/HireDriver.jsx'));
 const Booking = React.lazy(() => import('./pages/Booking.jsx'));
 const PackageBooking = React.lazy(() => import('./pages/PackageBooking.jsx'));
+const CustomPackage = React.lazy(() => import('./pages/CustomPackage.jsx'));
 const CarBooking = React.lazy(() => import('./pages/CarBooking.jsx'));
 const DriverBooking = React.lazy(() => import('./pages/DriverBooking.jsx'));
 const Payment = React.lazy(() => import('./pages/Payment.jsx'));
+const AdvancePayment = React.lazy(() => import('./pages/AdvancePayment.jsx'));
 const MyBookings = React.lazy(() => import('./pages/MyBookings.jsx'));
 const MyProfile = React.lazy(() => import('./pages/MyProfile.jsx'));
 const NotFound = React.lazy(() => import('./pages/NotFound.jsx'));
@@ -148,6 +150,8 @@ export default function App() {
             <Route path="login" element={<Navigate to="/signin" replace />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="packages" element={<Packages />} />
+            {/* Custom Package Route */}
+            <Route path="custom-package" element={<CustomPackage />} />
             <Route path="tour/:id" element={<TourDetails />} />
             <Route path="car-rental" element={<CarRental />} />
             <Route path="car-rental/:id" element={<CarDetails />} />
@@ -159,7 +163,8 @@ export default function App() {
               <Route path="booking/package/:id" element={<PackageBooking />} />
               <Route path="booking/car/:id" element={<CarBooking />} />
               <Route path="booking/driver" element={<DriverBooking />} />
-              <Route path="payment/advance" element={<Payment />} />
+              <Route path="payment/advance" element={<AdvancePayment />} />
+              <Route path="payment/card" element={<Payment />} />
               <Route path="my-bookings" element={<MyBookings />} />
               <Route path="my-profile" element={<MyProfile />} />
             </Route>

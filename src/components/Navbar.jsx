@@ -48,6 +48,7 @@ export default function Navbar() {
     { label: 'Cars', to: '/car-rental' },
     { label: 'Drivers', to: '/hire-driver' },
     { label: 'Packages', to: '/packages' },
+    { label: 'Customize', to: '/custom-package' },
     { label: 'Gallery', to: '/gallery' },
     { label: 'Contact', to: '/contact' },
   ];

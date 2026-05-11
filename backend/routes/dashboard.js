@@ -28,13 +28,13 @@ router.get('/stats', auth, admin, async (req, res) => {
     ]);
     const todayBookings = todayCars + todayDrivers + todayPackages;
 
-    // Total revenue (all time)
-    const payments = await Payment.find({ status: { $in: ['partial', 'full'] } });
+    // Total revenue (all time) — only count SUCCESS payments
+    const payments = await Payment.find({ status: 'SUCCESS' });
     const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0);
 
-    // Today's revenue
+    // Today's revenue — only count SUCCESS payments
     const todayPayments = await Payment.find({
-      status: { $in: ['partial', 'full'] },
+      status: 'SUCCESS',
       createdAt: { $gte: today, $lt: tomorrow },
     });
     const todayRevenue = todayPayments.reduce((sum, p) => sum + p.amount, 0);

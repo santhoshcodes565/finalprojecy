@@ -1,0 +1,29 @@
+{
+  "cookies": [
+    {
+      "name": "WMF-Uniq",
+      "value": "zl3IpGEbEM_lBaygCAHrxgNbAAAAAFvdIwMK36375lVWumGggDXZG09sqp-AN0t4",
+      "domain": ".upload.wikimedia.org",
+      "path": "/",
+      "expires": 1809860759.198272,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:5173",
+      "localStorage": [
+        {
+          "name": "slt_token",
+          "value": "e2e-fake-token-bypass"
+        },
+        {
+          "name": "slt_user",
+          "value": "{\"_id\":\"e2e-test-user-001\",\"name\":\"E2E Test User\",\"email\":\"e2etest@slttest.com\",\"phone\":\"9876543210\",\"role\":\"user\",\"isVerified\":true}"
+        }
+      ]
+    }
+  ]
+}

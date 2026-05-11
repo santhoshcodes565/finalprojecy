@@ -104,6 +104,101 @@ export default function Home() {
           }}
           className="w-full h-full"
         >
+          {/* Slide 0: Packages Video Banner */}
+          <SwiperSlide>
+            <div className="relative w-full h-full overflow-hidden bg-black">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover z-0"
+                src="/videos/bannervideoforpackeages.mp4"
+              />
+              {/* Cinematic gradient — strong on left for text, fades to transparent on right */}
+              <div
+                className="absolute inset-0 z-10 pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(to right, rgba(10,46,26,0.88) 0%, rgba(10,46,26,0.60) 40%, rgba(10,46,26,0.15) 70%, transparent 100%), linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 50%)',
+                }}
+              />
+              {/* Left-side text overlay */}
+              <div className="absolute inset-0 z-20 flex items-center">
+                <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full -mt-10">
+                  <div className="max-w-xl">
+                    {/* Badge */}
+                    <span
+                      className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border mb-6"
+                      style={{
+                        color: '#D4A017',
+                        borderColor: 'rgba(212,160,23,0.4)',
+                        background: 'rgba(212,160,23,0.10)',
+                        backdropFilter: 'blur(4px)',
+                      }}
+                    >
+                      <span style={{ color: '#D4A017' }}>✦</span> Handpicked Itineraries
+                    </span>
+
+                    {/* Headline */}
+                    <h1
+                      className="font-extrabold text-white leading-tight mb-4"
+                      style={{
+                        fontFamily: "'Playfair Display', serif",
+                        fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
+                        textShadow: '0 2px 20px rgba(0,0,0,0.4)',
+                      }}
+                    >
+                      Explore India<br />
+                      <span style={{ color: '#D4A017', fontStyle: 'italic' }}>With Purpose.</span>
+                    </h1>
+
+                    {/* Gold divider */}
+                    <div
+                      className="mb-5"
+                      style={{ width: '64px', height: '3px', background: 'linear-gradient(to right, #D4A017, transparent)', borderRadius: '999px' }}
+                    />
+
+                    {/* Subtext */}
+                    <p
+                      className="text-white/80 leading-relaxed mb-8"
+                      style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)', maxWidth: '440px', textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
+                    >
+                      Expertly curated tours across Tamil Nadu &amp; Kerala. Every route is planned so you can focus entirely on making memories.
+                    </p>
+
+                    {/* Category pills */}
+                    <div className="flex flex-wrap gap-3 mb-10">
+                      {['🏖️ Beach Escapes', '⛰️ Hill Stations', '🛕 Pilgrimage Tours', '🌿 Nature Retreats'].map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs font-semibold px-3.5 py-1.5 rounded-full text-white"
+                          style={{
+                            background: 'rgba(255,255,255,0.10)',
+                            border: '1px solid rgba(255,255,255,0.22)',
+                            backdropFilter: 'blur(6px)',
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* CTA buttons */}
+                    <div className="flex gap-4">
+                      <Link to="/packages" className="bg-brand-secondary text-white font-semibold rounded-lg px-8 py-3.5 shadow-lg border border-[#a17520] hover:bg-[#a67a21] transition-all duration-300 inline-block drop-shadow-md">
+                        View Packages
+                      </Link>
+                      <Link to="/contact" className="bg-white/10 backdrop-blur-md border border-white/40 text-white font-semibold rounded-lg px-8 py-3.5 hover:bg-white/20 transition-all duration-300 inline-block">
+                        Contact Us
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
           {/* Slide: Video Background 1 (Landscape Train) */}
           <SwiperSlide>
             <div className="relative w-full h-full overflow-hidden bg-black">

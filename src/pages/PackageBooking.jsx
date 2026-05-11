@@ -121,14 +121,16 @@ export default function PackageBooking() {
         roomType: mappedRoomType
     };
 
-    navigate('/payment/advance', {
-      state: {
-        bookingData: finalData,
-        endpoint: '/bookings/package',
-        successMessage: '🎉 Package booked! Our travel expert will call you within 1 hour.',
-        serviceType: 'package'
-      }
-    });
+    setSubmitting(true);
+    try {
+      await api.post('/bookings/package', finalData);
+      toast.success('🎉 Inquiry submitted! Our travel expert will call you within 1 hour to customize and confirm your booking.');
+      navigate('/my-bookings');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to submit inquiry. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const steps = ['Travellers & Dates', 'Package Preferences', 'Special Needs & Confirm'];
@@ -393,7 +395,7 @@ export default function PackageBooking() {
                     <button type="button" onClick={() => setStep(2)} className="flex-1 border-2 border-brand-primary text-brand-primary py-3.5 rounded-xl font-bold text-sm hover:bg-brand-primary hover:text-white transition-all">← Back</button>
                     <button type="submit" disabled={submitting} className="flex-[2] bg-brand-primary text-white py-3.5 rounded-xl font-bold text-sm hover:brightness-110 transition-all disabled:opacity-60 flex items-center justify-center gap-2">
                       {submitting && <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>}
-                      Confirm Package Booking
+                      Submit Inquiry & Request Call
                     </button>
                   </div>
                 </>

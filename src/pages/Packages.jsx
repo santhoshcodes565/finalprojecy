@@ -61,18 +61,102 @@ export default function Packages() {
 
   return (
     <div className="bg-brand-accent min-h-screen">
-      {/* Hero Banner */}
-      <section className="bg-brand-primary pt-28 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-brand-secondary bg-brand-secondary/10 px-4 py-1.5 rounded-full border border-brand-secondary/30 mb-4">
-            Handpicked Itineraries
-          </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-3">
-            Explore With <span className="text-brand-secondary italic">Purpose.</span>
-          </h1>
-          <p className="text-white/70 text-sm max-w-xl mx-auto leading-relaxed">
-            Expertly curated tours across Tamil Nadu and Kerala. We have planned the perfect routes so you can focus entirely on making memories.
-          </p>
+      {/* Hero Video Banner */}
+      <section className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: '600px' }}>
+        {/* Full-cover video */}
+        <video
+          src="/videos/bannervideoforpackeages.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+
+        {/* Cinematic gradient overlay — strong on left for text, subtle on right */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(10,46,26,0.88) 0%, rgba(10,46,26,0.60) 40%, rgba(10,46,26,0.15) 70%, transparent 100%), linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 50%)',
+          }}
+        />
+
+        {/* Left-side text overlay */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
+            <div className="max-w-xl">
+              {/* Badge */}
+              <span
+                className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border mb-6"
+                style={{
+                  color: '#D4A017',
+                  borderColor: 'rgba(212,160,23,0.4)',
+                  background: 'rgba(212,160,23,0.10)',
+                  backdropFilter: 'blur(4px)',
+                }}
+              >
+                <span style={{ color: '#D4A017' }}>✦</span> Handpicked Itineraries
+              </span>
+
+              {/* Headline */}
+              <h1
+                className="font-extrabold text-white leading-tight mb-4"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)',
+                  textShadow: '0 2px 20px rgba(0,0,0,0.4)',
+                }}
+              >
+                Explore India<br />
+                <span style={{ color: '#D4A017', fontStyle: 'italic' }}>With Purpose.</span>
+              </h1>
+
+              {/* Divider */}
+              <div
+                className="mb-5"
+                style={{ width: '64px', height: '3px', background: 'linear-gradient(to right, #D4A017, transparent)', borderRadius: '999px' }}
+              />
+
+              {/* Subtext */}
+              <p
+                className="text-white/80 leading-relaxed mb-8"
+                style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)', maxWidth: '440px', textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
+              >
+                Expertly curated tours across Tamil Nadu &amp; Kerala. Every route is planned so you can focus entirely on making memories.
+              </p>
+
+              {/* Highlight pills */}
+              <div className="flex flex-wrap gap-3 mb-10">
+                {['🏖️ Beach Escapes', '⛰️ Hill Stations', '🛕 Pilgrimage Tours', '🌿 Nature Retreats'].map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs font-semibold px-3.5 py-1.5 rounded-full text-white"
+                    style={{
+                      background: 'rgba(255,255,255,0.10)',
+                      border: '1px solid rgba(255,255,255,0.22)',
+                      backdropFilter: 'blur(6px)',
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Scroll-down hint */}
+              <div className="flex items-center gap-3">
+                <div
+                  className="flex flex-col items-center gap-1 animate-bounce"
+                  style={{ color: '#D4A017' }}
+                >
+                  <span className="text-xs font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.6)' }}>Scroll to explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#D4A017" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -146,7 +230,7 @@ export default function Packages() {
                           to={`/book/package/${pkg._id}`}
                           className="flex-1 sm:flex-none text-center bg-brand-secondary text-brand-dark px-6 py-3.5 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 hover:-translate-y-1 hover:shadow-brand-secondary/20 transition-all active:scale-95"
                         >
-                          Book Now
+                          Customize & Book
                         </Link>
                       </div>
                     </div>
@@ -155,6 +239,37 @@ export default function Packages() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Custom Package CTA Section */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        {/* Abstract background blobs */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-secondary/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-brand-primary/10 rounded-full blur-3xl" />
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border mb-6 text-brand-primary border-brand-primary/20 bg-brand-accent/50">
+            <span>✨</span> Build Your Dream Trip
+          </div>
+          
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-primary mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Can't find what you're looking for?
+          </h2>
+          
+          <p className="text-neutral-500 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+            Let our travel experts craft a completely personalized itinerary based on your exact requirements, budget, and travel style.
+          </p>
+
+          <Link
+            to="/custom-package"
+            className="inline-flex items-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:brightness-110 hover:-translate-y-1 hover:shadow-brand-primary/30 transition-all active:scale-95"
+          >
+            Create Custom Package
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
         </div>
       </section>
     </div>

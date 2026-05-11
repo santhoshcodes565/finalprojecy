@@ -179,6 +179,7 @@ export default function Booking() {
                 {serviceOptions.map((opt) => (
                   <button
                     key={opt.key}
+                    data-testid={`service-option-${opt.key}`}
                     onClick={() => setServiceType(opt.key)}
                     className={`p-5 rounded-xl border-2 text-left transition-all ${serviceType === opt.key ? 'border-brand-primary bg-brand-primary/5' : 'border-neutral-200 hover:border-brand-primary/40'}`}
                   >
@@ -189,7 +190,11 @@ export default function Booking() {
                 ))}
               </div>
               <div className="flex justify-end">
-                <button onClick={() => setStep(2)} className="bg-brand-primary text-white font-bold px-7 py-3 rounded-xl hover:bg-brand-secondary hover:text-brand-dark transition-all flex items-center gap-2 text-sm">
+                <button
+                  data-testid="booking-continue-btn"
+                  onClick={() => setStep(2)}
+                  className="bg-brand-primary text-white font-bold px-7 py-3 rounded-xl hover:bg-brand-secondary hover:text-brand-dark transition-all flex items-center gap-2 text-sm"
+                >
                   Continue <ArrowRight size={16} />
                 </button>
               </div>
@@ -216,39 +221,39 @@ export default function Booking() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
                 {!hasPreselection && serviceType === 'car' && (
                   <div className="md:col-span-2">
-                    <label className={labelClass}>Select Car Model</label>
-                    <select value={selectedCarId} onChange={(e) => setSelectedCarId(e.target.value)} className={inputClass}>
+                    <label htmlFor="booking-selectCar" className={labelClass}>Select Car Model</label>
+                    <select id="booking-selectCar" value={selectedCarId} onChange={(e) => setSelectedCarId(e.target.value)} className={inputClass}>
                       {cars.map((c) => <option key={c.id} value={c.id}>{c.name} — ₹{c.pricePerKm}/km</option>)}
                     </select>
                   </div>
                 )}
                 {!hasPreselection && serviceType === 'driver' && (
                   <div className="md:col-span-2">
-                    <label className={labelClass}>Select Driver</label>
-                    <select value={selectedDriverId} onChange={(e) => setSelectedDriverId(e.target.value)} className={inputClass}>
+                    <label htmlFor="booking-selectDriver" className={labelClass}>Select Driver</label>
+                    <select id="booking-selectDriver" value={selectedDriverId} onChange={(e) => setSelectedDriverId(e.target.value)} className={inputClass}>
                       {drivers.map((d) => <option key={d.id} value={d.id}>{d.name} ({d.rating}★)</option>)}
                     </select>
                   </div>
                 )}
                 {!hasPreselection && serviceType === 'package' && (
                   <div className="md:col-span-2">
-                    <label className={labelClass}>Select Package</label>
-                    <select value={selectedPackageId} onChange={(e) => setSelectedPackageId(e.target.value)} className={inputClass}>
+                    <label htmlFor="booking-selectPackage" className={labelClass}>Select Package</label>
+                    <select id="booking-selectPackage" value={selectedPackageId} onChange={(e) => setSelectedPackageId(e.target.value)} className={inputClass}>
                       {allPackages.map((p) => <option key={p._id || p.id} value={p._id || p.id}>{p.title} — ₹{p.price?.toLocaleString()}</option>)}
                     </select>
                   </div>
                 )}
 
-                <div><label className={labelClass}>Full Name</label><input type="text" placeholder="Your full name" value={formData.fullName} onChange={(e) => handleChange('fullName', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Phone Number</label><input type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={(e) => handleChange('phone', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Email Address</label><input type="email" placeholder="you@email.com" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Pickup District</label><select value={formData.pickupDistrict} onChange={(e) => handleChange('pickupDistrict', e.target.value)} className={inputClass}>{tamilNaduDistricts.map((d) => <option key={d}>{d}</option>)}</select></div>
-                <div><label className={labelClass}>Pickup Address</label><input type="text" placeholder="e.g. Chennai Airport" value={formData.pickupAddress} onChange={(e) => handleChange('pickupAddress', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Drop Address</label><input type="text" placeholder="e.g. Hotel Grand, Coimbatore" value={formData.dropAddress} onChange={(e) => handleChange('dropAddress', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Start Date</label><input type="date" value={formData.startDate} onChange={(e) => handleChange('startDate', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>End Date</label><input type="date" value={formData.endDate} onChange={(e) => handleChange('endDate', e.target.value)} className={inputClass} /></div>
-                <div><label className={labelClass}>Passengers</label><input type="number" min="1" value={formData.passengers} onChange={(e) => handleChange('passengers', e.target.value)} className={inputClass} /></div>
-                <div className="md:col-span-2"><label className={labelClass}>Special Requests</label><textarea rows="3" placeholder="Child seats, route preferences..." value={formData.specialRequests} onChange={(e) => handleChange('specialRequests', e.target.value)} className={inputClass + ' resize-none'} /></div>
+                <div><label htmlFor="booking-fullName" className={labelClass}>Full Name</label><input id="booking-fullName" type="text" placeholder="Your full name" value={formData.fullName} onChange={(e) => handleChange('fullName', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-phone" className={labelClass}>Phone Number</label><input id="booking-phone" type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={(e) => handleChange('phone', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-email" className={labelClass}>Email Address</label><input id="booking-email" type="email" placeholder="you@email.com" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-pickupDistrict" className={labelClass}>Pickup District</label><select id="booking-pickupDistrict" value={formData.pickupDistrict} onChange={(e) => handleChange('pickupDistrict', e.target.value)} className={inputClass}>{tamilNaduDistricts.map((d) => <option key={d}>{d}</option>)}</select></div>
+                <div><label htmlFor="booking-pickupAddress" className={labelClass}>Pickup Address</label><input id="booking-pickupAddress" type="text" placeholder="e.g. Chennai Airport" value={formData.pickupAddress} onChange={(e) => handleChange('pickupAddress', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-dropAddress" className={labelClass}>Drop Address</label><input id="booking-dropAddress" type="text" placeholder="e.g. Hotel Grand, Coimbatore" value={formData.dropAddress} onChange={(e) => handleChange('dropAddress', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-startDate" className={labelClass}>Start Date</label><input id="booking-startDate" type="date" value={formData.startDate} onChange={(e) => handleChange('startDate', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-endDate" className={labelClass}>End Date</label><input id="booking-endDate" type="date" value={formData.endDate} onChange={(e) => handleChange('endDate', e.target.value)} className={inputClass} /></div>
+                <div><label htmlFor="booking-passengers" className={labelClass}>Passengers</label><input id="booking-passengers" type="number" min="1" value={formData.passengers} onChange={(e) => handleChange('passengers', e.target.value)} className={inputClass} /></div>
+                <div className="md:col-span-2"><label htmlFor="booking-specialRequests" className={labelClass}>Special Requests</label><textarea id="booking-specialRequests" rows="3" placeholder="Child seats, route preferences..." value={formData.specialRequests} onChange={(e) => handleChange('specialRequests', e.target.value)} className={inputClass + ' resize-none'} /></div>
               </div>
 
               <div className="flex justify-between">
@@ -257,7 +262,12 @@ export default function Booking() {
                     <ArrowLeft size={16} /> Back
                   </button>
                 )}
-                <button onClick={handleBookingSubmit} disabled={isSubmitting} className="bg-brand-primary text-white font-bold px-7 py-3 rounded-xl hover:bg-brand-secondary hover:text-brand-dark transition-all flex items-center gap-2 ml-auto text-sm">
+                <button
+                  data-testid="booking-review-btn"
+                  onClick={handleBookingSubmit}
+                  disabled={isSubmitting}
+                  className="bg-brand-primary text-white font-bold px-7 py-3 rounded-xl hover:bg-brand-secondary hover:text-brand-dark transition-all flex items-center gap-2 ml-auto text-sm"
+                >
                   {isSubmitting ? 'Submitting...' : 'Review Booking'} <ArrowRight size={16} />
                 </button>
               </div>
@@ -266,7 +276,7 @@ export default function Booking() {
 
           {/* STEP 3 */}
           {step === 3 && (
-            <div className="text-center py-8">
+            <div data-testid="booking-confirmation" className="text-center py-8">
               <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-100">
                 <CheckCircle size={40} />
               </div>

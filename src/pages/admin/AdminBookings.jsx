@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Search, Filter, CheckCircle, XCircle, Truck, Camera, Trash2, IdCard, FileText } from 'lucide-react';
+import { Calendar, Search, Filter, CheckCircle, XCircle, Truck, Camera, Trash2, IdCard, FileText, Eye } from 'lucide-react';
 import api from '../../api/axios';
 import { toast } from 'react-hot-toast';
 
@@ -10,6 +10,7 @@ export default function AdminBookings() {
   const [filterType, setFilterType] = useState('');
   const [search, setSearch] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBookingDetails, setSelectedBookingDetails] = useState(null);
 
   const fetchBookings = async () => {
     try {
@@ -125,7 +126,7 @@ export default function AdminBookings() {
                         {b.type}
                       </span>
                     </td>
-                    <td className="p-4 text-gray-600">{b.serviceName || b.carCategory || b.driverType || '—'}</td>
+                    <td className="p-4 text-gray-600">{b.type === 'package' ? (b.packageId === 'custom' ? <span className="font-bold text-brand-primary">Custom Tour Inquiry</span> : `Package ${b.packageId.slice(-6)}`) : (b.serviceName || b.carCategory || b.driverType || '—')}</td>
                     <td className="p-4 text-gray-600">{new Date(b.createdAt).toLocaleDateString()}</td>
                     <td className="p-4 font-medium text-gray-900">₹{b.totalAmount || b.advancePaid || '—'}</td>
                     <td className="p-4">
@@ -133,6 +134,9 @@ export default function AdminBookings() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
+                        <button onClick={() => setSelectedBookingDetails(b)} className="p-1.5 rounded-lg hover:bg-brand-primary/10 text-brand-primary" title="View Details">
+                          <Eye className="w-4 h-4" />
+                        </button>
                         {b.paymentScreenshot && (
                           <button onClick={() => setSelectedImage(b.paymentScreenshot)} className="p-1.5 rounded-lg hover:bg-purple-50 text-purple-600" title="View Payment Screenshot">
                             <Camera className="w-4 h-4" />
@@ -144,8 +148,8 @@ export default function AdminBookings() {
                           </button>
                         )}
                         {b.type === 'car' && b.idProof && (
-                          <button onClick={() => setSelectedImage(b.idProof)} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-600" title="View ID Proof">
-                            <FileText className="w-4 h-4" />
+                          <button onClick={() => setSelectedImage(b.idProof)} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-600" title="View Aadhaar / ID Proof">
+                            <IdCard className="w-4 h-4" />
                           </button>
                         )}
                         {b.status === 'pending' && (
@@ -175,6 +179,64 @@ export default function AdminBookings() {
             <img src={selectedImage} alt="Document Proof" className="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-100" />
             <button onClick={() => setSelectedImage(null)} className="mt-6 w-full py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors">
               Close Preview
+            </button>
+          </div>
+        </div>
+      )}
+
+      {selectedBookingDetails && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b pb-3">Booking Details</h3>
+            <div className="space-y-4 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div><p className="text-gray-500 font-medium text-xs uppercase tracking-wider mb-1">Customer Name</p><p className="font-semibold text-gray-900">{selectedBookingDetails.fullName}</p></div>
+                <div><p className="text-gray-500 font-medium text-xs uppercase tracking-wider mb-1">Phone</p><p className="font-semibold text-gray-900">{selectedBookingDetails.phone}</p></div>
+                <div><p className="text-gray-500 font-medium text-xs uppercase tracking-wider mb-1">Email</p><p className="font-semibold text-gray-900">{selectedBookingDetails.email}</p></div>
+                <div><p className="text-gray-500 font-medium text-xs uppercase tracking-wider mb-1">Service Type</p><p className="font-semibold text-brand-primary capitalize">{selectedBookingDetails.type === 'package' ? (selectedBookingDetails.packageId === 'custom' ? 'Custom Package' : 'Tour Package') : selectedBookingDetails.type}</p></div>
+              </div>
+              
+              <div className="border-t pt-4">
+                <p className="text-brand-secondary font-bold mb-3 uppercase tracking-widest text-xs">Requirement Details</p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  {selectedBookingDetails.travelDate && <div><p className="text-gray-500 text-xs mb-1">Travel Date:</p><p className="font-medium text-gray-900">{new Date(selectedBookingDetails.travelDate).toLocaleDateString()}</p></div>}
+                  {selectedBookingDetails.adults !== undefined && <div><p className="text-gray-500 text-xs mb-1">Travellers:</p><p className="font-medium text-gray-900">{selectedBookingDetails.adults} Adults, {selectedBookingDetails.children || 0} Children</p></div>}
+                  {selectedBookingDetails.pickupCity && <div><p className="text-gray-500 text-xs mb-1">Pickup City:</p><p className="font-medium text-gray-900">{selectedBookingDetails.pickupCity}</p></div>}
+                  {selectedBookingDetails.duration && <div><p className="text-gray-500 text-xs mb-1">Duration:</p><p className="font-medium text-gray-900">{selectedBookingDetails.duration} Days</p></div>}
+                </div>
+                
+                {selectedBookingDetails.customNotes && (
+                  <div className="mt-4">
+                    <p className="text-gray-500 text-xs mb-2">Customer Notes / Requirements:</p>
+                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 whitespace-pre-wrap text-gray-700 font-medium">
+                      {selectedBookingDetails.customNotes}
+                    </div>
+                  </div>
+                )}
+                
+                {(selectedBookingDetails.drivingLicense || selectedBookingDetails.idProof) && (
+                  <div className="mt-4 border-t pt-4">
+                    <p className="text-brand-secondary font-bold mb-3 uppercase tracking-widest text-xs">Uploaded Documents</p>
+                    <div className="flex gap-4">
+                      {selectedBookingDetails.drivingLicense && (
+                        <button onClick={() => setSelectedImage(selectedBookingDetails.drivingLicense)} className="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors text-sm font-semibold border border-orange-100">
+                          <IdCard className="w-4 h-4" />
+                          View Driving License
+                        </button>
+                      )}
+                      {selectedBookingDetails.idProof && (
+                        <button onClick={() => setSelectedImage(selectedBookingDetails.idProof)} className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-semibold border border-blue-100">
+                          <IdCard className="w-4 h-4" />
+                          View Aadhaar / ID Proof
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <button onClick={() => setSelectedBookingDetails(null)} className="mt-6 w-full py-3.5 bg-brand-primary text-white rounded-xl font-bold hover:brightness-110 transition-all shadow-lg">
+              Close Details
             </button>
           </div>
         </div>

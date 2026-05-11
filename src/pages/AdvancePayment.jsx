@@ -66,6 +66,9 @@ export default function AdvancePayment() {
 
   if (!bookingData) return null;
 
+  // Advance amounts by service type
+  const advanceAmount = serviceType === 'car' ? 500 : serviceType === 'driver' ? 300 : 2500;
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -89,8 +92,33 @@ export default function AdvancePayment() {
     setIsProcessing(true);
 
     try {
+      // Step 1: Create the booking and get the bookingId
       const payload = { ...bookingData, paymentScreenshot: screenshotData };
-      await api.post(endpoint, payload);
+      const bookingRes = await api.post(endpoint, payload);
+      const bookingId = bookingRes.data?.booking?._id;
+
+      // Step 2: Record the advance payment in the database
+      if (bookingId) {
+        try {
+          // Initiate payment record
+          const initRes = await api.post('/payments/initiate', {
+            amount: advanceAmount,
+            bookingId,
+            bookingType: serviceType || 'car',
+          });
+
+          // Mark payment as SUCCESS (advance = screenshot proof)
+          if (initRes.data?.paymentId) {
+            await api.post('/payments/advance-confirm', {
+              paymentId: initRes.data.paymentId,
+              method: 'upi',
+            });
+          }
+        } catch (payErr) {
+          // Payment record failure is non-blocking — booking is already created
+          console.warn('Payment record could not be saved:', payErr.message);
+        }
+      }
       
       setIsProcessing(false);
       setIsSuccess(true);
@@ -123,7 +151,6 @@ export default function AdvancePayment() {
     );
   }
 
-  const advanceAmount = serviceType === 'car' ? 500 : serviceType === 'driver' ? 300 : 2500;
 
   return (
     <div className="min-h-screen bg-brand-accent py-12 pt-28">

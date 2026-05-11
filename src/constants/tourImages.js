@@ -16,7 +16,8 @@ export const tourImages = {
   // Main Packages (based on slugified titles)
   'magical-kerala': 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1000&auto=format&fit=crop',
   'grand-southern-heritage': 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=1000&auto=format&fit=crop',
-  'munnar-weekend-escape': 'https://images.unsplash.com/photo-1596484552993-9d4cb733eb0c?q=80&w=1000&auto=format&fit=crop',
+  'munnar-weekend-escape': '/images/tours/munnar-hill-station.png',
+  'munnar-tea-estates-explorer': '/images/tours/munnar-hill-station.png',
   'backwater-beach-bliss': 'https://images.unsplash.com/photo-1593693175869-79a83441589c?q=80&w=1000&auto=format&fit=crop',
   'temple-city-tour': 'https://images.unsplash.com/photo-1588698511634-80cf2a4d9435?q=80&w=1000&auto=format&fit=crop',
   'ooty-kodaikanal': 'https://images.unsplash.com/photo-1627448833912-7043329007cb?q=80&w=1000&auto=format&fit=crop',

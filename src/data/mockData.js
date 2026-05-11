@@ -1159,8 +1159,8 @@ export const packages = [
     "duration": "7 Days / 6 Nights",
     "states": "Kerala",
     "price": 19500,
-    "image": "https://loremflickr.com/800/600/Munnar,Tea,Plantation?lock=101",
-    "bannerImage": "https://loremflickr.com/800/600/Munnar,Hills,Mist?lock=102",
+    "image": "/images/tours/munnar-hill-station.png",
+    "bannerImage": "/images/tours/munnar-hill-station.png",
     "description": "Dive deep into the rolling hills of Munnar, carpeted with lush green tea estates, majestic waterfalls, and rare wildlife.",
     "highlights": [
       "Eravikulam National Park",
