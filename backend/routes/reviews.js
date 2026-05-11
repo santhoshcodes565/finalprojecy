@@ -77,11 +77,14 @@ router.post('/', auth, async (req, res) => {
 // GET /api/reviews/:serviceType/:serviceId — Get approved reviews for a service (Public)
 router.get('/:serviceType/:serviceId', async (req, res) => {
   try {
-    const reviews = await Review.find({
+    const query = {
       serviceType: req.params.serviceType,
-      serviceId: req.params.serviceId,
       isApproved: true,
-    }).sort({ createdAt: -1 });
+    };
+    if (req.params.serviceId !== 'all') {
+      query.serviceId = req.params.serviceId;
+    }
+    const reviews = await Review.find(query).sort({ createdAt: -1 });
     res.json({ reviews });
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch reviews.' });

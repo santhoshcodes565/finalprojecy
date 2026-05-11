@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  serviceId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  serviceId: { type: String, required: true },
   serviceType: { type: String, enum: ['tour', 'car', 'driver'], required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
   comment: { type: String, default: '' },

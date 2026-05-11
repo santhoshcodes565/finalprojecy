@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sri Lakshmi Travels | Premium Travel &amp; Car Rentals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#4a3200",
+              "surface-container-low": "#f6f3f2",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#001c37",
+              "on-primary": "#ffffff",
+              "surface": "#fcf9f8",
+              "tertiary-fixed": "#d2e4ff",
+              "secondary-fixed": "#e5e2e1",
+              "tertiary": "#296198",
+              "surface-tint": "#7d5700",
+              "on-secondary-container": "#656464",
+              "on-tertiary-container": "#003864",
+              "primary-container": "#c9973a",
+              "on-surface": "#1c1b1b",
+              "tertiary-container": "#71a3de",
+              "surface-bright": "#fcf9f8",
+              "secondary": "#5f5e5e",
+              "outline-variant": "#d3c4b1",
+              "tertiary-fixed-dim": "#9fcaff",
+              "inverse-on-surface": "#f3f0ef",
+              "surface-dim": "#dcd9d9",
+              "secondary-fixed-dim": "#c8c6c5",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#f4be5d",
+              "on-error": "#ffffff",
+              "primary": "#7d5700",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#271900",
+              "surface-container": "#f0edec",
+              "secondary-container": "#e5e2e1",
+              "primary-fixed-dim": "#f4be5d",
+              "on-secondary": "#ffffff",
+              "outline": "#817565",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#1c1b1b",
+              "primary-fixed": "#ffdeab",
+              "background": "#fcf9f8",
+              "on-surface-variant": "#4f4537",
+              "on-primary-fixed-variant": "#5f4100",
+              "on-secondary-fixed-variant": "#474646",
+              "surface-container-high": "#ebe7e7",
+              "inverse-surface": "#313030",
+              "error": "#ba1a1a",
+              "surface-variant": "#e5e2e1",
+              "on-tertiary-fixed-variant": "#00497e",
+              "on-background": "#1c1b1b",
+              "surface-container-highest": "#e5e2e1"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(252, 249, 248, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #7d5700 0%, #c9973a 100%);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Ken Burns Effect */
+        @keyframes kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(-2%, -1%); }
+        }
+        .ken-burns {
+            animation: kenburns 15s ease-out infinite alternate;
+        }
+
+        /* Staggered Text Animations */
+        .slide-text-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .active .slide-text-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .active .delay-1 { transition-delay: 0.3s; }
+        .active .delay-2 { transition-delay: 0.5s; }
+        .active .delay-3 { transition-delay: 0.7s; }
+
+        /* 3D Slide Transitions */
+        .slider-container {
+            perspective: 2000px;
+        }
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out, transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: rotateY(15deg) scale(0.95) translateZ(-100px);
+            z-index: 0;
+        }
+        .slide.active {
+            opacity: 1;
+            transform: rotateY(0deg) scale(1) translateZ(0);
+            z-index: 10;
+        }
+
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255,255,255,0.1);
+            transform: translate(-50%, -50%) rotate(45deg) translateY(100%);
+            transition: transform 0.6s ease;
+        }
+        .btn-premium:hover::after {
+            transform: translate(-50%, -50%) rotate(45deg) translateY(-100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 sticky z-[60] glass-nav border-b border-[#d3c4b1]/10 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center w-full px-8 py-5 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-[#1c1b1b] tracking-tighter flex items-center gap-2">
+<span class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white text-xs">SLT</span>
+            Sri Lakshmi Travels
+        </div>
+<div class="hidden md:flex items-center gap-10 font-semibold text-sm tracking-tight">
+<a class="text-[#C9973A] relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[#C9973A]" href="#">Home</a>
+<a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Cars</a>
+<a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Drivers</a>
+<a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Packages</a>
+<a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-[#4f4537] font-bold text-sm hover:text-primary transition-all">Login</button>
+<button class="primary-gradient text-white px-7 py-3 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all btn-premium">Book Now</button>
+</div>
+</div>
+</nav>
+<!-- Ticker -->
+<div class="bg-surface-container-lowest py-2.5 overflow-hidden border-b border-outline-variant/10 relative z-50">
+<div class="max-w-7xl mx-auto px-8 flex items-center gap-16 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span>Ravi booked Ooty Package</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-base">star_rate</span>
+<span>4.9 Google Rating</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-base">near_me</span>
+<span>Serving Vellore, Chennai, Trichy</span>
+</div>
+<div class="hidden lg:flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-base">verified_user</span>
+<span>ISO Certified 9001:2015</span>
+</div>
+</div>
+</div>
+<!-- Hero Section Slider -->
+<section class="relative h-[85vh] lg:h-[920px] overflow-hidden slider-container bg-black">
+<!-- Slide 1: Open Road -->
+<div class="slide active" id="slide-1">
+<img alt="Open Road" class="absolute inset-0 w-full h-full object-cover ken-burns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw-fApcTnV2QdDbVT_ku_Lbfs1FSFIbRfApAGzsobArCZmujI9b4c3T-tkeazApt9ocWgV-BpQmgmzdH8REmCLBXDVIhItxdJg2TcUe7dDLjCUJfwB27co1wyFQGL0G5kL2Whn86c1NjZeCmdb0fjw_ejoA4i766ctjdNvZsjjtIk_6qU184aFXiDRHgOrMyNVRDwCDWdXRVZrv4jXIh7Mal3zHUZ86RQCPn4qbwho5JTQEmPW4ZnJcMT87oU_V6cOVgcud3W4gfOu"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative h-full max-w-7xl mx-auto px-8 flex items-center">
+<div class="max-w-3xl">
+<span class="slide-text-up text-primary-container font-bold tracking-[0.4em] uppercase text-xs mb-4 block">Redefining Mobility</span>
+<h1 class="slide-text-up delay-1 text-white font-extrabold text-6xl lg:text-8xl leading-[1] tracking-tight mb-6">
+                    Journey into <br/><span class="text-primary-container italic font-medium">Comfort.</span>
+</h1>
+<p class="slide-text-up delay-2 text-white/80 text-lg mb-10 font-medium max-w-lg leading-relaxed">
+                    Premium rentals and professional drivers desde 1995. Explore the vast horizons of Tamil Nadu with peace of mind.
+                </p>
+<div class="slide-text-up delay-3 flex flex-wrap gap-5">
+<button class="primary-gradient text-white px-10 py-5 rounded-xl font-bold hover:shadow-2xl transition-all btn-premium text-base">Explore Fleet</button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-xl font-bold hover:bg-white hover:text-on-surface transition-all text-base">View Tours</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 2: Ooty Hills -->
+<div class="slide" id="slide-2">
+<img alt="Ooty Hills" class="absolute inset-0 w-full h-full object-cover ken-burns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQNm4YrycgHwR5Bam9-tnjw8YHB0epNgLpKp8uPVBh21qM0qkdZMIzfnoim_IIOuZGyLeDAnr-j0rt9cTfQbdPo0Vl24E4Nlrnpe8C3OubLrJFkKDM_sLyI0sVOsW6G7sg4IoPVqFD8noDbRFYY8DaFnEsFH4QNOL4_aOl-9_tQRfTM6MBC_s7nsBABijtA4BG0T-kj-H9Cjw99muZTuWdobyG2gUsO0lwy2uPTajaqMwx9WYWXFMZ7zeLoQOrDSnfOjurMfikDOQA"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative h-full max-w-7xl mx-auto px-8 flex items-center">
+<div class="max-w-3xl">
+<span class="slide-text-up text-primary-container font-bold tracking-[0.4em] uppercase text-xs mb-4 block">Mountain Escapes</span>
+<h1 class="slide-text-up delay-1 text-white font-extrabold text-6xl lg:text-8xl leading-[1] tracking-tight mb-6">
+                    The Misty <br/><span class="text-primary-container italic font-medium">Nilgiris.</span>
+</h1>
+<p class="slide-text-up delay-2 text-white/80 text-lg mb-10 font-medium max-w-lg leading-relaxed">
+                    Curated hill station packages designed for relaxation. Experience Ooty like never before with our expert guides.
+                </p>
+<div class="slide-text-up delay-3 flex flex-wrap gap-5">
+<button class="primary-gradient text-white px-10 py-5 rounded-xl font-bold hover:shadow-2xl transition-all btn-premium text-base">Book Ooty Trip</button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-xl font-bold hover:bg-white hover:text-on-surface transition-all text-base">See Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 3: Rameshwaram -->
+<div class="slide" id="slide-3">
+<img alt="Rameshwaram Temple" class="absolute inset-0 w-full h-full object-cover ken-burns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFQ2zZzCSJtZSJa29hI5DDDEOdDhhNwkOCNUxkvDogE2sbALIQcuaVejDcjz1jh_OtYCNg7UFJzQYSRAgKX8IDGigJUt3xrmHOtOW9ZyO0YaeuW07UNZKGDMuHGgvCWQy3KU0Cv_FyzjoyxTmhppE5MqY-BuZQYoDvZsAvMkT5-VjCAw1ba98ufaEznn4T_048BHHvQrPjqgsCWZixEi4tIDUpOL8mD0Sxr8vZH8zzcslvXN62cOqXwQUwqlFjfUzAdnb1DuNlp2N4"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative h-full max-w-7xl mx-auto px-8 flex items-center">
+<div class="max-w-3xl">
+<span class="slide-text-up text-primary-container font-bold tracking-[0.4em] uppercase text-xs mb-4 block">Spiritual Heritage</span>
+<h1 class="slide-text-up delay-1 text-white font-extrabold text-6xl lg:text-8xl leading-[1] tracking-tight mb-6">
+                    Divine <br/><span class="text-primary-container italic font-medium">Sanctuaries.</span>
+</h1>
+<p class="slide-text-up delay-2 text-white/80 text-lg mb-10 font-medium max-w-lg leading-relaxed">
+                    Hassle-free spiritual tours to Rameshwaram, Madurai, and more. Sacred journeys, seamless logistics.
+                </p>
+<div class="slide-text-up delay-3 flex flex-wrap gap-5">
+<button class="primary-gradient text-white px-10 py-5 rounded-xl font-bold hover:shadow-2xl transition-all btn-premium text-base">Spiritual Tours</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 4: Pondicherry -->
+<div class="slide" id="slide-4">
+<img alt="Pondicherry Streets" class="absolute inset-0 w-full h-full object-cover ken-burns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnFtbxwACz_f71diaKlXCf5e2fZIFCuRzkMI001uY-4pelN7AhkzZRRhj34wPJzyBAZOzNjlSmntFVsJiQXdCrG0uGWFOOC0dXXeQAo0vQYirNNJXObY464TAFeRZ3hHBD-5-tBR5ZTPoMDW5lcVo5hW_rWBogpLbIHKodO9dRa9rSjdxCED87EcPtQp2bEjTe7o7t3RjI-P3OvFqrVqYGU3Nw4lrd99BmPPzKs8d5las66jurZ2A6We1e64ireP0NmFf_VVQTiAMW"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative h-full max-w-7xl mx-auto px-8 flex items-center">
+<div class="max-w-3xl">
+<span class="slide-text-up text-primary-container font-bold tracking-[0.4em] uppercase text-xs mb-4 block">Coastal Charms</span>
+<h1 class="slide-text-up delay-1 text-white font-extrabold text-6xl lg:text-8xl leading-[1] tracking-tight mb-6">
+                    French <br/><span class="text-primary-container italic font-medium">Riviera.</span>
+</h1>
+<p class="slide-text-up delay-2 text-white/80 text-lg mb-10 font-medium max-w-lg leading-relaxed">
+                    Stroll through the colorful lanes of Pondicherry. Day trips and weekend getaways from Chennai and Vellore.
+                </p>
+<div class="slide-text-up delay-3 flex flex-wrap gap-5">
+<button class="primary-gradient text-white px-10 py-5 rounded-xl font-bold hover:shadow-2xl transition-all btn-premium text-base">Explore Pondy</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Slider Navigation Controls -->
+<div class="absolute bottom-32 left-8 lg:left-1/2 lg:-translate-x-1/2 z-40 flex items-center gap-4">
+<button class="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-on-surface transition-all backdrop-blur-sm" onclick="changeSlide(-1)">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-2" id="slider-dots">
+<span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer active bg-primary" onclick="goToSlide(0)"></span>
+<span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer" onclick="goToSlide(1)"></span>
+<span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer" onclick="goToSlide(2)"></span>
+<span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer" onclick="goToSlide(3)"></span>
+</div>
+<button class="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-on-surface transition-all backdrop-blur-sm" onclick="changeSlide(1)">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Elevated Booking Widget -->
+<div class="max-w-7xl mx-auto px-8 -mt-20 relative z-[55]">
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-[0_32px_64px_rgba(0,0,0,0.08)] border border-outline-variant/10 grid grid-cols-1 md:grid-cols-5 gap-8 items-end">
+<div class="space-y-3">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">category</span> Service Type
+            </label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>Outstation Trip</option>
+<option>Local Rental</option>
+<option>Airport Transfer</option>
+</select>
+</div>
+<div class="space-y-3">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_city</span> Pickup City
+            </label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>Vellore</option>
+<option>Chennai</option>
+<option>Trichy</option>
+</select>
+</div>
+<div class="space-y-3">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">event</span> Travel Date
+            </label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-primary/20 cursor-pointer" type="date"/>
+</div>
+<div class="space-y-3">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">group</span> Passengers
+            </label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>1-4 Persons</option>
+<option>5-7 Persons</option>
+<option>8+ Persons</option>
+</select>
+</div>
+<button class="primary-gradient text-white h-[56px] rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:shadow-xl hover:-translate-y-0.5 transition-all btn-premium">
+<span class="material-symbols-outlined text-lg">travel_explore</span>
+            Search
+        </button>
+</div>
+</div>
+<!-- Stats Row -->
+<section class="py-32 max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-16">
+<div class="text-center group">
+<div class="text-5xl font-black text-primary mb-3 group-hover:scale-110 transition-transform duration-300">500+</div>
+<div class="text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant">Travelers Served</div>
+</div>
+<div class="text-center group">
+<div class="text-5xl font-black text-primary mb-3 group-hover:scale-110 transition-transform duration-300">15+</div>
+<div class="text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant">Fleet Vehicles</div>
+</div>
+<div class="text-center group">
+<div class="text-5xl font-black text-primary mb-3 group-hover:scale-110 transition-transform duration-300">30+</div>
+<div class="text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant">Destinations</div>
+</div>
+<div class="text-center group">
+<div class="text-5xl font-black text-primary mb-3 group-hover:scale-110 transition-transform duration-300">1995</div>
+<div class="text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant">Year Founded</div>
+</div>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="bg-surface-container-low py-32">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-20">
+<span class="text-primary font-black text-[10px] uppercase tracking-[0.3em] block mb-3">Our Offerings</span>
+<h2 class="text-5xl font-black text-on-surface tracking-tight">Premium Travel Services</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<!-- Service Cards -->
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">directions_car</span>
+</div>
+<h3 class="text-2xl font-black mb-4">Car Rentals</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Wide range of luxury and economy cars for your local and outstation needs.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">person_pin</span>
+</div>
+<h3 class="text-2xl font-black mb-4">Expert Drivers</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Professional, bilingual drivers with years of experience in South Indian routes.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">explore</span>
+</div>
+<h3 class="text-2xl font-black mb-4">Curated Tours</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Tailor-made holiday packages covering the hidden gems of Tamil Nadu.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">flight_takeoff</span>
+</div>
+<h3 class="text-2xl font-black mb-4">Airport Transfers</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Punctual pickups and drops for all major airports in the region.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">corporate_fare</span>
+</div>
+<h3 class="text-2xl font-black mb-4">Corporate Travel</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Reliable mobility solutions for businesses and institutional events.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">support_agent</span>
+</div>
+<h3 class="text-2xl font-black mb-4">24/7 Support</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed font-medium">Round-the-clock assistance to ensure your journey is smooth and safe.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Fleet Horizontal -->
+<section class="py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 mb-16 flex justify-between items-end">
+<div>
+<span class="text-primary font-black text-[10px] uppercase tracking-[0.3em] block mb-3">Our Fleet</span>
+<h2 class="text-5xl font-black text-on-surface tracking-tight">Choose Your Ride</h2>
+</div>
+<div class="flex gap-4">
+<button class="w-14 h-14 border-2 border-outline-variant/30 rounded-full flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-14 h-14 border-2 border-outline-variant/30 rounded-full flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-10 px-8 overflow-x-auto no-scrollbar pb-12">
+<div class="min-w-[450px] group cursor-pointer">
+<div class="h-[300px] overflow-hidden rounded-2xl mb-6 shadow-lg">
+<img alt="Toyota Innova" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKkP8H0oeBosDRas5DCBa1JAtMQoBpCsi0pFRKiToENSQ_sO16OE8spLJCV6IiKZU0SXW-1IRkC_S54h_YTdEvxlN8Qo3pAV3X0jibvebp2IoIvc2jHyaYWCpn7sJkpp4Og7a4oqz-anuMng1D5Hx1bvWYCPcxMih_DMEhHqe3uZNOXDn7HECr-sQbmt6RtuYuGCubP4MvlYcKMDmLg_7etg8GP2mpwF9tAZH4y7ilnh148gcezGSOvqDPWgCIq6KUDH3-j87OV-lb"/>
+</div>
+<div class="flex justify-between items-start px-2">
+<div>
+<h3 class="text-2xl font-black mb-1">Toyota Innova Crysta</h3>
+<p class="text-on-surface-variant text-sm font-semibold">7-Seater Luxury SUV</p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl">₹12/km</div>
+<div class="text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Starting Price</div>
+</div>
+</div>
+</div>
+<div class="min-w-[450px] group cursor-pointer">
+<div class="h-[300px] overflow-hidden rounded-2xl mb-6 shadow-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-8xl text-outline-variant group-hover:text-primary transition-colors">directions_car</span>
+</div>
+<div class="flex justify-between items-start px-2">
+<div>
+<h3 class="text-2xl font-black mb-1">Suzuki Ertiga</h3>
+<p class="text-on-surface-variant text-sm font-semibold">Efficient 6-Seater</p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl">₹10/km</div>
+<div class="text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Starting Price</div>
+</div>
+</div>
+</div>
+<div class="min-w-[450px] group cursor-pointer">
+<div class="h-[300px] overflow-hidden rounded-2xl mb-6 shadow-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-8xl text-outline-variant group-hover:text-primary transition-colors">airport_shuttle</span>
+</div>
+<div class="flex justify-between items-start px-2">
+<div>
+<h3 class="text-2xl font-black mb-1">Tempo Traveller</h3>
+<p class="text-on-surface-variant text-sm font-semibold">12-Seater Group Travel</p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl">₹18/km</div>
+<div class="text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Starting Price</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tour Packages -->
+<section class="bg-surface py-32 border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-20 text-center">
+<span class="text-primary font-black text-[10px] uppercase tracking-[0.3em] block mb-3">Explore Packages</span>
+<h2 class="text-5xl font-black text-on-surface tracking-tight">Handpicked Destinations</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<!-- Package 1 -->
+<div class="relative group rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl hover:shadow-primary/20 transition-all">
+<img alt="Ooty Hills" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn-siS5w3GteZFtmfzY2hOgENFQMQm9MEayzqcqT-h6xVyir_GzqvRbXbRo7mEaz65BoLkNw1R7IBR0x1u1eY_Jyg1OmUuW2itoLsRd-o3bCGDIXwtPwSLBJmVzbVQzbQoj3-KM9ok5p1JGqmPi-rx9mt9KSACl6U_4QRAPt3z2yChfY5XKVLYSndX5mQcXTrafUGrjb9b9D-t3vt672IeHgv6XU-7AVqQ1wH5dNlI8nStKrWP-sN0OxoL97pwTv8GQuFq1LOy8nW3"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-10 w-full">
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-primary text-white text-[10px] font-black px-3 py-1 rounded-lg uppercase">3D/2N</span>
+<span class="text-white/80 text-[10px] font-black uppercase tracking-widest">Honeymoon Special</span>
+</div>
+<h3 class="text-3xl font-black text-white mb-6">Ooty Escapade</h3>
+<div class="flex justify-between items-center">
+<span class="text-white font-black text-xl">From ₹8,999</span>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-lg text-sm font-black flex items-center gap-2 group-hover:bg-primary transition-all">
+                            Explore <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Package 2 -->
+<div class="relative group rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl hover:shadow-primary/20 transition-all">
+<div class="absolute inset-0 bg-[#d3c4b1]"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-10 w-full">
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-primary text-white text-[10px] font-black px-3 py-1 rounded-lg uppercase">2D/1N</span>
+<span class="text-white/80 text-[10px] font-black uppercase tracking-widest">Spiritual Tour</span>
+</div>
+<h3 class="text-3xl font-black text-white mb-6">Rameshwaram Divine</h3>
+<div class="flex justify-between items-center">
+<span class="text-white font-black text-xl">From ₹6,500</span>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-lg text-sm font-black flex items-center gap-2 group-hover:bg-primary transition-all">
+                            Explore <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Package 3 -->
+<div class="relative group rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl hover:shadow-primary/20 transition-all">
+<div class="absolute inset-0 bg-[#4f4537]"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-10 w-full">
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-primary text-white text-[10px] font-black px-3 py-1 rounded-lg uppercase">1D</span>
+<span class="text-white/80 text-[10px] font-black uppercase tracking-widest">Coastal Vibe</span>
+</div>
+<h3 class="text-3xl font-black text-white mb-6">Pondicherry Heritage</h3>
+<div class="flex justify-between items-center">
+<span class="text-white font-black text-xl">From ₹3,200</span>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-lg text-sm font-black flex items-center gap-2 group-hover:bg-primary transition-all">
+                            Explore <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-20">
+<div class="lg:col-span-1">
+<span class="text-primary font-black text-[10px] uppercase tracking-[0.3em] block mb-3">Reviews</span>
+<h2 class="text-4xl font-black mb-8 leading-tight">What Our Travelers Say</h2>
+<div class="flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<p class="text-sm font-bold text-on-surface-variant">4.9/5 Average Rating based on 10,000+ reviews.</p>
+</div>
+<div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-10">
+<div class="bg-surface-container-lowest p-12 rounded-2xl shadow-sm italic text-on-surface-variant relative group">
+<span class="material-symbols-outlined absolute top-6 right-6 text-primary/10 text-8xl transition-transform group-hover:scale-110">format_quote</span>
+<p class="relative z-10 leading-relaxed text-lg">"Exceptional service! The driver was very professional and knew the best local spots for food in Ooty. Highly recommended."</p>
+<div class="mt-10 flex items-center gap-5 not-italic relative z-10">
+<img alt="Customer Profile" class="w-14 h-14 rounded-full object-cover border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkw_HLBvlFz-J0_h9d5eKdGV5QbuZrA-WtdUULKcLwEcVJWDtPCqZCVbefM_70trr3D76bEVOCKtF6zezT_RKCOgpPF6cXmhDj5j1wFHig8RegAzDr1h-jq0zib-iv8Q8dGloVWuYc5yL5h8qyc6K8Jc48UbOLBvQWYq3R_WdRAdWMZzr-YF0TmGlGyL24HR6ax9Q1h9uXeCu-CRJqCxmTqf06Tl51aiRD2513vWcDBrwfewSG66sAs7bbxU3BEFOxY9ca3VMyuKlv"/>
+<div>
+<p class="font-black text-on-surface text-base">Rajesh Kumar</p>
+<p class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Chennai Business Travel</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-12 rounded-2xl shadow-sm italic text-on-surface-variant relative group">
+<span class="material-symbols-outlined absolute top-6 right-6 text-primary/10 text-8xl transition-transform group-hover:scale-110">format_quote</span>
+<p class="relative z-10 leading-relaxed text-lg">"Very reliable and safe. We booked a 10-day tour and the experience was seamless from start to finish. Sri Lakshmi is the best."</p>
+<div class="mt-10 flex items-center gap-5 not-italic relative z-10">
+<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center font-black text-primary border-2 border-primary/20">SM</div>
+<div>
+<p class="font-black text-on-surface text-base">Sangeeta M.</p>
+<p class="text-[10px] uppercase font-black text-primary tracking-[0.2em]">Family Trip</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Strip -->
+<section class="bg-[#0a0a0a] py-16">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-10">
+<div class="text-center md:text-left">
+<h3 class="text-white font-black text-3xl mb-2 tracking-tight">Need Immediate Assistance?</h3>
+<p class="text-gray-400 text-sm font-medium">Call us now for personalized booking and 24/7 support.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-12">
+<div class="text-center">
+<p class="text-primary-container font-black text-2xl tracking-tighter">+91 98765 43210</p>
+<p class="text-gray-600 text-[10px] uppercase font-black tracking-widest mt-1">Direct Sales</p>
+</div>
+<div class="text-center border-l border-gray-800 pl-12 hidden md:block">
+<p class="text-primary-container font-black text-2xl tracking-tighter">+91 91234 56789</p>
+<p class="text-gray-600 text-[10px] uppercase font-black tracking-widest mt-1">24/7 Support</p>
+</div>
+</div>
+<button class="bg-[#25D366] text-white px-10 py-5 rounded-xl font-black flex items-center gap-3 hover:opacity-90 hover:scale-[0.98] transition-all shadow-xl shadow-green-500/10">
+<span class="material-symbols-outlined">chat</span>
+            WhatsApp Us
+        </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-20 px-12 py-24 max-w-7xl mx-auto font-['Inter'] text-sm text-[#4f4537]">
+<!-- Col 1 -->
+<div class="space-y-6">
+<div class="text-2xl font-black text-[#1c1b1b] tracking-tighter">Sri Lakshmi Travels</div>
+<p class="leading-relaxed font-medium">Premium travel solutions for exploring the vibrant landscapes and heritage of Tamil Nadu since 1995.</p>
+<div class="flex gap-5">
+<a class="text-on-surface hover:text-[#C9973A] transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-on-surface hover:text-[#C9973A] transition-colors" href="#"><span class="material-symbols-outlined">social_leaderboard</span></a>
+<a class="text-on-surface hover:text-[#C9973A] transition-colors" href="#"><span class="material-symbols-outlined">camera</span></a>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="space-y-6">
+<div class="font-black text-[#1c1b1b] uppercase tracking-[0.2em] text-[10px]">Quick Links</div>
+<ul class="space-y-4 font-bold">
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Home</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Cars</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Drivers</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Packages</a></li>
+</ul>
+</div>
+<!-- Col 3 -->
+<div class="space-y-6">
+<div class="font-black text-[#1c1b1b] uppercase tracking-[0.2em] text-[10px]">Company</div>
+<ul class="space-y-4 font-bold">
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">About Us</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Contact</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-[#4f4537] hover:text-[#C9973A] transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<!-- Col 4 -->
+<div class="space-y-6">
+<div class="font-black text-[#1c1b1b] uppercase tracking-[0.2em] text-[10px]">Office Address</div>
+<p class="leading-relaxed font-bold">
+                Main Road, Perunkadambanur,<br/>
+                Nagapattinam Dist,<br/>
+                Tamil Nadu - 611102
+            </p>
+<p class="text-[#C9973A] font-black text-base underline decoration-2 underline-offset-4">info@srilakshmitravels.com</p>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-12 py-10 border-t border-outline-variant/10 text-center text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant">
+        © 2024 Sri Lakshmi Travels. Crafted for excellence.
+    </div>
+</footer>
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let autoPlayInterval;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active', 'bg-primary'));
+        
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active', 'bg-primary');
+    }
+
+    function changeSlide(step) {
+        showSlide(currentSlide + step);
+        resetAutoPlay();
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+        resetAutoPlay();
+    }
+
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 8000);
+    }
+
+    function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+    }
+
+    startAutoPlay();
+</script>
+</body></html>
