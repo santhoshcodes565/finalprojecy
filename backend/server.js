@@ -46,16 +46,41 @@ app.use('/api/auth/verify-otp', authLimiter);
 app.use('/api/', generalLimiter);
 
 // ─── Core Middleware ─────────────────────────────────────
+// ─── CORS Allowed Origins ─────────────────────────────────
+const ALLOWED_ORIGINS = [
+  // Local development
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  // Production Vercel frontend (hardcoded as safety fallback)
+  'https://frontend-sage-delta-0eqnt9gl39.vercel.app',
+  // Dynamic from env (set this in Render dashboard)
+  process.env.FRONTEND_URL,
+  process.env.CLIENT_URL,
+].filter(Boolean); // remove undefined values
+
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests from any localhost port during development
-    if (!origin || origin.startsWith('http://localhost')) {
+    // Allow requests with no origin (mobile apps, curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+
+    const isAllowed =
+      ALLOWED_ORIGINS.includes(origin) ||
+      origin.startsWith('http://localhost') ||
+      // Allow any Vercel preview deploy for this project
+      /https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/.test(origin);
+
+    if (isAllowed) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn('⚠️ CORS blocked:', origin);
+      callback(new Error(`CORS: Origin ${origin} not allowed`));
     }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -68,6 +93,7 @@ app.use(readOnlyGuard);
 // ─── API Routes ──────────────────────────────────────────
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tours', require('./routes/tours'));
+app.use('/api/packages', require('./routes/tours')); // alias: /api/packages → tours
 app.use('/api/cars', require('./routes/cars'));
 app.use('/api/drivers', require('./routes/drivers'));
 app.use('/api/bookings', require('./routes/bookings'));
@@ -76,6 +102,11 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/notifications', require('./routes/notifications'));
+
+// ─── Root Route ──────────────────────────────────────────
+app.get('/', (req, res) => {
+  res.send('Backend is running successfully');
+});
 
 // ─── Health Check ────────────────────────────────────────
 app.get('/api/health', (req, res) => {

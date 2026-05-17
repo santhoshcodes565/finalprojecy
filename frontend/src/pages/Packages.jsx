@@ -9,6 +9,7 @@ import ReviewsWidget from '../components/ReviewsWidget';
 export default function Packages() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [ratingTarget, setRatingTarget] = useState(null);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function Packages() {
 
     const fetchTours = async () => {
       try {
+        setError(null);
         const res = await api.get(`/tours?_t=${Date.now()}`);
         console.log('Fetched tours:', res.data);
         setPackages(res.data.tours || []);
@@ -43,8 +45,7 @@ export default function Packages() {
         }, 100);
       } catch (err) {
         console.error('Failed to fetch tours:', err);
-        // Force an error message to display if there's a network issue
-        alert('API Error: ' + err.message); 
+        setError(err.message || 'Failed to load packages. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -54,10 +55,41 @@ export default function Packages() {
     return () => observer.disconnect();
   }, []);
 
+  const retryFetch = () => {
+    setLoading(true);
+    setError(null);
+    api.get(`/tours?_t=${Date.now()}`)
+      .then(res => setPackages(res.data.tours || []))
+      .catch(err => setError(err.message || 'Failed to load packages.'))
+      .finally(() => setLoading(false));
+  };
+
   if (loading) {
     return (
       <div className="bg-brand-accent min-h-screen flex items-center justify-center">
-        <div className="text-brand-primary font-bold animate-pulse text-xl">Loading Handpicked Packages...</div>
+        <div className="text-center">
+          <div className="inline-block w-12 h-12 border-4 border-brand-secondary border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-brand-primary font-bold text-lg">Loading Handpicked Packages...</p>
+          <p className="text-neutral-500 text-sm mt-1">This may take a moment on first load.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-brand-accent min-h-screen flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <div className="text-5xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-extrabold text-brand-primary mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>Unable to Load Packages</h2>
+          <p className="text-neutral-500 mb-6">{error}</p>
+          <button
+            onClick={retryFetch}
+            className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
